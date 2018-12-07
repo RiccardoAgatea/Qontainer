@@ -27,13 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    FanWork.cpp
+    FanWork.cpp \
+    FanFiction.cpp
 
 HEADERS += \
         MainWindow.h \
     FanWork.h \
     DeepPtr.h \
-    Qontainer.h
+    Qontainer.h \
+    FanFiction.h
 
 FORMS += \
         MainWindow.ui

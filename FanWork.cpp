@@ -1,7 +1,7 @@
 #include "FanWork.h"
 
-FanWork::FanWork(const QString &ti, const QString &a, const QVector<QString> &ta):
-    header(new Header(ti, a, ta))
+FanWork::FanWork(const Header &h):
+    header(new Header(h))
 {
 
 }
@@ -11,15 +11,16 @@ FanWork::~FanWork()
     delete header;
 }
 
-const FanWork::Header *FanWork::getHeader() const
+const FanWork::Header &FanWork::getHeader() const
 {
-    return header;
+    return *header;
 }
 
-FanWork::Header::Header(const QString &ti, const QString &a, const QVector<QString> &ta):
+FanWork::Header::Header(const QString &ti, const QString &a, const QString &f,
+                        const QVector<QString> &ta):
     title(ti),
     author(a),
-    publication_date(QDate::currentDate()),
+    fandom(f),
     tags(ta)
 {
 
@@ -38,6 +39,11 @@ const QString &FanWork::Header::getTitle() const
 const QString &FanWork::Header::getAuthor() const
 {
     return author;
+}
+
+const QString &FanWork::Header::getFandom() const
+{
+    return fandom;
 }
 
 const QDate &FanWork::Header::getPublicationDate() const

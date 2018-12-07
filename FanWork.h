@@ -15,22 +15,23 @@ public:
     class Header
     {
     private:
-        QString title, author;
+        QString title, author, fandom;
         QDate publication_date;
         QVector<QString> tags;
     public:
-        Header(const QString &ti, const QString &a, const QVector<QString> &ta);
+        Header(const QString &ti, const QString &a, const QString &f, const QVector<QString> &ta);
         virtual ~Header();
         const QString &getTitle() const;
         const QString &getAuthor() const;
+        const QString &getFandom() const;
         const QDate &getPublicationDate() const;
         const QVector<QString> &getTags() const;
     };
 
-    FanWork(const QString &ti, const QString &a, const QVector<QString> &ta);
+    FanWork(const Header &h);
     virtual ~FanWork();
     virtual FanWork *copy() const = 0;
-    virtual const Header *getHeader() const;
+    virtual const Header &getHeader() const;
 };
 
 #endif // FANWORK_H

@@ -4,6 +4,11 @@
 #include<algorithm>
 #include"DeepPtr.h"
 
+template<typename T> class Qontainer;
+
+template<typename T> bool operator==(const Qontainer<T> &q1, const Qontainer<T> &q2);
+template<typename T> bool operator!=(const Qontainer<T> &q1, const Qontainer<T> &q2);
+
 template <typename T>
 class Qontainer
 {
@@ -98,6 +103,10 @@ public:
     iterator erase(const iterator &first, const iterator &last);
     void swap(Qontainer &q);
     void clear();
+
+    //Comparison operators
+    friend bool operator== <T>(const Qontainer &q1, const Qontainer &q2);
+    friend bool operator!= <T>(const Qontainer &q1, const Qontainer &q2);
 };
 
 template<typename T>
@@ -373,6 +382,25 @@ void Qontainer<T>::clear()
 }
 
 template<typename T>
+bool operator==(const Qontainer<T> &q1, const Qontainer<T> &q2)
+{
+    if (q1.size() != q2.size())
+        return false;
+
+    for (int i = 0; i < q1.size(); ++i)
+        if (q1[i] != q2[i])
+            return false;
+
+    return true;
+}
+
+template<typename T>
+bool operator!=(const Qontainer<T> &q1, const Qontainer<T> &q2)
+{
+    return !(q1 == q2);
+}
+
+template<typename T>
 Qontainer<T>::iterator::iterator(DeepPtr<T> *dp):
     pointing(dp)
 {
@@ -395,7 +423,7 @@ T &Qontainer<T>::iterator::operator*() const
 template<typename T>
 T *Qontainer<T>::iterator::operator->() const
 {
-    return pointing->operator->(); //???
+    return &(**pointing);
 }
 
 template<typename T>
@@ -469,7 +497,7 @@ const T &Qontainer<T>::const_iterator::operator*() const
 template<typename T>
 const T *Qontainer<T>::const_iterator::operator->() const
 {
-    return pointing->operator->(); //???
+    return &(**pointing);
 }
 
 template<typename T>
