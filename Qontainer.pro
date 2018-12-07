@@ -32,8 +32,8 @@ SOURCES += \
 HEADERS += \
         MainWindow.h \
     FanWork.h \
-    Qontainer.h \
-    DeepPtr.h
+    DeepPtr.h \
+    Qontainer.h
 
 FORMS += \
         MainWindow.ui
