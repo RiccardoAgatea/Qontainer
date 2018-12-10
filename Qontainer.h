@@ -110,10 +110,10 @@ public:
     //Finding and Sorting
     iterator find(const T &t);
     template<typename Pred>
-    iterator find(const T &t, Pred p);
+    iterator find(Pred p);
     const_iterator find(const T &t) const;
     template<typename Pred>
-    const_iterator find(const T &t, Pred p) const;
+    const_iterator find(Pred p) const;
     void sort();
     template<typename Pred>
     void sort(Pred p);
@@ -412,6 +412,61 @@ template<typename T>
 bool operator!=(const Qontainer<T> &q1, const Qontainer<T> &q2)
 {
     return !(q1 == q2);
+}
+
+template<typename T>
+typename Qontainer<T>::iterator Qontainer<T>::find(const T &t)
+{
+    for (auto it = begin(); it != end(); ++it)
+        if (**it == t)
+            return it;
+
+    return end();
+}
+
+template<typename T>
+template<typename Pred>
+typename Qontainer<T>::iterator Qontainer<T>::find(Pred p)
+{
+    for (auto it = begin(); it != end(); ++it)
+        if (p(*it))
+            return it;
+
+    return end();
+}
+
+template<typename T>
+typename Qontainer<T>::const_iterator Qontainer<T>::find(const T &t) const
+{
+    for (auto it = cbegin(); it != cend(); ++it)
+        if (**it == t)
+            return it;
+
+    return cend();
+}
+
+template<typename T>
+template<typename Pred>
+typename Qontainer<T>::const_iterator Qontainer<T>::find(Pred p) const
+{
+    for (auto it = cbegin(); it != cend(); ++it)
+        if (p(*it))
+            return it;
+
+    return cend();
+}
+
+template<typename T>
+void Qontainer<T>::sort()
+{
+    //choose
+}
+
+template<typename T>
+template<typename Pred>
+void Qontainer<T>::sort(Pred p)
+{
+    if (p) return;
 }
 
 template<typename T>
