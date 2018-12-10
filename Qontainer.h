@@ -39,6 +39,8 @@ public:
         iterator operator--(int);
         bool operator==(const iterator &it) const;
         bool operator!=(const iterator &it) const;
+        iterator operator+(unsigned int k) const;
+        iterator operator-(unsigned int k) const;
     };
 
     class const_iterator
@@ -62,13 +64,15 @@ public:
         const_iterator operator--(int);
         bool operator==(const const_iterator &it) const;
         bool operator!=(const const_iterator &it) const;
+        const_iterator operator+(unsigned int k) const;
+        const_iterator operator-(unsigned int k) const;
     };
 
     //Constructors, destructor, and assignment operator
     Qontainer(unsigned int n = 0, const T &t = T());
     Qontainer(const Qontainer &q);
     Qontainer(Qontainer &&q);
-    Qontainer(std::initializer_list<T> init);
+    Qontainer(std::initializer_list<const T &> init);
     ~Qontainer();
     Qontainer &operator=(const Qontainer &q);
     Qontainer &operator=(Qontainer &&q);
@@ -96,13 +100,17 @@ public:
     void push_back(const T &t);
     void pop_back();
     iterator insert(const iterator &position, const T &t);
-    template<typename InputIterator> iterator insert(iterator position,
-            InputIterator first,
-            InputIterator last);
+    template<typename InputIterator>
+    iterator insert(iterator position, InputIterator first, InputIterator last);
     iterator erase(const iterator &position);
     iterator erase(const iterator &first, const iterator &last);
     void swap(Qontainer &q);
     void clear();
+
+    //Finding and Sorting
+    iterator find(const T &t);
+    const_iterator find(const T &t) const;
+    void sort();
 
     //Comparison operators
     friend bool operator== <T>(const Qontainer &q1, const Qontainer &q2);
@@ -145,7 +153,7 @@ Qontainer<T>::Qontainer(Qontainer &&q):
 }
 
 template<typename T>
-Qontainer<T>::Qontainer(std::initializer_list<T> init):
+Qontainer<T>::Qontainer(std::initializer_list<const T &> init):
     capacity_(1),
     size_(init.size_)
 {
@@ -475,6 +483,18 @@ bool Qontainer<T>::iterator::operator!=(const iterator &it) const
 }
 
 template<typename T>
+typename Qontainer<T>::iterator Qontainer<T>::iterator::operator+(unsigned int k) const
+{
+    return iterator(pointing + k);
+}
+
+template<typename T>
+typename Qontainer<T>::iterator Qontainer<T>::iterator::operator-(unsigned int k) const
+{
+    return iterator(pointing - k);
+}
+
+template<typename T>
 Qontainer<T>::const_iterator::const_iterator(DeepPtr<T> *dp):
     pointing(dp)
 {
@@ -546,5 +566,17 @@ template<typename T>
 bool Qontainer<T>::const_iterator::operator!=(const const_iterator &it) const
 {
     return !(*this == it);
+}
+
+template<typename T>
+typename Qontainer<T>::const_iterator Qontainer<T>::const_iterator::operator+(unsigned int k) const
+{
+    return const_iterator(pointing + k);
+}
+
+template<typename T>
+typename Qontainer<T>::const_iterator Qontainer<T>::const_iterator::operator-(unsigned int k) const
+{
+    return const_iterator(pointing - k);
 }
 #endif // QONTAINER_H

@@ -26,19 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        MainWindow.cpp \
     FanWork.cpp \
     FanFiction.cpp
 
 HEADERS += \
-        MainWindow.h \
     FanWork.h \
     DeepPtr.h \
     Qontainer.h \
     FanFiction.h
 
-FORMS += \
-        MainWindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
