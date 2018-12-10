@@ -109,8 +109,14 @@ public:
 
     //Finding and Sorting
     iterator find(const T &t);
+    template<typename Pred>
+    iterator find(const T &t, Pred p);
     const_iterator find(const T &t) const;
+    template<typename Pred>
+    const_iterator find(const T &t, Pred p) const;
     void sort();
+    template<typename Pred>
+    void sort(Pred p);
 
     //Comparison operators
     friend bool operator== <T>(const Qontainer &q1, const Qontainer &q2);
