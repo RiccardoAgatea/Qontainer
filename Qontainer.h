@@ -41,6 +41,9 @@ public:
         bool operator!=(const iterator &it) const;
         iterator operator+(unsigned int k) const;
         iterator operator-(unsigned int k) const;
+
+        //it should be an iterator in the same Qontainer object as *this
+        unsigned int operator-(const iterator &it);
     };
 
     class const_iterator
@@ -66,12 +69,17 @@ public:
         bool operator!=(const const_iterator &it) const;
         const_iterator operator+(unsigned int k) const;
         const_iterator operator-(unsigned int k) const;
+
+        //it should be a const_iterator in the same Qontainer object as *this
+        unsigned int operator-(const const_iterator &it);
     };
 
     //Constructors, destructor, and assignment operator
     Qontainer(unsigned int n = 0, const T &t = T());
     Qontainer(const Qontainer &q);
     Qontainer(Qontainer &&q);
+    template<typename InputIterator>
+    Qontainer(InputIterator first, InputIterator last);
     Qontainer(std::initializer_list<const T &> init);
     ~Qontainer();
     Qontainer &operator=(const Qontainer &q);
@@ -104,17 +112,26 @@ public:
     iterator insert(iterator position, InputIterator first, InputIterator last);
     iterator erase(const iterator &position);
     iterator erase(const iterator &first, const iterator &last);
+    void swap(const iterator &it1, const iterator &it2) const;
     void swap(Qontainer &q);
     void clear();
 
     //Finding and Sorting
+
+    //To use any of the two find(const T &) methods T is required to overload operator==
     iterator find(const T &t);
-    template<typename Pred>
-    iterator find(Pred p);
     const_iterator find(const T &t) const;
+
+    //p should be a function pointer, a functor or a lambda expression taking a parameter of type const T& and returning bool
     template<typename Pred>
-    const_iterator find(Pred p) const;
+    iterator find_if(Pred p);
+    template<typename Pred>
+    const_iterator find_if(Pred p) const;
+
+    //To use the sort() method T is required to overload operator<
     void sort();
+
+    //p should be a function pointer, a functor or a lambda expression taking two parameters of type const T& and returning bool
     template<typename Pred>
     void sort(Pred p);
 
@@ -159,9 +176,18 @@ Qontainer<T>::Qontainer(Qontainer &&q):
 }
 
 template<typename T>
+template<typename InputIterator>
+Qontainer<T>::Qontainer(InputIterator first, InputIterator last):
+    Qontainer()
+{
+    for (auto it = first; it != last; ++it)
+        push_back(*it);
+}
+
+template<typename T>
 Qontainer<T>::Qontainer(std::initializer_list<const T &> init):
     capacity_(1),
-    size_(init.size_)
+    size_(init.size())
 {
     while (capacity_ < size_)
         capacity_ *= 2;
@@ -390,6 +416,14 @@ void Qontainer<T>::swap(Qontainer &q)
 }
 
 template<typename T>
+void Qontainer<T>::swap(const iterator &it1, const iterator &it2) const
+{
+    DeepPtr<T> temp = std::move(*(it1.pointing));
+    *(it1.pointing) = std::move(*(it2.pointing));
+    *(it2.pointing) = std::move(temp);
+}
+
+template<typename T>
 void Qontainer<T>::clear()
 {
     erase(begin(), end());
@@ -417,16 +451,18 @@ bool operator!=(const Qontainer<T> &q1, const Qontainer<T> &q2)
 template<typename T>
 typename Qontainer<T>::iterator Qontainer<T>::find(const T &t)
 {
-    for (auto it = begin(); it != end(); ++it)
-        if (**it == t)
-            return it;
+    return find([&t](const T & x)->bool {return t == x;});
+}
 
-    return end();
+template<typename T>
+typename Qontainer<T>::const_iterator Qontainer<T>::find(const T &t) const
+{
+    return find([&t](const T & x)->bool {return t == x;});
 }
 
 template<typename T>
 template<typename Pred>
-typename Qontainer<T>::iterator Qontainer<T>::find(Pred p)
+typename Qontainer<T>::iterator Qontainer<T>::find_if(Pred p)
 {
     for (auto it = begin(); it != end(); ++it)
         if (p(*it))
@@ -436,18 +472,8 @@ typename Qontainer<T>::iterator Qontainer<T>::find(Pred p)
 }
 
 template<typename T>
-typename Qontainer<T>::const_iterator Qontainer<T>::find(const T &t) const
-{
-    for (auto it = cbegin(); it != cend(); ++it)
-        if (**it == t)
-            return it;
-
-    return cend();
-}
-
-template<typename T>
 template<typename Pred>
-typename Qontainer<T>::const_iterator Qontainer<T>::find(Pred p) const
+typename Qontainer<T>::const_iterator Qontainer<T>::find_if(Pred p) const
 {
     for (auto it = cbegin(); it != cend(); ++it)
         if (p(*it))
@@ -459,14 +485,29 @@ typename Qontainer<T>::const_iterator Qontainer<T>::find(Pred p) const
 template<typename T>
 void Qontainer<T>::sort()
 {
-    //choose
+    sort([](const T & t1, const T & t2)->bool {return t1 < t2;});
 }
 
 template<typename T>
 template<typename Pred>
 void Qontainer<T>::sort(Pred p)
 {
-    if (p) return;
+    if (size_ >= 2)
+    {
+        bool flag = true;
+
+        while (flag)
+        {
+            flag = false;
+
+            for (auto it = begin(); it != end() - 1; ++it)
+                if (!p(*it, *(it + 1)))
+                {
+                    swap(*it, *(it + 1));
+                    flag = true;
+                }
+        }
+    }
 }
 
 template<typename T>
@@ -556,6 +597,12 @@ typename Qontainer<T>::iterator Qontainer<T>::iterator::operator-(unsigned int k
 }
 
 template<typename T>
+unsigned int Qontainer<T>::iterator::operator-(const iterator &it)
+{
+    return pointing - it.pointing;
+}
+
+template<typename T>
 Qontainer<T>::const_iterator::const_iterator(DeepPtr<T> *dp):
     pointing(dp)
 {
@@ -639,5 +686,12 @@ template<typename T>
 typename Qontainer<T>::const_iterator Qontainer<T>::const_iterator::operator-(unsigned int k) const
 {
     return const_iterator(pointing - k);
+}
+
+
+template<typename T>
+unsigned int Qontainer<T>::const_iterator::operator-(const const_iterator &it)
+{
+    return pointing - it.pointing;
 }
 #endif // QONTAINER_H
