@@ -451,13 +451,13 @@ bool operator!=(const Qontainer<T> &q1, const Qontainer<T> &q2)
 template<typename T>
 typename Qontainer<T>::iterator Qontainer<T>::find(const T &t)
 {
-    return find([&t](const T & x)->bool {return t == x;});
+    return find_if([t](const T & x)->bool {return t == x;});
 }
 
 template<typename T>
 typename Qontainer<T>::const_iterator Qontainer<T>::find(const T &t) const
 {
-    return find([&t](const T & x)->bool {return t == x;});
+    return find_if([t](const T & x)->bool {return t == x;});
 }
 
 template<typename T>
