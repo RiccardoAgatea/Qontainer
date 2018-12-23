@@ -33,8 +33,8 @@ SOURCES += \
 HEADERS += \
     FanWork.h \
     DeepPtr.h \
-    Qontainer.h \
-    FanFiction.h
+    FanFiction.h \
+    Container.h
 
 FORMS +=
 
@@ -42,3 +42,8 @@ FORMS +=
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Notes - Delete before submitting \
+    Notes - Delete before submitting \
+    Notes
