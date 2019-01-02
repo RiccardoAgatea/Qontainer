@@ -99,10 +99,14 @@ public:
     bool empty() const;
 
     //Access
-    T &operator[](unsigned int k) const;
-    T &at(unsigned int k) const;
-    T &front() const;
-    T &back() const;
+    T &operator[](unsigned int k);
+    const T &operator[](unsigned int k) const;
+    T &at(unsigned int k);
+    const T &at(unsigned int k) const;
+    T &front();
+    const T &front() const;
+    T &back();
+    const T &back() const;
 
     //Content modification
     void push_back(const T &t);
@@ -118,7 +122,7 @@ public:
 
     //Finding and Sorting
 
-    //To use any of the two find(const T &) methods T is required to overload operator==
+    //To use any of the two find(const T &) methods, T is required to provide a definition for operator==
     iterator find(const T &t);
     const_iterator find(const T &t) const;
 
@@ -128,7 +132,7 @@ public:
     template<typename Pred>
     const_iterator find_if(Pred p) const;
 
-    //To use the sort() method T is required to overload operator<
+    //To use the sort() method, T is required to provide a definition for operator<
     void sort();
 
     //p should be a function pointer, a functor or a lambda expression taking two parameters of type const T& and returning bool
@@ -154,6 +158,11 @@ Container<T>::Container(unsigned int n, const T &t):
         vector[i] = t;
 }
 
+//what if I define this in terms of the assignment?
+//in the initialization list:
+//    vector(nullptr)
+//and then in the body:
+//    *this = q;
 template<typename T>
 Container<T>::Container(const Container &q):
     capacity_(q.capacity_),
@@ -295,13 +304,19 @@ bool Container<T>::empty() const
 }
 
 template<typename T>
-T &Container<T>::operator[](unsigned int k) const
+T &Container<T>::operator[](unsigned int k)
 {
-    return vector[k];
+    return *(vector[k]);
 }
 
 template<typename T>
-T &Container<T>::at(unsigned int k) const
+const T &Container<T>::operator[](unsigned int k) const
+{
+    return *(vector[k]);
+}
+
+template<typename T>
+T &Container<T>::at(unsigned int k)
 {
     /*if(k>=size_)
         throw out_of_range();*/
@@ -310,23 +325,50 @@ T &Container<T>::at(unsigned int k) const
 }
 
 template<typename T>
-T &Container<T>::front() const
+const T &Container<T>::at(unsigned int k) const
 {
-    return (*this)[0];
+    /*if(k>=size_)
+        throw out_of_range();*/
+
+    return (*this)[k];
 }
 
 template<typename T>
-T &Container<T>::back() const
+T &Container<T>::front()
 {
-    return (*this)[size_ - 1];
+    return *(begin());
+}
+
+template<typename T>
+const T &Container<T>::front() const
+{
+    return *(begin());
+}
+
+template<typename T>
+T &Container<T>::back()
+{
+    return *(--end());
+}
+
+template<typename T>
+const T &Container<T>::back() const
+{
+    return *(--end());
 }
 
 template<typename T>
 void Container<T>::push_back(const T &t)
 {
-    if (size_ == capacity_)
+    if (capacity_ == 0)
     {
-        capacity_ = capacity_ == 0 ? 1 : capacity_ * 2;
+        capacity_ = 1;
+
+        vector = new DeepPtr<T>[capacity_];
+    }
+    else if (size_ == capacity_)
+    {
+        capacity_ = capacity_ * 2;
 
         DeepPtr<T> *aux = new DeepPtr<T>[capacity_];
 
@@ -338,7 +380,6 @@ void Container<T>::push_back(const T &t)
 
     vector[size_] = t;
     ++size_;
-
 }
 
 template<typename T>

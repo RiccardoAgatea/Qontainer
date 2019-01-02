@@ -27,14 +27,14 @@ QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
         main.cpp \
-    FanWork.cpp \
-    FanFiction.cpp
+    Microorganism.cpp \
+    Virus.cpp
 
 HEADERS += \
-    FanWork.h \
     DeepPtr.h \
-    FanFiction.h \
-    Container.h
+    Container.h \
+    Microorganism.h \
+    Virus.h
 
 FORMS +=
 
