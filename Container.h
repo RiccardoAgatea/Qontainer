@@ -49,12 +49,12 @@ public:
 
     template<bool constness> struct pointer;
 
-    template<>struct pointer<true>
+    template<> struct pointer<true>
     {
         using type = const DeepPtr<T> &;
     };
 
-    template<>struct pointer<false>
+    template<> struct pointer<false>
     {
         using type = DeepPtr<T> &;
     };
@@ -130,17 +130,19 @@ public:
     void pop_front();
     void pop_back();
 
-    //position (for both insert() and the first erase() methods) and first and last (for the second erase() method) should be valid iterators in the *this object. If they aren't, the call causes undefined behaviour.
-    //the insert() methods return an iterator to the (eventually first) element newly inserted
+
+    //the insert() methods return an iterator to the (eventually first) element newly inserted. position should be a valid iterator in the object *this
     iterator insert(const iterator &position, const T &t);
     template<typename InputIterator>
     iterator insert(iterator position, InputIterator first, InputIterator last);
 
-    //the erase() methods return an iterator to the first element after the removed one(s)
+    //the erase() methods return an iterator to the first element after the removed one(s). position should be a dereferenceable iterator in the object *this. first and last should be valid iterators in the object *this such that all iterators inthe range [first, last) are dereferenceable.
     iterator erase(const iterator &position);
     iterator erase(const iterator &first, const iterator &last);
 
+    //it1 and it2 should be dereferenceable iterators, possibly in different objects of type Container<T>
     void swap(const iterator &it1, const iterator &it2) const;
+
     void swap(Container &q);
     void clear();
 
@@ -529,9 +531,12 @@ typename Container<T>::iterator Container<T>::insert(iterator position, InputIte
         return position;
 
     Node *aux1 = nullptr, *aux2 = aux1;
+    unsigned int count = 0;
 
     while (first != last)
     {
+        ++count;
+
         if (aux1 == nullptr)
             aux2 = aux1 = new Node(*(first++));
         else
@@ -541,13 +546,15 @@ typename Container<T>::iterator Container<T>::insert(iterator position, InputIte
         }
     }
 
-    aux1->prev = position->prev;
+    aux1->prev = position.pointing->prev;
 
-    if (position->prev != nullptr)
-        position->prev->next = aux1;
+    if (position.pointing->prev != nullptr)
+        position.pointing->prev->next = aux1;
 
     aux2->next = position.pointing;
-    position->prev = aux2;
+    position.pointing->prev = aux2;
+
+    size_ += count;
 
     return iterator(aux1);
 }
@@ -555,19 +562,41 @@ typename Container<T>::iterator Container<T>::insert(iterator position, InputIte
 template<typename T>
 typename Container<T>::iterator Container<T>::erase(const iterator &position)
 {
-
+    try
+    {
+        return erase(position, ++position);
+    }
+    catch (InvalidIterator &)
+    {
+        throw InvalidIterator("Tried erasing invalid position");
+    }
 }
 
 template<typename T>
 typename Container<T>::iterator Container<T>::erase(const iterator &first, const iterator &last)
 {
+    Node *prev = first.pointing->prev;
 
+    while (first != last)
+    {
+        --size_;
+        delete (first++).pointing;
+    }
+
+    last.pointing->prev = prev;
+
+    if (prev != nullptr)
+        prev->next = last.pointing;
+
+    return last;
 }
 
 template<typename T>
 void Container<T>::swap(const iterator &it1, const iterator &it2) const
 {
-
+    DeepPtr<T> temp = std::move(it1.pointing->info);
+    it1.pointing->info = std::move(it2.pointing->info);
+    it2.pointing->info = std::move(temp);
 }
 
 template<typename T>
