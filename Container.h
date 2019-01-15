@@ -59,7 +59,7 @@ public:
         using type = DeepPtr<T> &;
     };
 
-    //NOTE:An iterator is dereferenceable if it's in the range [q.begin(),q.end()) for some container object q, it is valid if it's either dereferenceable of a past-the-end iterator.
+    //NOTE:An iterator in the object q is dereferenceable if it's in the range [q.begin(), q.end()), it is valid if it's either dereferenceable of a past-the-end iterator.
 
     template<bool constness>
     class temp_iterator
