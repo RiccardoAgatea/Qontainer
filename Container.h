@@ -1,8 +1,10 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
-#include<initializer_list>
-#include<algorithm>
-#include"DeepPtr.h"
+#include <initializer_list>
+#include <algorithm>
+#include "DeepPtr.h"
+
+//T is required to provide a T* clone() const method, which should have the standard behaviour for polymorphic clonation (specifically, it should return a pointer to a copy on the heap of the calling object, the destruction of which is responsibility of the Container object)
 
 template<typename T> class Container;
 
@@ -13,24 +15,34 @@ template <typename T>
 class Container
 {
 private:
-    unsigned int capacity_, size_;
-    DeepPtr<T> *vector;
+    struct Node
+    {
+        DeepPtr<T> info;
+        Node *next, *prev;
 
-    //INV = size_<=capacity_
+        Node(DeepPtr<T> dp = DeepPtr<T>(), Node *n = nullptr, Node *p = nullptr);
+
+        //Post: prev points to the last Node of the linked list that's being built
+        Node(const Node &n);
+
+        ~Node();
+
+        //PRE: *this and n are in different Container objects of the same size
+        bool operator==(const Node &n) const;
+    };
+
+    Node *first, *last;
+    unsigned int size_;
 public:
     class iterator
     {
         friend class Container;
     private:
-        DeepPtr<T> *pointing;
+        Node *pointing;
 
-        iterator(DeepPtr<T> *dp);
+        iterator(Node *n);
     public:
         iterator();
-        iterator(const iterator &) = default;
-        iterator(iterator &&) = default;
-        iterator &operator=(const iterator &) = default;
-        iterator &operator=(iterator &&) = default;
         T &operator*() const;
         T *operator->() const;
         iterator &operator++();
@@ -39,26 +51,17 @@ public:
         iterator operator--(int);
         bool operator==(const iterator &it) const;
         bool operator!=(const iterator &it) const;
-        iterator operator+(unsigned int k) const;
-        iterator operator-(unsigned int k) const;
-
-        //it should be an iterator in the same Container object as *this
-        unsigned int operator-(const iterator &it);
     };
 
     class const_iterator
     {
         friend class Container;
     private:
-        DeepPtr<T> *pointing;
+        Node *pointing;
 
-        const_iterator(DeepPtr<T> *dp);
+        const_iterator(Node *n);
     public:
         const_iterator();
-        const_iterator(const const_iterator &) = default;
-        const_iterator(const_iterator &&) = default;
-        const_iterator &operator=(const const_iterator &) = default;
-        const_iterator &operator=(const_iterator &&) = default;
         const T &operator*() const;
         const T *operator->() const;
         const_iterator &operator++();
@@ -67,20 +70,16 @@ public:
         const_iterator operator--(int);
         bool operator==(const const_iterator &it) const;
         bool operator!=(const const_iterator &it) const;
-        const_iterator operator+(unsigned int k) const;
-        const_iterator operator-(unsigned int k) const;
-
-        //it should be a const_iterator in the same Qontainer object as *this
-        unsigned int operator-(const const_iterator &it);
     };
 
     //Constructors, destructor, and assignment operator
-    Container(unsigned int n = 0, const T &t = T());
+    Container();
+    Container(unsigned int n, const T &t = T());
     Container(const Container &q);
     Container(Container &&q);
     template<typename InputIterator>
     Container(InputIterator first, InputIterator last);
-    Container(std::initializer_list<const T &> init);
+    Container(std::initializer_list<T> init);
     ~Container();
     Container &operator=(const Container &q);
     Container &operator=(Container &&q);
@@ -95,21 +94,18 @@ public:
 
     //Size and capacity
     unsigned int size() const;
-    unsigned int capacity() const;
     bool empty() const;
 
     //Access
-    T &operator[](unsigned int k);
-    const T &operator[](unsigned int k) const;
-    T &at(unsigned int k);
-    const T &at(unsigned int k) const;
     T &front();
     const T &front() const;
     T &back();
     const T &back() const;
 
     //Content modification
+    void push_front(const T &t);
     void push_back(const T &t);
+    void pop_front();
     void pop_back();
     iterator insert(const iterator &position, const T &t);
     template<typename InputIterator>
@@ -144,44 +140,206 @@ public:
     friend bool operator!= <T>(const Container &q1, const Container &q2);
 };
 
+//Node methods definition
 template<typename T>
-Container<T>::Container(unsigned int n, const T &t):
-    capacity_(n > 0 ? 1 : 0),
-    size_(n)
+Container<T>::Node::Node(DeepPtr<T> dp, Node *n, Node *p):
+    info(dp),
+    next(n),
+    prev(p)
 {
-    while (capacity_ < size_)
-        capacity_ *= 2;
 
-    vector = capacity_ > 0 ? new DeepPtr<T>[capacity_] : nullptr;
-
-    for (int i = 0; i < size_; ++i)
-        vector[i] = t;
 }
 
-//what if I define this in terms of the assignment?
-//in the initialization list:
-//    vector(nullptr)
-//and then in the body:
-//    *this = q;
+template<typename T>
+Container<T>::Node::Node(const Node &n):
+    info(n.info),
+    next(n.next != nullptr ? new Node(*(n.next)) : nullptr),
+    prev(next != nullptr ? next->prev : this)
+{
+    if (next != nullptr)
+        next->prev = this;
+}
+
+template<typename T>
+Container<T>::Node::~Node()
+{
+    //Check for existence of T* clone() const method
+    T* (T::*test)() const = T::clone;
+
+    delete next;
+}
+
+template<typename T>
+bool Container<T>::Node::operator==(const Node &n) const
+{
+    if (info != n.info)
+        return false;
+
+    if (next == n.next)
+        return true;
+
+    return *next == *(n.next);
+}
+
+//iterator methods definition
+template<typename T>
+Container<T>::iterator::iterator(Node *n):
+    pointing(n)
+{
+
+}
+
+template<typename T>
+Container<T>::iterator::iterator()
+{
+
+}
+
+template<typename T>
+T &Container<T>::iterator::operator*() const
+{
+
+}
+
+template<typename T>
+T *Container<T>::iterator::operator->() const
+{
+
+}
+
+template<typename T>
+typename Container<T>::iterator &Container<T>::iterator::operator++()
+{
+
+}
+
+template<typename T>
+typename Container<T>::iterator Container<T>::iterator::operator++(int)
+{
+
+}
+
+template<typename T>
+typename Container<T>::iterator &Container<T>::iterator::operator--()
+{
+
+}
+
+template<typename T>
+typename Container<T>::iterator Container<T>::iterator::operator--(int)
+{
+
+}
+
+template<typename T>
+bool Container<T>::iterator::operator==(const iterator &it) const
+{
+
+}
+
+template<typename T>
+bool Container<T>::iterator::operator!=(const iterator &it) const
+{
+
+}
+
+//const_iterator methods definition
+template<typename T>
+Container<T>::const_iterator::const_iterator(Node *n)
+{
+
+}
+
+template<typename T>
+Container<T>::const_iterator::const_iterator()
+{
+
+}
+
+template<typename T>
+const T &Container<T>::const_iterator::operator*() const
+{
+
+}
+
+template<typename T>
+const T *Container<T>::const_iterator::operator->() const
+{
+
+}
+
+template<typename T>
+typename Container<T>::const_iterator &Container<T>::const_iterator::operator++()
+{
+
+}
+
+template<typename T>
+typename Container<T>::const_iterator Container<T>::const_iterator::operator++(int)
+{
+
+}
+
+template<typename T>
+typename Container<T>::const_iterator &Container<T>::const_iterator::operator--()
+{
+
+}
+
+template<typename T>
+typename Container<T>::const_iterator Container<T>::const_iterator::operator--(int)
+{
+
+}
+
+template<typename T>
+bool Container<T>::const_iterator::operator==(const const_iterator &it) const
+{
+
+}
+
+template<typename T>
+bool Container<T>::const_iterator::operator!=(const const_iterator &it) const
+{
+
+}
+
+//Container method definitions
+template<typename T>
+Container<T>::Container():
+    first(nullptr),
+    last(nullptr)
+{
+
+}
+
+template<typename T>
+Container<T>::Container(unsigned int n, const T &t):
+    Container()
+{
+    while (n > 0)
+    {
+        push_back(t);
+        --n;
+    }
+}
+
 template<typename T>
 Container<T>::Container(const Container &q):
-    capacity_(q.capacity_),
-    size_(q.size_),
-    vector(capacity_ > 0 ? new DeepPtr<T>[capacity_] : nullptr)
+    first(q.first != nullptr ? new Node(*(q.first)) : nullptr),
+    last(first != nullptr ? first->prev : nullptr)
 {
-    for (int i = 0; i < size_; ++i)
-        vector[i] = q.vector[i];
+    if (first != nullptr)
+        first->prev = nullptr;
 }
 
 template<typename T>
 Container<T>::Container(Container &&q):
-    capacity_(q.capacity_),
-    size_(q.size_),
-    vector(q.vector)
+    first(q.first),
+    last(q.last)
 {
-    q.capacity_ = 0;
-    q.size_ = 0;
-    q.vector = nullptr;
+    q.first = nullptr;
+    q.last = nullptr;
 }
 
 template<typename T>
@@ -189,46 +347,32 @@ template<typename InputIterator>
 Container<T>::Container(InputIterator first, InputIterator last):
     Container()
 {
-    for (auto it = first; it != last; ++it)
-        push_back(*it);
+    while (first != last)
+    {
+        push_back(*first);
+        ++first;
+    }
 }
 
 template<typename T>
-Container<T>::Container(std::initializer_list<const T &> init):
-    capacity_(1),
-    size_(init.size())
+Container<T>::Container(std::initializer_list<T> init):
+    Container(init.begin(), init.last())
 {
-    while (capacity_ < size_)
-        capacity_ *= 2;
 
-    vector = new DeepPtr<T>[capacity_];
-
-    int i = 0;
-
-    for (auto it = init.begin(); it != init.end(); ++it, ++i)
-        vector[i] = *it;
 }
 
 template<typename T>
 Container<T>::~Container()
 {
-    delete[] vector;
+    delete first;
 }
 
 template<typename T>
 Container<T> &Container<T>::operator=(const Container &q)
 {
-    if (this != &q)
-    {
-        delete[] vector;
+    Container temp(q);
 
-        capacity_ = q.capacity_;
-        size_ = q.size_;
-        vector = capacity_ > 0 ? new DeepPtr<T>[capacity_] : nullptr;
-
-        for (int i = 0; i < size_; ++i)
-            vector[i] = q.vector[i];
-    }
+    swap(temp);
 
     return *this;
 }
@@ -236,15 +380,7 @@ Container<T> &Container<T>::operator=(const Container &q)
 template<typename T>
 Container<T> &Container<T>::operator=(Container &&q)
 {
-    delete[] vector;
-
-    capacity_ = q.capacity_;
-    size_ = q.size_;
-    vector = q.vector;
-
-    q.capacity_ = 0;
-    q.size_ = 0;
-    q.vector = nullptr;
+    swap(q);
 
     return *this;
 }
@@ -252,37 +388,37 @@ Container<T> &Container<T>::operator=(Container &&q)
 template<typename T>
 typename Container<T>::iterator Container<T>::begin()
 {
-    return iterator(vector);
+
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::begin() const
 {
-    return const_iterator(vector);
+
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::cbegin() const
 {
-    return const_iterator(vector);
+
 }
 
 template<typename T>
 typename Container<T>::iterator Container<T>::end()
 {
-    return iterator(vector + size_);
+
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::end() const
 {
-    return const_iterator(vector + size_);
+
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::cend() const
 {
-    return const_iterator(vector + size_);
+
 }
 
 template<typename T>
@@ -292,176 +428,101 @@ unsigned int Container<T>::size() const
 }
 
 template<typename T>
-unsigned int Container<T>::capacity() const
-{
-    return capacity_;
-}
-
-template<typename T>
 bool Container<T>::empty() const
 {
     return size() == 0;
 }
 
 template<typename T>
-T &Container<T>::operator[](unsigned int k)
-{
-    return *(vector[k]);
-}
-
-template<typename T>
-const T &Container<T>::operator[](unsigned int k) const
-{
-    return *(vector[k]);
-}
-
-template<typename T>
-T &Container<T>::at(unsigned int k)
-{
-    /*if(k>=size_)
-        throw out_of_range();*/
-
-    return (*this)[k];
-}
-
-template<typename T>
-const T &Container<T>::at(unsigned int k) const
-{
-    /*if(k>=size_)
-        throw out_of_range();*/
-
-    return (*this)[k];
-}
-
-template<typename T>
 T &Container<T>::front()
 {
-    return *(begin());
+    return *(first->info);
 }
 
 template<typename T>
 const T &Container<T>::front() const
 {
-    return *(begin());
+    return *(first->info);
 }
 
 template<typename T>
 T &Container<T>::back()
 {
-    return *(--end());
+    return *(last->info);
 }
 
 template<typename T>
 const T &Container<T>::back() const
 {
-    return *(--end());
+    return *(last->info);
+}
+
+template<typename T>
+void Container<T>::push_front(const T &t)
+{
+    insert(begin(), t);
 }
 
 template<typename T>
 void Container<T>::push_back(const T &t)
 {
-    if (capacity_ == 0)
-    {
-        capacity_ = 1;
+    insert(end(), t);
+}
 
-        vector = new DeepPtr<T>[capacity_];
-    }
-    else if (size_ == capacity_)
-    {
-        capacity_ = capacity_ * 2;
-
-        DeepPtr<T> *aux = new DeepPtr<T>[capacity_];
-
-        std::move(vector, vector + size_, aux);
-
-        delete[] vector;
-        vector = aux;
-    }
-
-    vector[size_] = t;
-    ++size_;
+template<typename T>
+void Container<T>::pop_front()
+{
+    erase(begin());
 }
 
 template<typename T>
 void Container<T>::pop_back()
 {
-    --size_;
+    erase(end());
 }
 
 template<typename T>
 typename Container<T>::iterator Container<T>::insert(const iterator &position, const T &t)
 {
-    if (size_ == capacity_)
-    {
-        capacity_ = capacity_ == 0 ? 1 : capacity_ * 2;
 
-        DeepPtr<T> *aux = new DeepPtr<T>[capacity_];
-
-        std::move(begin(), position + 1, aux);
-        aux[position - begin()] = t;
-        std::move(position + 1, end(), aux + (position - begin()));
-
-        delete[] vector;
-        vector = aux;
-    }
-    else
-    {
-        std::move_backward(position + 1, end(), end() + 1);
-        *(position + 1) = t;
-    }
 }
 
 template<typename T>
 template<typename InputIterator>
-typename Container<T>::iterator Container<T>::insert(iterator position,
-        InputIterator first,
+typename Container<T>::iterator Container<T>::insert(iterator position, InputIterator first,
         InputIterator last)
 {
-    for (auto it = first; it != last; ++it)
-    {
-        insert(position, *it);
-        ++position;
-    }
+
 }
 
 template<typename T>
 typename Container<T>::iterator Container<T>::erase(const iterator &position)
 {
-    std::move(position + 1, end(), position);
+
 }
 
 template<typename T>
 typename Container<T>::iterator Container<T>::erase(const iterator &first, const iterator &last)
 {
-    std::move(last + 1, end(), first);
-}
 
-template<typename T>
-void Container<T>::swap(Container &q)
-{
-    {
-        unsigned int temp;
-
-        temp = q.capacity_;
-        q.capacity_ = capacity_;
-        capacity_ = temp;
-
-        temp = q.size_;
-        q.size_ = size_;
-        size_ = temp;
-    }
-
-    auto temp = q.vector;
-    q.vector = vector;
-    vector = temp;
 }
 
 template<typename T>
 void Container<T>::swap(const iterator &it1, const iterator &it2) const
 {
-    DeepPtr<T> temp = std::move(*(it1.pointing));
-    *(it1.pointing) = std::move(*(it2.pointing));
-    *(it2.pointing) = std::move(temp);
+
+}
+
+template<typename T>
+void Container<T>::swap(Container &q)
+{
+    Node *temp = q.first;
+    q.first = first;
+    first = temp;
+
+    temp = q.last;
+    q.last = last;
+    last = temp;
 }
 
 template<typename T>
@@ -471,268 +532,59 @@ void Container<T>::clear()
 }
 
 template<typename T>
-bool operator==(const Container<T> &q1, const Container<T> &q2)
-{
-    if (q1.size() != q2.size())
-        return false;
-
-    for (int i = 0; i < q1.size(); ++i)
-        if (q1[i] != q2[i])
-            return false;
-
-    return true;
-}
-
-template<typename T>
-bool operator!=(const Container<T> &q1, const Container<T> &q2)
-{
-    return !(q1 == q2);
-}
-
-template<typename T>
 typename Container<T>::iterator Container<T>::find(const T &t)
 {
-    return find_if([t](const T & x)->bool {return t == x;});
+    return std::find(begin(), end(), t);
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::find(const T &t) const
 {
-    return find_if([t](const T & x)->bool {return t == x;});
+    return std::find(begin(), end(), t);
 }
 
 template<typename T>
 template<typename Pred>
 typename Container<T>::iterator Container<T>::find_if(Pred p)
 {
-    for (auto it = begin(); it != end(); ++it)
-        if (p(*it))
-            return it;
-
-    return end();
+    return std::find_if(begin(), end(), p);
 }
 
 template<typename T>
 template<typename Pred>
 typename Container<T>::const_iterator Container<T>::find_if(Pred p) const
 {
-    for (auto it = cbegin(); it != cend(); ++it)
-        if (p(*it))
-            return it;
-
-    return cend();
+    return std::find_if(begin(), end(), p);
 }
 
 template<typename T>
 void Container<T>::sort()
 {
-    sort([](const T & t1, const T & t2)->bool {return t1 < t2;});
+    std::sort(begin(), end());
 }
 
 template<typename T>
 template<typename Pred>
 void Container<T>::sort(Pred p)
 {
-    if (size_ >= 2)
-    {
-        bool flag = true;
-
-        while (flag)
-        {
-            flag = false;
-
-            for (auto it = begin(); it != end() - 1; ++it)
-                if (!p(*it, *(it + 1)))
-                {
-                    swap(*it, *(it + 1));
-                    flag = true;
-                }
-        }
-    }
+    std::sort(begin(), end(), p);
 }
 
 template<typename T>
-Container<T>::iterator::iterator(DeepPtr<T> *dp):
-    pointing(dp)
+bool operator==(const Container<T> &q1, const Container<T> &q2)
 {
+    if (q1.size() != q2.size())
+        return false;
 
+    if (q1.empty() || &q1 == &q2)
+        return true;
+
+    return *(q1.first) == *(q2.first);
 }
 
 template<typename T>
-Container<T>::iterator::iterator():
-    iterator(nullptr)
+bool operator!=(const Container<T> &q1, const Container<T> &q2)
 {
-
-}
-
-template<typename T>
-T &Container<T>::iterator::operator*() const
-{
-    return **pointing;
-}
-
-template<typename T>
-T *Container<T>::iterator::operator->() const
-{
-    return &(**pointing);
-}
-
-template<typename T>
-typename Container<T>::iterator &Container<T>::iterator::operator++()
-{
-    ++pointing;
-
-    return *this;
-}
-
-template<typename T>
-typename Container<T>::iterator Container<T>::iterator::operator++(int)
-{
-    iterator aux(*this);
-
-    ++(*this);
-
-    return aux;
-}
-
-template<typename T>
-typename Container<T>::iterator &Container<T>::iterator::operator--()
-{
-    --pointing;
-
-    return *this;
-}
-
-template<typename T>
-typename Container<T>::iterator Container<T>::iterator::operator--(int)
-{
-    iterator aux(*this);
-
-    --(*this);
-
-    return aux;
-}
-
-template<typename T>
-bool Container<T>::iterator::operator==(const iterator &it) const
-{
-    return pointing == it.pointing;
-}
-
-template<typename T>
-bool Container<T>::iterator::operator!=(const iterator &it) const
-{
-    return !(*this == it);
-}
-
-template<typename T>
-typename Container<T>::iterator Container<T>::iterator::operator+(unsigned int k) const
-{
-    return iterator(pointing + k);
-}
-
-template<typename T>
-typename Container<T>::iterator Container<T>::iterator::operator-(unsigned int k) const
-{
-    return iterator(pointing - k);
-}
-
-template<typename T>
-unsigned int Container<T>::iterator::operator-(const iterator &it)
-{
-    return pointing - it.pointing;
-}
-
-template<typename T>
-Container<T>::const_iterator::const_iterator(DeepPtr<T> *dp):
-    pointing(dp)
-{
-
-}
-
-template<typename T>
-Container<T>::const_iterator::const_iterator():
-    const_iterator(nullptr)
-{
-
-}
-
-template<typename T>
-const T &Container<T>::const_iterator::operator*() const
-{
-    return **pointing;
-}
-
-template<typename T>
-const T *Container<T>::const_iterator::operator->() const
-{
-    return &(**pointing);
-}
-
-template<typename T>
-typename Container<T>::const_iterator &Container<T>::const_iterator::operator++()
-{
-    ++pointing;
-
-    return *this;
-}
-
-template<typename T>
-typename Container<T>::const_iterator Container<T>::const_iterator::operator++(int)
-{
-    const_iterator aux(*this);
-
-    ++(*this);
-
-    return aux;
-}
-
-template<typename T>
-typename Container<T>::const_iterator &Container<T>::const_iterator::operator--()
-{
-    --pointing;
-
-    return *this;
-}
-
-template<typename T>
-typename Container<T>::const_iterator Container<T>::const_iterator::operator--(int)
-{
-    const_iterator aux(*this);
-
-    --(*this);
-
-    return aux;
-}
-
-template<typename T>
-bool Container<T>::const_iterator::operator==(const const_iterator &it) const
-{
-    return pointing == it.pointing;
-}
-
-template<typename T>
-bool Container<T>::const_iterator::operator!=(const const_iterator &it) const
-{
-    return !(*this == it);
-}
-
-template<typename T>
-typename Container<T>::const_iterator Container<T>::const_iterator::operator+(unsigned int k) const
-{
-    return const_iterator(pointing + k);
-}
-
-template<typename T>
-typename Container<T>::const_iterator Container<T>::const_iterator::operator-(unsigned int k) const
-{
-    return const_iterator(pointing - k);
-}
-
-
-template<typename T>
-unsigned int Container<T>::const_iterator::operator-(const const_iterator &it)
-{
-    return pointing - it.pointing;
+    return !(q1 == q2);
 }
 #endif // CONTAINER_H

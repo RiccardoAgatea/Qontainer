@@ -26,15 +26,11 @@ CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
-        main.cpp \
-    Microorganism.cpp \
-    Virus.cpp
+        main.cpp
 
 HEADERS += \
-    DeepPtr.h \
     Container.h \
-    Microorganism.h \
-    Virus.h
+    DeepPtr.h
 
 FORMS +=
 
