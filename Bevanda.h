@@ -5,7 +5,7 @@
 class Bevanda: public MenuItem
 {
 public:
-    Bevanda();
+	Bevanda();
 };
 
 #endif // BEVANDA_H

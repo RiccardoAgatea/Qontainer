@@ -5,10 +5,10 @@
 class Liquore: public BevandaAlcolica
 {
 private:
-    double alcool;
+	double alcool;
 public:
-    Liquore();
-    double gradazioneAlcolica() const override;
+	Liquore();
+	double gradazioneAlcolica() const override;
 };
 
 #endif // LIQUORE_H

@@ -12,132 +12,132 @@ template<typename T>
 class DeepPtr
 {
 private:
-    T *ptr;
+	T *ptr;
 public:
-    //The DeepPtr constructed points to copy of the T object passed as parameter
-    explicit DeepPtr(const T *t = nullptr);
+	//The DeepPtr constructed points to copy of the T object passed as parameter
+	explicit DeepPtr(const T *t = nullptr);
 
-    //The copy constructor performs a deep copy (as does the copy assignment operator)
-    DeepPtr(const DeepPtr &dp);
+	//The copy constructor performs a deep copy (as does the copy assignment operator)
+	DeepPtr(const DeepPtr &dp);
 
-    DeepPtr(DeepPtr &&dp);
-    ~DeepPtr();
-    DeepPtr &operator=(const DeepPtr &dp);
-    DeepPtr &operator=(DeepPtr &&dp);
-    T &operator*();
-    const T &operator*() const;
-    T *operator->();
-    const T *operator->() const;
+	DeepPtr(DeepPtr &&dp);
+	~DeepPtr();
+	DeepPtr &operator=(const DeepPtr &dp);
+	DeepPtr &operator=(DeepPtr &&dp);
+	T &operator*();
+	const T &operator*() const;
+	T *operator->();
+	const T *operator->() const;
 
-    //the takeResponsibility method returns a new DeepPtr that points to the object passed as parameter (NOT a copy of it). This means that the returned DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
-    static DeepPtr takeResponsibility(T *t);
+	//the takeResponsibility method returns a new DeepPtr that points to the object passed as parameter (NOT a copy of it). This means that the returned DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
+	static DeepPtr takeResponsibility(T *t);
 
-    //both comparison operators require T to overload operator==.
-    //operator== returns true if dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, false otherwise. operator!= has the expected behaviour.
-    friend bool operator== <T>(const DeepPtr &dp1, const DeepPtr &dp2);
-    friend bool operator!= <T>(const DeepPtr &dp1, const DeepPtr &dp2);
+	//both comparison operators require T to overload operator==.
+	//operator== returns true if dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, false otherwise. operator!= has the expected behaviour.
+	friend bool operator== <T>(const DeepPtr &dp1, const DeepPtr &dp2);
+	friend bool operator!= <T>(const DeepPtr &dp1, const DeepPtr &dp2);
 };
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T *t):
-    ptr(t != nullptr ? t->clone() : nullptr)
+	ptr(t != nullptr ? t->clone() : nullptr)
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const DeepPtr<T> &dp):
-    DeepPtr<T>(dp.ptr)
+	DeepPtr<T>(dp.ptr)
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(DeepPtr<T> &&dp):
-    ptr(dp.ptr)
+	ptr(dp.ptr)
 {
-    dp.ptr = nullptr;
+	dp.ptr = nullptr;
 }
 
 template<typename T>
 DeepPtr<T>::~DeepPtr<T>()
 {
-    delete ptr;
+	delete ptr;
 }
 
 template<typename T>
 DeepPtr<T> &DeepPtr<T>::operator=(const DeepPtr<T> &dp)
 {
-    if (this != &dp)
-    {
-        delete ptr;
+	if (this != &dp)
+	{
+		delete ptr;
 
-        ptr = dp.ptr != nullptr ? dp.ptr->clone() : nullptr;
-    }
+		ptr = dp.ptr != nullptr ? dp.ptr->clone() : nullptr;
+	}
 
-    return *this;
+	return *this;
 }
 
 template<typename T>
 DeepPtr<T> &DeepPtr<T>::operator=(DeepPtr &&dp)
 {
-    delete ptr;
+	delete ptr;
 
-    ptr = dp.ptr;
-    dp.ptr = nullptr;
+	ptr = dp.ptr;
+	dp.ptr = nullptr;
 
-    return *this;
+	return *this;
 }
 
 template<typename T>
 T &DeepPtr<T>::operator*()
 {
-    return *ptr;
+	return *ptr;
 }
 
 template<typename T>
 const T &DeepPtr<T>::operator*() const
 {
-    return *ptr;
+	return *ptr;
 }
 
 template<typename T>
 T *DeepPtr<T>::operator->()
 {
-    return ptr;
+	return ptr;
 }
 
 template<typename T>
 const T *DeepPtr<T>::operator->() const
 {
-    return ptr;
+	return ptr;
 }
 
 template<typename T>
 DeepPtr<T> DeepPtr<T>::takeResponsibility(T *t)
 {
-    DeepPtr aux;
+	DeepPtr aux;
 
-    aux.ptr = t;
+	aux.ptr = t;
 
-    return aux;
+	return aux;
 }
 
 template<typename T>
 bool operator==(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2)
 {
-    if (dp1.ptr == dp2.ptr)
-        return true;
+	if (dp1.ptr == dp2.ptr)
+		return true;
 
-    if (dp1.ptr == nullptr || dp2.ptr == nullptr)
-        return false;
+	if (dp1.ptr == nullptr || dp2.ptr == nullptr)
+		return false;
 
-    return *(dp1.ptr) == *(dp2.ptr);
+	return *(dp1.ptr) == *(dp2.ptr);
 }
 
 template<typename T>
 bool operator!=(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2)
 {
-    return !(dp1 == dp2);
+	return !(dp1 == dp2);
 }
 #endif // DEEPPTR_H

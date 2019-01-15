@@ -6,8 +6,8 @@ class MenuItem
 {
 private:
 public:
-    MenuItem();
-    virtual ~MenuItem() = default;
+	MenuItem();
+	virtual ~MenuItem() = default;
 };
 
 #endif // MENUITEM_H

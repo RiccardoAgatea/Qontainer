@@ -27,7 +27,6 @@ QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
         main.cpp \
-    DerefNullptr.cpp \
     InvalidIterator.cpp \
     EmptyContainer.cpp \
     MenuItem.cpp \

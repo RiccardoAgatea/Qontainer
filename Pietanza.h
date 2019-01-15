@@ -5,7 +5,7 @@
 class Pietanza: public MenuItem
 {
 public:
-    Pietanza();
+	Pietanza();
 };
 
 #endif // PIETANZA_H
