@@ -26,11 +26,17 @@ CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+    DerefNullptr.cpp \
+    InvalidIterator.cpp \
+    EmptyContainer.cpp
 
 HEADERS += \
     Container.h \
-    DeepPtr.h
+    DeepPtr.h \
+    InvalidIterator.h \
+    CustomExceptions.h \
+    EmptyContainer.h
 
 FORMS +=
 

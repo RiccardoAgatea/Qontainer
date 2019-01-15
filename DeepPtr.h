@@ -24,8 +24,10 @@ public:
     ~DeepPtr();
     DeepPtr &operator=(const DeepPtr &dp);
     DeepPtr &operator=(DeepPtr &&dp);
-    T &operator*() const;
-    T *operator->() const;
+    T &operator*();
+    const T &operator*() const;
+    T *operator->();
+    const T *operator->() const;
 
     //the takeResponsibility method returns a new DeepPtr that points to the object passed as parameter (NOT a copy of it). This means that the returned DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
     static DeepPtr takeResponsibility(T *t);
@@ -88,13 +90,25 @@ DeepPtr<T> &DeepPtr<T>::operator=(DeepPtr &&dp)
 }
 
 template<typename T>
-T &DeepPtr<T>::operator*() const
+T &DeepPtr<T>::operator*()
 {
     return *ptr;
 }
 
 template<typename T>
-T *DeepPtr<T>::operator->() const
+const T &DeepPtr<T>::operator*() const
+{
+    return *ptr;
+}
+
+template<typename T>
+T *DeepPtr<T>::operator->()
+{
+    return ptr;
+}
+
+template<typename T>
+const T *DeepPtr<T>::operator->() const
 {
     return ptr;
 }
