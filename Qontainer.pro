@@ -29,14 +29,26 @@ SOURCES += \
         main.cpp \
     DerefNullptr.cpp \
     InvalidIterator.cpp \
-    EmptyContainer.cpp
+    EmptyContainer.cpp \
+    MenuItem.cpp \
+    Bevanda.cpp \
+    BevandaAlcolica.cpp \
+    Liquore.cpp \
+    Cocktail.cpp \
+    Pietanza.cpp
 
 HEADERS += \
     Container.h \
     DeepPtr.h \
     InvalidIterator.h \
     CustomExceptions.h \
-    EmptyContainer.h
+    EmptyContainer.h \
+    MenuItem.h \
+    Bevanda.h \
+    BevandaAlcolica.h \
+    Liquore.h \
+    Cocktail.h \
+    Pietanza.h
 
 FORMS +=
 
