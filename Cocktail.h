@@ -8,7 +8,6 @@
 class Cocktail: public BevandaAlcolica
 {
 private:
-	std::vector<std::pair<std::string, unsigned int>> ingredienti;
 public:
 	Cocktail();
 	double gradazioneAlcolica() const override;

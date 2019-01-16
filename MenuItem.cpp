@@ -1,6 +1,8 @@
 #include "MenuItem.h"
 
-MenuItem::MenuItem()
+MenuItem::MenuItem(const std::string &n, const std::string &i):
+	nome(n),
+	immagine(i)
 {
 
 }
