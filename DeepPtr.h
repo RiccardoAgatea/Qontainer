@@ -1,5 +1,6 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
+#include <utility>
 
 //T is required to provide a T *clone() const method implementing the standard polymorphic cloning (specifically, returning a pointer to a T object allocated on the heap, the destruction of which is responsibility of the DeepPtr)
 
@@ -30,7 +31,7 @@ public:
 	const T *operator->() const;
 
 	//the takeResponsibility method returns a new DeepPtr that points to the object passed as parameter (NOT a copy of it). This means that the returned DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
-	static DeepPtr takeResponsibility(T *t);
+	static DeepPtr &&takeResponsibility(T *t);
 
 	//both comparison operators require T to overload operator==.
 	//operator== returns true if dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, false otherwise. operator!= has the expected behaviour.
@@ -114,13 +115,13 @@ const T *DeepPtr<T>::operator->() const
 }
 
 template<typename T>
-DeepPtr<T> DeepPtr<T>::takeResponsibility(T *t)
+DeepPtr<T> &&DeepPtr<T>::takeResponsibility(T *t)
 {
 	DeepPtr aux;
 
 	aux.ptr = t;
 
-	return aux;
+	return std::move(aux);
 }
 
 template<typename T>

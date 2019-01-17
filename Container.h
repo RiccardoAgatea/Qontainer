@@ -12,6 +12,33 @@ template<typename T> class Container;
 template<typename T> bool operator==(const Container<T> &q1, const Container<T> &q2);
 template<typename T> bool operator!=(const Container<T> &q1, const Container<T> &q2);
 
+namespace ReferenceTypes
+{
+template<typename T, bool constness> struct reference;
+
+template<typename T> struct reference<T, true>
+{
+	using type = const T&;
+};
+
+template<typename T> struct reference<T, false>
+{
+	using type = T&;
+};
+
+template<typename T, bool constness> struct pointer;
+
+template<typename T> struct pointer<T, true>
+{
+	using type = const DeepPtr<T> &;
+};
+
+template<typename T> struct pointer<T, false>
+{
+	using type = DeepPtr<T> &;
+};
+}
+
 template <typename T>
 class Container
 {
@@ -35,30 +62,6 @@ private:
 	Node *first, *past_the_end;
 	unsigned int size_;
 public:
-	template<bool constness> struct reference;
-
-	template<>struct reference<true>
-	{
-		using type = const T&;
-	};
-
-	template<>struct reference<false>
-	{
-		using type = T&;
-	};
-
-	template<bool constness> struct pointer;
-
-	template<> struct pointer<true>
-	{
-		using type = const DeepPtr<T> &;
-	};
-
-	template<> struct pointer<false>
-	{
-		using type = DeepPtr<T> &;
-	};
-
 	//NOTE:An iterator in the object q is dereferenceable if it's in the range [q.begin(), q.end()), it is valid if it's either dereferenceable of a past-the-end iterator.
 
 	template<bool constness>
@@ -70,8 +73,8 @@ public:
 
 		temp_iterator(Node *n);
 	public:
-		using pointer = typename pointer<constness>::type;
-		using reference = typename reference<constness>::type;
+		using pointer = typename ReferenceTypes::pointer<T, constness>::type;
+		using reference = typename ReferenceTypes::reference<T, constness>::type;
 
 		temp_iterator();
 
@@ -129,7 +132,6 @@ public:
 	void push_back(const T &t);
 	void pop_front();
 	void pop_back();
-
 
 	//the insert() methods return an iterator to the (eventually first) element newly inserted. position should be a valid iterator in the object *this
 	iterator insert(const iterator &position, const T &t);

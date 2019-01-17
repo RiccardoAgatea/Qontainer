@@ -6,3 +6,8 @@ MenuItem::MenuItem(const std::string &n, const std::string &i):
 {
 
 }
+
+bool MenuItem::operator==(const MenuItem &mi)
+{
+	return nome == mi.nome;
+}
