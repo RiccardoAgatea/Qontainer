@@ -29,9 +29,10 @@ public:
 	const T &operator*() const;
 	T *operator->();
 	const T *operator->() const;
+	void swap(DeepPtr &dp);
 
-	//the takeResponsibility method returns a new DeepPtr that points to the object passed as parameter (NOT a copy of it). This means that the returned DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
-	static DeepPtr &&takeResponsibility(T *t);
+	//the takeResponsibility method makes the calling DeepPtr point to the object passed as parameter (NOT a copy of it). This means that the calling DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
+	void takeResponsibility(T *t);
 
 	//both comparison operators require T to overload operator==.
 	//operator== returns true if dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, false otherwise. operator!= has the expected behaviour.
@@ -47,22 +48,25 @@ DeepPtr<T>::DeepPtr(const T *t):
 }
 
 template<typename T>
-DeepPtr<T>::DeepPtr(const DeepPtr<T> &dp):
-	DeepPtr<T>(dp.ptr)
+DeepPtr<T>::DeepPtr(const DeepPtr &dp):
+	DeepPtr(dp.ptr)
 {
 
 }
 
 template<typename T>
-DeepPtr<T>::DeepPtr(DeepPtr<T> &&dp):
+DeepPtr<T>::DeepPtr(DeepPtr &&dp):
 	ptr(dp.ptr)
 {
 	dp.ptr = nullptr;
 }
 
 template<typename T>
-DeepPtr<T>::~DeepPtr<T>()
+DeepPtr<T>::~DeepPtr()
 {
+	//Check for existence of T* clone() const method
+	T* (T::*test)() const = T::clone;
+
 	delete ptr;
 }
 
@@ -115,13 +119,19 @@ const T *DeepPtr<T>::operator->() const
 }
 
 template<typename T>
-DeepPtr<T> &&DeepPtr<T>::takeResponsibility(T *t)
+void DeepPtr<T>::swap(DeepPtr &dp)
 {
-	DeepPtr aux;
+	T *temp = dp.ptr;
+	dp.ptr = ptr;
+	ptr = temp;
+}
 
-	aux.ptr = t;
+template<typename T>
+void DeepPtr<T>::takeResponsibility(T *t)
+{
+	delete ptr;
 
-	return std::move(aux);
+	ptr = t;
 }
 
 template<typename T>

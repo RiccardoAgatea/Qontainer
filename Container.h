@@ -195,9 +195,6 @@ Container<T>::Node::Node(const Node &n):
 template<typename T>
 Container<T>::Node::~Node()
 {
-	//Check for existence of T* clone() const method
-	T* (T::*test)() const = T::clone;
-
 	delete next;
 }
 
@@ -596,9 +593,7 @@ typename Container<T>::iterator Container<T>::erase(const iterator &first, const
 template<typename T>
 void Container<T>::swap(const iterator &it1, const iterator &it2) const
 {
-	DeepPtr<T> temp = std::move(it1.pointing->info);
-	it1.pointing->info = std::move(it2.pointing->info);
-	it2.pointing->info = std::move(temp);
+	it1.pointing->info.swap(it2.pointing->info);
 }
 
 template<typename T>
