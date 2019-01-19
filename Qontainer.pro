@@ -20,12 +20,12 @@ SOURCES += \
 	main.cpp \
 	InvalidIterator.cpp \
 	EmptyContainer.cpp \
-	MenuItem.cpp \
 	Bevanda.cpp \
 	BevandaAlcolica.cpp \
 	Liquore.cpp \
 	Cocktail.cpp \
-	Pietanza.cpp
+	Pietanza.cpp \
+    Cibo.cpp
 
 HEADERS += \
 	Container.h \
@@ -33,12 +33,12 @@ HEADERS += \
 	InvalidIterator.h \
 	CustomExceptions.h \
 	EmptyContainer.h \
-	MenuItem.h \
 	Bevanda.h \
 	BevandaAlcolica.h \
 	Liquore.h \
 	Cocktail.h \
-	Pietanza.h
+	Pietanza.h \
+    Cibo.h
 
 FORMS +=
 

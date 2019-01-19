@@ -10,7 +10,9 @@ class Cocktail: public BevandaAlcolica
 private:
 public:
 	Cocktail();
-	double gradazioneAlcolica() const override;
+	virtual Cocktail *clone() const override;
+	virtual double gradazioneAlcolica() const override;
+	virtual bool oeprator == (const Cocktail &ck) const override;
 };
 
 #endif // COCKTAIL_H
