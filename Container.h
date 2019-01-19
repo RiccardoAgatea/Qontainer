@@ -134,13 +134,13 @@ public:
 	void pop_back();
 
 	//the insert() methods return an iterator to the (eventually first) element newly inserted. position should be a valid iterator in the object *this
-	iterator insert(const iterator &position, const T &t);
+	iterator insert(iterator position, const T &t);
 	template<typename InputIterator>
 	iterator insert(iterator position, InputIterator first, InputIterator last);
 
 	//the erase() methods return an iterator to the first element after the removed one(s). position should be a dereferenceable iterator in the object *this. first and last should be valid iterators in the object *this such that all iterators inthe range [first, last) are dereferenceable.
-	iterator erase(const iterator &position);
-	iterator erase(const iterator &first, const iterator &last);
+	iterator erase(iterator position);
+	iterator erase(iterator first, iterator last);
 
 	//it1 and it2 should be dereferenceable iterators, possibly in different objects of type Container<T>
 	void swap(const iterator &it1, const iterator &it2) const;
@@ -516,7 +516,7 @@ void Container<T>::pop_back()
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::insert(const iterator &position, const T &t)
+typename Container<T>::iterator Container<T>::insert(iterator position, const T &t)
 {
 	return insert(position, &t, &t + 1);
 }
@@ -559,7 +559,7 @@ typename Container<T>::iterator Container<T>::insert(iterator position, InputIte
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::erase(const iterator &position)
+typename Container<T>::iterator Container<T>::erase(iterator position)
 {
 	try
 	{
@@ -572,7 +572,7 @@ typename Container<T>::iterator Container<T>::erase(const iterator &position)
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::erase(const iterator &first, const iterator &last)
+typename Container<T>::iterator Container<T>::erase(iterator first, iterator last)
 {
 	Node *prev = first.pointing->prev;
 

@@ -6,7 +6,8 @@ class BevandaAlcolica: public Bevanda
 {
 public:
 	BevandaAlcolica();
-	virtual double gradazioneAlcolica() const = 0;
+	virtual BevandaAlcolica *clone() const override = 0;
+	virtual bool operator==(const Ordinazione &ck) const override;
 };
 
 #endif // BEVANDAALCOLICA_H

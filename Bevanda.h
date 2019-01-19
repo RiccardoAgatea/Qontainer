@@ -7,6 +7,7 @@ class Bevanda: public Ordinazione
 public:
 	Bevanda();
 	virtual Bevanda *clone() const override;
+	virtual bool operator==(const Ordinazione &ck) const override;
 };
 
 #endif // BEVANDA_H
