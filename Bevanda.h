@@ -1,8 +1,8 @@
 #ifndef BEVANDA_H
 #define BEVANDA_H
-#include "Cibo.h"
+#include "Ordinazione.h"
 
-class Bevanda: public Cibo
+class Bevanda: public Ordinazione
 {
 public:
 	Bevanda();

@@ -25,7 +25,7 @@ SOURCES += \
 	Liquore.cpp \
 	Cocktail.cpp \
 	Pietanza.cpp \
-    Cibo.cpp
+    Ordinazione.cpp
 
 HEADERS += \
 	Container.h \
@@ -38,7 +38,7 @@ HEADERS += \
 	Liquore.h \
 	Cocktail.h \
 	Pietanza.h \
-    Cibo.h
+    Ordinazione.h
 
 FORMS +=
 

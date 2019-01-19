@@ -1,8 +1,8 @@
 #ifndef PIETANZA_H
 #define PIETANZA_H
-#include "Cibo.h"
+#include "Ordinazione.h"
 
-class Pietanza: public Cibo
+class Pietanza: public Ordinazione
 {
 public:
 	Pietanza();

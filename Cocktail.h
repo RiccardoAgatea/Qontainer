@@ -8,11 +8,12 @@
 class Cocktail: public BevandaAlcolica
 {
 private:
+	std::vector<std::pair<Bevanda *, unsigned int>> ingredienti;
 public:
 	Cocktail();
 	virtual Cocktail *clone() const override;
 	virtual double gradazioneAlcolica() const override;
-	virtual bool oeprator == (const Cocktail &ck) const override;
+	virtual bool operator==(const Cocktail &ck) const override;
 };
 
 #endif // COCKTAIL_H
