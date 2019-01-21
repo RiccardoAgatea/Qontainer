@@ -48,7 +48,7 @@ private:
 		DeepPtr<T> info;
 		Node *next, *prev;
 
-		Node(DeepPtr<T> dp = DeepPtr<T>(), Node *n = nullptr, Node *p = nullptr);
+		Node(const T *t = nullptr, Node *n = nullptr, Node *p = nullptr);
 
 		//Post: prev points to the last Node of the linked list of which the constructed node is the head
 		Node(const Node &n);
@@ -143,7 +143,7 @@ public:
 	iterator erase(iterator first, iterator last);
 
 	//it1 and it2 should be dereferenceable iterators, possibly in different objects of type Container<T>
-	void swap(const iterator &it1, const iterator &it2) const;
+	static void swap(const iterator &it1, const iterator &it2);
 
 	void swap(Container &q);
 	void clear();
@@ -174,8 +174,8 @@ public:
 
 //Node methods definition
 template<typename T>
-Container<T>::Node::Node(DeepPtr<T> dp, Node *n, Node *p):
-	info(dp),
+Container<T>::Node::Node(const T *t, Node *n, Node *p):
+	info(t),
 	next(n),
 	prev(p)
 {
@@ -266,7 +266,7 @@ typename Container<T>::template temp_iterator<constness>
 	if (pointing->next == nullptr)
 		throw InvalidIterator("Tried incrementing past-the-end iterator");
 
-	++pointing;
+	pointing = pointing->next;
 
 	return *this;
 }
@@ -294,7 +294,7 @@ typename Container<T>::template temp_iterator<constness>
 	if (pointing->prev == nullptr)
 		throw InvalidIterator("Tried decrementing beginning iterator");
 
-	--pointing;
+	pointing = pointing->prev;
 
 	return *this;
 }
@@ -378,7 +378,7 @@ Container<T>::Container(InputIterator first, InputIterator last):
 
 template<typename T>
 Container<T>::Container(std::initializer_list<T> init):
-	Container(init.begin(), init.last())
+	Container(init.begin(), init.end())
 {
 
 }
@@ -537,17 +537,19 @@ typename Container<T>::iterator Container<T>::insert(iterator position, InputIte
 		++count;
 
 		if (aux1 == nullptr)
-			aux2 = aux1 = new Node(*(first++));
+			aux2 = aux1 = new Node(&*(first++));
 		else
 		{
-			aux2->next = new Node(*(first++), nullptr, aux2);
+			aux2->next = new Node(&*(first++), nullptr, aux2);
 			aux2 = aux2->next;
 		}
 	}
 
 	aux1->prev = position.pointing->prev;
 
-	if (position.pointing->prev != nullptr)
+	if (position == begin())
+		this->first = aux1;
+	else
 		position.pointing->prev->next = aux1;
 
 	aux2->next = position.pointing;
@@ -563,7 +565,8 @@ typename Container<T>::iterator Container<T>::erase(iterator position)
 {
 	try
 	{
-		return erase(position, ++position);
+		auto it = position++;
+		return erase(it, position);
 	}
 	catch (InvalidIterator &)
 	{
@@ -574,24 +577,33 @@ typename Container<T>::iterator Container<T>::erase(iterator position)
 template<typename T>
 typename Container<T>::iterator Container<T>::erase(iterator first, iterator last)
 {
-	Node *prev = first.pointing->prev;
-
-	while (first != last)
+	if (first != last)
 	{
-		--size_;
-		delete (first++).pointing;
+		Node *prev = first.pointing->prev;
+
+		while (first != last)
+		{
+			--size_;
+
+			Node *del = first.pointing;
+			++first;
+			del->next = nullptr;
+			delete del;
+		}
+
+		last.pointing->prev = prev;
+
+		if (prev == nullptr)
+			this->first = last.pointing;
+		else
+			prev->next = last.pointing;
 	}
-
-	last.pointing->prev = prev;
-
-	if (prev != nullptr)
-		prev->next = last.pointing;
 
 	return last;
 }
 
 template<typename T>
-void Container<T>::swap(const iterator &it1, const iterator &it2) const
+void Container<T>::swap(const iterator &it1, const iterator &it2)
 {
 	it1.pointing->info.swap(it2.pointing->info);
 }
@@ -621,40 +633,76 @@ void Container<T>::clear()
 template<typename T>
 typename Container<T>::iterator Container<T>::find(const T &t)
 {
-	return std::find(begin(), end(), t);
+	return find_if([&t](const T & t2)
+	{
+		return t == t2;
+	});
 }
 
 template<typename T>
 typename Container<T>::const_iterator Container<T>::find(const T &t) const
 {
-	return std::find(begin(), end(), t);
+	return find_if([&t](const T & t2)
+	{
+		return t == t2;
+	});
 }
 
 template<typename T>
 template<typename Pred>
 typename Container<T>::iterator Container<T>::find_if(Pred p)
 {
-	return std::find_if(begin(), end(), p);
+	auto it = begin();
+
+	while (it != end())
+	{
+		if (p(*it))
+			return it;
+
+		++it;
+	}
+
+	return end();
 }
 
 template<typename T>
 template<typename Pred>
 typename Container<T>::const_iterator Container<T>::find_if(Pred p) const
 {
-	return std::find_if(begin(), end(), p);
+	auto it = begin();
+
+	while (it != end())
+	{
+		if (p(*it))
+			return it;
+
+		++it;
+	}
+
+	return end();
 }
 
 template<typename T>
 void Container<T>::sort()
 {
-	std::sort(begin(), end());
+	sort([](const T & t1, const T & t2)
+	{
+		return t1 < t2;
+	});
 }
 
 template<typename T>
 template<typename Pred>
 void Container<T>::sort(Pred p)
 {
-	std::sort(begin(), end(), p);
+	auto quick = [&p](const iterator & bg, const iterator & en)
+	{
+		iterator it = bg;
+
+		//AHAHAHAHAHA
+	};
+
+	quick(begin(), --end());
 }
 
 template<typename T>

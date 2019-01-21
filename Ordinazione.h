@@ -8,6 +8,7 @@ private:
 	unsigned int n_tavolo, n_cameriere;
 	std::string cibo;
 public:
+	Ordinazione() = default;
 	explicit Ordinazione(unsigned int t, unsigned int c, const std::string &n);
 	virtual ~Ordinazione() = default;
 	virtual Ordinazione *clone() const = 0;
