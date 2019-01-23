@@ -148,7 +148,7 @@ public:
 	void swap(Container &q);
 	void clear();
 
-	//Finding and Sorting
+	//Finding
 
 	//To use any of the two find(const T &) methods, T is required to provide a definition for operator==
 	iterator find(const T &t);
@@ -159,13 +159,6 @@ public:
 	iterator find_if(Pred p);
 	template<typename Pred>
 	const_iterator find_if(Pred p) const;
-
-	//To use the sort() method, T is required to provide a definition for operator<
-	void sort();
-
-	//p should be a function pointer, a functor or a lambda expression taking two parameters of type const T& and returning bool
-	template<typename Pred>
-	void sort(Pred p);
 
 	//Comparison operators
 	friend bool operator== <T>(const Container &q1, const Container &q2);
@@ -680,29 +673,6 @@ typename Container<T>::const_iterator Container<T>::find_if(Pred p) const
 	}
 
 	return end();
-}
-
-template<typename T>
-void Container<T>::sort()
-{
-	sort([](const T & t1, const T & t2)
-	{
-		return t1 < t2;
-	});
-}
-
-template<typename T>
-template<typename Pred>
-void Container<T>::sort(Pred p)
-{
-	auto quick = [&p](const iterator & bg, const iterator & en)
-	{
-		iterator it = bg;
-
-		//AHAHAHAHAHA
-	};
-
-	quick(begin(), --end());
 }
 
 template<typename T>
