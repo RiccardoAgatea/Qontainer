@@ -116,6 +116,7 @@ public:
 	iterator end();
 	const_iterator end() const;
 	const_iterator cend() const;
+	static const_iterator toConst(const iterator &it);
 
 	//Size
 	unsigned int size() const noexcept;
@@ -434,6 +435,12 @@ template<typename T>
 typename Container<T>::const_iterator Container<T>::cend() const
 {
 	return const_iterator(past_the_end);
+}
+
+template<typename T>
+typename Container<T>::const_iterator Container<T>::toConst(const iterator &it)
+{
+	return const_iterator(it.pointing);
 }
 
 template<typename T>
