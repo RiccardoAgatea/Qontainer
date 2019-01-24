@@ -21,7 +21,13 @@ SOURCES += \
 	InvalidIterator.cpp \
 	EmptyContainer.cpp \
     Order.cpp \
-    Drink.cpp
+    Drink.cpp \
+    Food.cpp \
+    MeatBased.cpp \
+    Steak.cpp \
+    Hamburger.cpp \
+    Sandwich.cpp \
+    Appetizer.cpp
 
 HEADERS += \
 	Container.h \
@@ -30,7 +36,13 @@ HEADERS += \
 	CustomExceptions.h \
 	EmptyContainer.h \
     Order.h \
-    Drink.h
+    Drink.h \
+    Food.h \
+    MeatBased.h \
+    Steak.h \
+    Hamburger.h \
+    Sandwich.h \
+    Appetizer.h
 
 FORMS +=
 

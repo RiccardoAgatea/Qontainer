@@ -6,12 +6,16 @@ class Order
 {
 private:
 	unsigned int table;
-	std::string food;
+	std::string item;
+protected:
+	virtual std::string getType() const = 0;
 public:
-	Order(unsigned int t, const std::string &f);
+	Order(unsigned int t, const std::string &i);
 	virtual ~Order() = default;
 	virtual Order *clone() const = 0;
-	virtual std::string recap() const;
+	std::string recap() const;
+	virtual std::string getDetails() const = 0;
+	virtual void setDetails(const std::string &detail) = 0;
 	virtual bool operator==(const Order &o) const;
 	bool operator!=(const Order &o) const;
 };

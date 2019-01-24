@@ -1,17 +1,16 @@
-#ifndef DRINK_H
-#define DRINK_H
+#ifndef FOOD_H
+#define FOOD_H
 #include "Order.h"
-#include <string>
 
-class Drink: public Order
+class Food : public Order
 {
 private:
-	std::string notes;
+	std::string without;
 public:
-	Drink(unsigned int t, const std::string &i, const std::string &n);
+	Food(unsigned int t, const std::string &i, const std::string &w);
 	virtual std::string getDetails() const override;
 	virtual void setDetails(const std::string &detail) override;
 	virtual bool operator==(const Order &o) const override;
 };
 
-#endif // DRINK_H
+#endif // FOOD_H
