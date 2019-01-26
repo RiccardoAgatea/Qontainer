@@ -1,6 +1,8 @@
 #include "Order.h"
 #include <typeinfo>
 
+const std::string Order::empty = "!";
+
 Order::Order(unsigned int t, const std::string &i):
 	table(t),
 	item(i)
@@ -11,7 +13,8 @@ Order::Order(unsigned int t, const std::string &i):
 std::string Order::recap() const
 {
 	std::string det = getDetails();
-	return getType() + ' ' + (det != "" ? det : "!") + ' ' + item + ' ' + std::to_string(table);
+	return getType() + separator + (det != "" ? det : empty) + separator + item + separator +
+		   std::to_string(table);
 }
 
 bool Order::operator==(const Order &o) const

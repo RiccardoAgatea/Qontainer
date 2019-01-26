@@ -19,7 +19,7 @@ Appetizer *Appetizer::clone() const
 
 std::string Appetizer::getDetails() const
 {
-	return (sauces != "" ? sauces : "!") + ' ' + Food::getDetails();
+	return (sauces != "" ? sauces : empty) + separator + Food::getDetails();
 }
 
 void Appetizer::setDetails(const std::string &detail)

@@ -9,6 +9,9 @@ private:
 	std::string item;
 protected:
 	virtual std::string getType() const = 0;
+
+	static const char separator = '$';
+	static const char *empty;
 public:
 	Order(unsigned int t, const std::string &i);
 	virtual ~Order() = default;

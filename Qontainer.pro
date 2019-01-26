@@ -27,7 +27,8 @@ SOURCES += \
     Steak.cpp \
     Hamburger.cpp \
     Sandwich.cpp \
-    Appetizer.cpp
+    Appetizer.cpp \
+    Model.cpp
 
 HEADERS += \
 	Container.h \
@@ -42,7 +43,8 @@ HEADERS += \
     Steak.h \
     Hamburger.h \
     Sandwich.h \
-    Appetizer.h
+    Appetizer.h \
+    Model.h
 
 FORMS +=
 

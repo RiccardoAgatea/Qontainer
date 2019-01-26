@@ -135,9 +135,9 @@ public:
 	void pop_back();
 
 	//the insert() methods return an iterator to the (eventually first) element newly inserted. position should be a valid iterator in the object *this
-	iterator insert(iterator position, const T &t);
+	iterator insert(const_iterator position, const T &t);
 	template<typename InputIterator>
-	iterator insert(iterator position, InputIterator first, InputIterator last);
+	iterator insert(const_iterator position, InputIterator first, InputIterator last);
 
 	//the erase() methods return an iterator to the first element after the removed one(s). position should be a dereferenceable iterator in the object *this. first and last should be valid iterators in the object *this such that all iterators inthe range [first, last) are dereferenceable.
 	iterator erase(iterator position);
@@ -147,6 +147,10 @@ public:
 	static void swap(const iterator &it1, const iterator &it2);
 
 	void swap(Container &q);
+
+	//the takeTo() method moves the element pointed by from to the position before to. from and to don't need to be iterators over the same Container object, but from should be an iterator over the calling object.
+	//from should be a dereferenciable iterator, to should be a valid iterator
+	void takeTo(const iterator &from, const iterator &to);
 	void clear();
 
 	//Finding
@@ -516,14 +520,14 @@ void Container<T>::pop_back()
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::insert(iterator position, const T &t)
+typename Container<T>::iterator Container<T>::insert(const_iterator position, const T &t)
 {
 	return insert(position, &t, &t + 1);
 }
 
 template<typename T>
 template<typename InputIterator>
-typename Container<T>::iterator Container<T>::insert(iterator position, InputIterator first,
+typename Container<T>::iterator Container<T>::insert(const_iterator position, InputIterator first,
         InputIterator last)
 {
 	if (first == last)
@@ -622,6 +626,19 @@ void Container<T>::swap(Container &q)
 	unsigned int temp = q.size_;
 	q.size_ = size_;
 	size_ = temp;
+}
+
+template<typename T>
+void Container<T>::takeTo(const iterator &from, const iterator &to)
+{
+	Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
+	to.pointing->prev = aux;
+
+	if (aux->prev != nullptr)
+		aux->prev->next = aux;
+
+	swap(from, iterator(aux));
+	erase(from);
 }
 
 template<typename T>
