@@ -5,8 +5,8 @@
 class InvalidIterator: public std::logic_error
 {
 public:
-	InvalidIterator(const std::string &what_arg);
-	InvalidIterator(const char *what_arg);
+	InvalidIterator(const std::string &);
+	InvalidIterator(const char *);
 };
 
 #endif // INVALIDITERATOR_H

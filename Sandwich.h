@@ -5,10 +5,11 @@
 class Sandwich: public Food
 {
 protected:
-	virtual std::string getType() const override;
+	std::string getType() const override;
 public:
 	using Food::Food;
-	virtual Sandwich *clone() const override;
+	Sandwich *clone() const override;
+	Sandwich *move() override;
 };
 
 #endif // SANDWICH_H

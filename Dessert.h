@@ -1,21 +1,21 @@
-#ifndef APPETIZER_H
-#define APPETIZER_H
+#ifndef DESSERT_H
+#define DESSERT_H
 #include "Food.h"
 #include <string>
 
-class Appetizer: public Food
+class Dessert: public Food
 {
 private:
-	std::string sauces;
+	std::string with;
 protected:
 	std::string getType() const override;
 public:
-	Appetizer(unsigned int, const std::string &, const std::string &);
-	Appetizer *clone() const override;
-	Appetizer *move() override;
+	Dessert(unsigned int, const std::string &, const std::string &);
+	Dessert *clone() const override;
+	Dessert *move() override;
 	std::string getDetails() const override;
 	void setDetails(const std::string &) override;
 	bool operator==(const Order &) const override;
 };
 
-#endif // APPETIZER_H
+#endif // DESSERT_H

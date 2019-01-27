@@ -1,13 +1,13 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
-#include <utility>
+#include "PolyConstruct.h"
 
-//T is required to provide a T *clone() const method implementing the standard polymorphic cloning (specifically, returning a pointer to a T object allocated on the heap, the destruction of which is responsibility of the DeepPtr)
+//T is required to provide specializations for the two overloadings of the clone() function template int the PolyConstruct namespace. Specifically, T *clone(const T &t) should implement the standard polymorphic copy construction, while T *clone(T &&t) should provide the same functionality for move semantics
 
 template<typename T> class DeepPtr;
 
-template<typename T> bool operator==(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2);
-template<typename T> bool operator!=(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2);
+template<typename T> bool operator==(const DeepPtr<T> &, const DeepPtr<T> &);
+template<typename T> bool operator!=(const DeepPtr<T> &, const DeepPtr<T> &);
 
 template<typename T>
 class DeepPtr
@@ -15,34 +15,50 @@ class DeepPtr
 private:
 	T *ptr;
 public:
-	//The DeepPtr constructed points to copy of the T object passed as parameter
-	explicit DeepPtr(const T *t = nullptr);
+	//The constructed DeepPtr points to copy of the T object passed as parameter
+	explicit DeepPtr(const T * = nullptr);
+	explicit DeepPtr(const T &);
+	explicit DeepPtr(T &&);
 
 	//The copy constructor performs a deep copy (as does the copy assignment operator)
-	DeepPtr(const DeepPtr &dp);
+	DeepPtr(const DeepPtr &);
 
-	DeepPtr(DeepPtr &&dp);
+	DeepPtr(DeepPtr &&);
 	~DeepPtr();
-	DeepPtr &operator=(const DeepPtr &dp);
-	DeepPtr &operator=(DeepPtr &&dp);
+	DeepPtr &operator=(const DeepPtr &);
+	DeepPtr &operator=(DeepPtr &&);
 	T &operator*();
 	const T &operator*() const;
 	T *operator->();
 	const T *operator->() const;
-	void swap(DeepPtr &dp);
+	void swap(DeepPtr &);
 
 	//the takeResponsibility method makes the calling DeepPtr point to the object passed as parameter (NOT a copy of it). This means that the calling DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
-	void takeResponsibility(T *t);
+	void takeResponsibility(T *);
 
 	//both comparison operators require T to overload operator==.
-	//operator== returns true if dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, false otherwise. operator!= has the expected behaviour.
-	friend bool operator== <T>(const DeepPtr &dp1, const DeepPtr &dp2);
-	friend bool operator!= <T>(const DeepPtr &dp1, const DeepPtr &dp2);
+	//dp1==dp2 returns true if (in this order) dp1 and dp2 are both null, point to the same object, or if *dp1 == *dp2 returns true, and false otherwise. operator!= has the expected behaviour.
+	friend bool operator== <T>(const DeepPtr &, const DeepPtr &);
+	friend bool operator!= <T>(const DeepPtr &, const DeepPtr &);
 };
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T *t):
-	ptr(t != nullptr ? t->clone() : nullptr)
+	ptr(t != nullptr ? PolyConstruct::clone(*t) : nullptr)
+{
+
+}
+
+template<typename T>
+DeepPtr<T>::DeepPtr(const T &t):
+	ptr(PolyConstruct::clone(t))
+{
+
+}
+
+template<typename T>
+DeepPtr<T>::DeepPtr(T &&t):
+	ptr(PolyConstruct::clone(t))
 {
 
 }
@@ -64,21 +80,15 @@ DeepPtr<T>::DeepPtr(DeepPtr &&dp):
 template<typename T>
 DeepPtr<T>::~DeepPtr()
 {
-	//Check for existence of T* clone() const method
-	T* (T::*test)() const = T::clone;
-
 	delete ptr;
 }
 
 template<typename T>
 DeepPtr<T> &DeepPtr<T>::operator=(const DeepPtr<T> &dp)
 {
-	if (this != &dp)
-	{
-		delete ptr;
+	DeepPtr temp(dp);
 
-		ptr = dp.ptr != nullptr ? dp.ptr->clone() : nullptr;
-	}
+	swap(temp);
 
 	return *this;
 }
@@ -86,10 +96,7 @@ DeepPtr<T> &DeepPtr<T>::operator=(const DeepPtr<T> &dp)
 template<typename T>
 DeepPtr<T> &DeepPtr<T>::operator=(DeepPtr &&dp)
 {
-	delete ptr;
-
-	ptr = dp.ptr;
-	dp.ptr = nullptr;
+	swap(dp);
 
 	return *this;
 }

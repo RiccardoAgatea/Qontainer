@@ -1,4 +1,5 @@
 #include "Hamburger.h"
+#include <utility>
 
 std::string Hamburger::getType() const
 {
@@ -8,5 +9,10 @@ std::string Hamburger::getType() const
 Hamburger *Hamburger::clone() const
 {
 	return new Hamburger(*this);
+}
+
+Hamburger *Hamburger::move()
+{
+	return new Hamburger(std::move(*this));
 }
 

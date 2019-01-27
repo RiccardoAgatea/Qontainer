@@ -28,3 +28,18 @@ bool Order::operator!=(const Order &o) const
 {
 	return !(*this == o);
 }
+
+namespace PolyConstruct
+{
+template<>
+Order *clone(const Order &t)
+{
+	return t.clone();
+}
+
+template<>
+Order *clone(Order &&t)
+{
+	return t.move();
+}
+}

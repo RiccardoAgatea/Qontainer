@@ -8,10 +8,10 @@ class MeatBased : public Food
 private:
 	std::string temperature;
 public:
-	MeatBased(unsigned int t, const std::string &i, const std::string &w, const std::string &temp);
-	virtual std::string getDetails() const override;
-	virtual void setDetails(const std::string &detail) override;
-	virtual bool operator==(const Order &o) const override;
+	MeatBased(unsigned int, const std::string &, const std::string &, const std::string &);
+	std::string getDetails() const override;
+	void setDetails(const std::string &) override;
+	bool operator==(const Order &) const override;
 };
 
 #endif // MEATBASED_H

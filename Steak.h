@@ -6,10 +6,11 @@
 class Steak: public MeatBased
 {
 protected:
-	virtual std::string getType() const override;
+	std::string getType() const override;
 public:
-	Steak(unsigned int t, const std::string &i, const std::string &temp);
-	virtual Steak *clone() const override;
+	Steak(unsigned int, const std::string &, const std::string &);
+	Steak *clone() const override;
+	Steak *move() override;
 };
 
 #endif // STEAK_H

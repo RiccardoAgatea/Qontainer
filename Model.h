@@ -11,9 +11,9 @@ private:
 	Container<Order> completati;
 public:
 	Model() = default;
-	explicit Model(const std::string &path);
-	void save(const std::string &path) const;
-	void load(const std::string &path);
+	explicit Model(const std::string &);
+	void save(const std::string &) const;
+	void load(const std::string &);
 };
 
 #endif // MODEL_H

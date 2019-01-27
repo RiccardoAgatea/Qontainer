@@ -6,10 +6,11 @@
 class Hamburger: public MeatBased
 {
 protected:
-	virtual std::string getType() const override;
+	std::string getType() const override;
 public:
 	using MeatBased::MeatBased;
-	virtual Hamburger *clone() const override;
+	Hamburger *clone() const override;
+	Hamburger *move() override;
 };
 
 #endif // HAMBURGER_H

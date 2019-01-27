@@ -1,4 +1,5 @@
 #include "Appetizer.h"
+#include <utility>
 
 std::string Appetizer::getType() const
 {
@@ -15,6 +16,11 @@ Appetizer::Appetizer(unsigned int t, const std::string &i, const std::string &s)
 Appetizer *Appetizer::clone() const
 {
 	return new Appetizer(*this);
+}
+
+Appetizer *Appetizer::move()
+{
+	return new Appetizer(std::move(*this));
 }
 
 std::string Appetizer::getDetails() const

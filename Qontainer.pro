@@ -28,7 +28,13 @@ SOURCES += \
     Hamburger.cpp \
     Sandwich.cpp \
     Appetizer.cpp \
-    Model.cpp
+    Model.cpp \
+    Dessert.cpp \
+    Analcoholic.cpp \
+    Coffee.cpp \
+    Alcoholic.cpp \
+    Liquor.cpp \
+    Beer.cpp
 
 HEADERS += \
 	Container.h \
@@ -44,7 +50,14 @@ HEADERS += \
     Hamburger.h \
     Sandwich.h \
     Appetizer.h \
-    Model.h
+    Model.h \
+    PolyConstruct.h \
+    Dessert.h \
+    Analcoholic.h \
+    Coffee.h \
+    Alcoholic.h \
+    Liquor.h \
+    Beer.h
 
 FORMS +=
 
