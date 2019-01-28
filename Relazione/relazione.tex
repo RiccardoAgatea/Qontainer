@@ -7,6 +7,9 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{minted}
+
+\newcommand{\code}[1]{\mintinline{cpp}{#1}}
 
 \title{Progetto di Programmazione a Oggetti}
 \author{Agatea Riccardo}
@@ -17,24 +20,82 @@
 \maketitle
 \newpage
 \pagenumbering{arabic}
-\section{Gerarchia di tipi} % (fold)
-\label{sec:gerarchia_di_tipi}
+\section{Introduzione} % (fold)
+\label{sec:introduzione}
+L'applicazione consiste in un sistema di gestione delle ordinazioni di un ristorante. L'applicazione permette l'immissione di nuove ordinazioni, la loro modifica e rimozione, il loro salvataggio su file e caricamento da file in formato XML, e la loro ricerca secondo diversi parametri. Inoltre, gestisce la separazione fra ordinazioni in attesa e completate.
+% section introduzione (end)
+\section{Descrizione aspetti progettuali} % (fold)
+\label{sec:descrizione_aspetti_progettuali}
+\subsection{Gerarchia di tipi} % (fold)
+\label{sub:gerarchia_di_tipi}
+La gerarchia modella le ordinazioni inviate alla cucina del ristorante. Radicata nella classe polimorfa astratta \code{Order}, si dirama in due direzioni, \code{Food} e \code{Drink}, associate rispettivamente a ordinazioni di piatti e bevande. Il polimorfismo è dato da alcuni metodi virtuali, descritti in seguito, che forniscono funzionalità di copia, move e confronto polimorfi, e permettono di ricavare informazioni esplicite sul tipo degli oggetti. La gerarchia è fortemente estensibile sia "in orizzontale", aggiungendo nuovi sottotipi alle classi base presenti, sia "in verticale", fornendo sottotipi alle classi più derivate della gerarchia.
+\paragraph{Grafico della gerarchia} % (fold)
+\label{par:grafico_della_gerarchia}
 
-% section gerarchia_di_tipi (end)
-\section{Chiamate polimorfe} % (fold)
-\label{sec:chiamate_polimorfe}
+% paragraph grafico_della_gerarchia (end)
+\paragraph{\code{Order}} % (fold)
+\label{par:order}
+La classe \code{Order} incapsula le caratteristiche comuni a tutte le ordinazioni, quali numero del tavolo e nome della pietanza ordinata. I campi dati, tutti privati, sono:
+\begin{itemize}
+	\item \code{unsigned int table}: rappresenta il numero del avolo da cui proviene l'ordinazione
+	\item \code{std::string item}: rappresenta il nome della pietanza ordinata. Non sono effettuati controlli di coerenza con un eventuale listino o menu: si assume che tali controlli siano effettuati dall'utente della gerarchia.
+	\item \code{static char separator}: alcuni metodi espongono all'utente stringhe formate dalla concatenazione di dettagli diversi dell'oggetto di invocazione; per mantenere la separazione delle varie caratteristiche viene utilizzato questo carattere.
+	\item \code{static std::string empty}: gli stessi metodi possono indicare un valore "vuoto" per alcune caratteristiche attraverso questa stringa.
+\end{itemize}
+I metodi sono:
+\begin{itemize}
+	\item \code{protected}:
+	\begin{itemize}
+		\item \code{std::string getType() const}: metodo virtuale puro che per un'invocazione \code{p->getType()} ritorna il tipo di \code{*p} sottoforma di stringa. È pressochè equivalente a \code{typeid(*p).name()}, garantendo però che la stringa ritornata non sia implementation defined.
+	\end{itemize}
+	\item \code{public}:
+	\begin{itemize}
+		\item \code{Order(unsigned int, const std::string &)}: costruttore. Il primo parametro rappresenta il numero del tavolo, il secondo la pietanza ordinata.
+		\item \code{Order(const Order &)}: costruttore di copia (standard).
+		\item \code{Order(Order &&)}: costruttore di move (standard).
+		\item \code{~Order()}: distruttore (standard). Ridefinito perchè sia virtuale.
+		\item \code{Order& operator=(const Order &)}: operatore di assegnazione di copia (standard).
+		\item \code{Order& operator=(Order &&)}: operatore di assegnazione di move (standard).
+		\item \code{Order *clone() const}: metodo virtuale puro che implementa la "costruzione di copia polimorfa".
+		\item \code{Order *move() = 0}: metodo virtuale puro analogo al precedente che implementa la "costruzione di move polimorfa".
+		\item \code{std::string recap() const}: metodo che per un'invocazione \code{p->recap()} espone all'utente lo stato dell'oggetto di invocazione. La stringa ritornata riporta, nell'ordine, il tipo di \code{*p}, i dettagli (o eventualmente \code{empty}), il nome della pietanza ordinata, e il numero del tavolo, separati da \code{separator}. Non è virtuale, ma esegue chiamate a metodi virtuali.
+		\item \code{std::string getDetails() const}: metodo virtuale puro che per un'invocazione \code{p->getDetails()} ritorna i dettagli dell'ordinazione \code{*p}, qualunque essi siano, in una stringa formattata in modo analogo a quella ritornata dal metodo recap().
+		\item \code{void setDetails(const std::string &)}: metodo virtuale puro che per un'invocazione \code{p->setDetails()} modifica i dettagli dell'ordinazione \code{*p} in base al parametro passato al metodo.
+		\item \code{bool operator==(const Order &) const}: operatore di uguaglianza, virtuale, \code{o1==o2} ritorna \code{true} se e solo se i due oggetti sono dello stesso tipo e i campi dati corrispondenti dei due oggetti sono uguali. Fornisce un'implementazione che esegue il confronto fra i tipi (dinamici) dei due oggetti confrontati, e fra i campi dati \code{table} e \code{item}.
+		\item \code{bool operator!=(const Order &) const}: operatore di disuguaglianza, non virtuale ma chiama metodi virtuali, \code{o1!=o2} ritorna \code{true} se e solo se \code{!(o1==o2)} ritorna \code{true}.
+	\end{itemize}
+\end{itemize}
+Sono inoltre fornite specializzazioni al tipo \code{Order} per i due template di funzione \code{template<typename T> T *clone(const T &)} e \code{template<typename T> T *clone(T &&)} definiti del namespace \code{PolyConstruct}. Per una reference \code{const Order &lref} e una reference a r-value \code{Order &&rref}, le chiamate \code{clone(lref)} e \code{clone(rref)} coincidono rispettivamente con \code{lref.clone()} e \code{rref.move()}.
+% paragraph order (end)
+\paragraph{\code{Food}} % (fold)
+\label{par:food}
+La classe \code{Food}, astratta, rappresenta le ordinazioni di cibo (in opposizione alle bevande). L'unico campo dati è:
+\begin{itemize}
+	\item \code{std::string without}: rappresenta eventuali rimozioni richieste dal cliente rispetto alla ricetta usuale
+\end{itemize}
+Gli unici metodi aggiuntivi sono il costruttore e i cinque metodi standard forniti dal compilatore. Sono forniti overriding per:
+\begin{itemize}
+	\item \code{std::string getDetails() const}: ritorna il contenuto di \code{without}.
+	\item \code{void setDetails(const std::string &)}: assegna a without il valore del parametro.
+	\item \code{bool operator==(const Order &) const}: dopo aver invocato esplicitamente \code{Order::operator==(const Order &)}, confronta i campi dati \code{without} dei due oggetti confrontati.
+\end{itemize}
+% paragraph food (end)
+% subsection gerarchia_di_tipi (end)
+\subsection{Chiamate polimorfe} % (fold)
+\label{sub:chiamate_polimorfe}
 
-% section chiamate_polimorfe (end)
-\section{Formato dei file di salvataggio e caricamento} % (fold)
-\label{sec:formato_dei_file_di_salvataggio_e_caricamento}
+% subsection chiamate_polimorfe (end)
+\subsection{Formato dei file di salvataggio e caricamento} % (fold)
+\label{sub:formato_dei_file_di_salvataggio_e_caricamento}
 
-% section formato_dei_file_di_salvataggio_e_caricamento (end)
-\section{Istruzioni di compilazione} % (fold)
-\label{sec:istruzioni_di_compilazione}
-Per la compilazione è fornito il file \verb|progetto.pro|.
-% section istruzioni_di_compilazione (end)
+% subsection formato_dei_file_di_salvataggio_e_caricamento (end)
+% section descrizione_aspetti_progettuali (end)
 \section{Note tecniche} % (fold)
 \label{sec:note_tecniche}
+\subsection{Istruzioni di compilazione} % (fold)
+\label{sub:istruzioni_di_compilazione}
+Per la compilazione è fornito il file \code{progetto.pro}.
+% subsection istruzioni_di_compilazione (end)
 \subsection{Ambiente di sviluppo} % (fold)
 \label{sub:ambiente_di_sviluppo}
 \begin{itemize}
@@ -50,14 +111,14 @@ Per la compilazione è fornito il file \verb|progetto.pro|.
 	\item Analisi preliminare del problema: 1
 	\item Progettazione modello: 2
 	\begin{itemize}
-		\item Progettazione template di classe \verb|Container|: 0.5
+		\item Progettazione template di classe \code{Container}: 0.5
 		\item Progettazione gerarchia di classi: 1.5
 	\end{itemize}
 	\item Progettazione GUI
 	\item Apprendimento libreria Qt
 	\item Codifica modello: 17
 	\begin{itemize}
-		\item Codifica template di classe \verb|Container|: 8
+		\item Codifica template di classe \code{Container}: 8
 		\item Codifica gerarchia di classi: 9
 	\end{itemize}
 	\item Codifica GUI
