@@ -2,18 +2,18 @@
 #define MODEL_H
 #include "Container.h"
 #include "Order.h"
-#include <string>
+#include <QString>
 
 class Model
 {
 private:
-	Container<Order> in_coda;
-	Container<Order> completati;
+	Container<Order> to_do;
+	Container<Order> completed;
 public:
 	Model() = default;
-	explicit Model(const std::string &);
-	void save(const std::string &) const;
-	void load(const std::string &);
+	explicit Model(const QString &);
+	void save(const QString &) const;
+	void load(const QString &);
 };
 
 #endif // MODEL_H

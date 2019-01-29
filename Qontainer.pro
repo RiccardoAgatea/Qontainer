@@ -36,13 +36,13 @@ SOURCES += \
     Liquor.cpp \
     Beer.cpp \
     Wine.cpp \
-    Cocktail.cpp
+    Cocktail.cpp \
+    UnavailableFile.cpp
 
 HEADERS += \
 	Container.h \
 	DeepPtr.h \
 	InvalidIterator.h \
-	CustomExceptions.h \
 	EmptyContainer.h \
     Order.h \
     Drink.h \
@@ -61,7 +61,9 @@ HEADERS += \
     Liquor.h \
     Beer.h \
     Wine.h \
-    Cocktail.h
+    Cocktail.h \
+    ContainerExceptions.h \
+    UnavailableFile.h
 
 FORMS +=
 

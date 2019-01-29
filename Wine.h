@@ -5,11 +5,11 @@
 class Wine: public Alcoholic
 {
 private:
-	unsigned int year;
+	bool vintage;
 protected:
 	std::string getType() const override;
 public:
-	Wine(unsigned int, const std::string &, unsigned int);
+	Wine(unsigned int, const std::string &, bool);
 	Wine *clone() const override;
 	Wine *move() override;
 	std::string getDetails() const override;
