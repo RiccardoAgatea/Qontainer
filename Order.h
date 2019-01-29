@@ -8,11 +8,11 @@ class Order
 private:
 	unsigned int table;
 	std::string item;
+
+	static char separator;
+	static std::string empty;
 protected:
 	virtual std::string getType() const = 0;
-
-	static const char separator = '$';
-	static const std::string empty;
 public:
 	Order(unsigned int, const std::string &);
 	virtual ~Order() = default;
@@ -23,6 +23,11 @@ public:
 	virtual void setDetails(const std::string &) = 0;
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
+
+	static char getSeparator();
+	static void setSeparator(char value);
+	static std::string getEmpty();
+	static void setEmpty(const std::string &value);
 };
 
 namespace PolyConstruct

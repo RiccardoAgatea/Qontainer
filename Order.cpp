@@ -1,7 +1,8 @@
 #include "Order.h"
 #include <typeinfo>
 
-const std::string Order::empty = "!";
+char Order::separator = '$';
+std::string Order::empty = "!";
 
 Order::Order(unsigned int t, const std::string &i):
 	table(t),
@@ -27,6 +28,26 @@ bool Order::operator==(const Order &o) const
 bool Order::operator!=(const Order &o) const
 {
 	return !(*this == o);
+}
+
+char Order::getSeparator()
+{
+	return separator;
+}
+
+void Order::setSeparator(char value)
+{
+	separator = value;
+}
+
+std::string Order::getEmpty()
+{
+	return empty;
+}
+
+void Order::setEmpty(const std::string &value)
+{
+	empty = value;
 }
 
 namespace PolyConstruct

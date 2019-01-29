@@ -34,7 +34,9 @@ SOURCES += \
     Coffee.cpp \
     Alcoholic.cpp \
     Liquor.cpp \
-    Beer.cpp
+    Beer.cpp \
+    Wine.cpp \
+    Cocktail.cpp
 
 HEADERS += \
 	Container.h \
@@ -57,7 +59,9 @@ HEADERS += \
     Coffee.h \
     Alcoholic.h \
     Liquor.h \
-    Beer.h
+    Beer.h \
+    Wine.h \
+    Cocktail.h
 
 FORMS +=
 
