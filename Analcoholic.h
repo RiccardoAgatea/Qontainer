@@ -2,6 +2,8 @@
 #define ANALCOHOLIC_H
 #include "Drink.h"
 
+//Represents generic analcoholic drinks, like water, soda, or fruit juice
+
 class Analcoholic: public Drink
 {
 private:

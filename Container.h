@@ -501,37 +501,37 @@ const T &Container<T>::back() const
 template<typename T>
 void Container<T>::push_front(const T &t)
 {
-	insert(begin(), t);
+	insert(cbegin(), t);
 }
 
 template<typename T>
 void Container<T>::push_front(T &&t)
 {
-	insert(begin(), t);
+	insert(cbegin(), t);
 }
 
 template<typename T>
 void Container<T>::push_back(const T &t)
 {
-	insert(end(), t);
+	insert(cend(), t);
 }
 
 template<typename T>
 void Container<T>::push_back(T &&t)
 {
-	insert(end(), t);
+	insert(cend(), t);
 }
 
 template<typename T>
 void Container<T>::pop_front()
 {
-	erase(begin());
+	erase(cbegin());
 }
 
 template<typename T>
 void Container<T>::pop_back()
 {
-	erase(end());
+	erase(cend());
 }
 
 template<typename T>
@@ -558,7 +558,7 @@ typename Container<T>::iterator Container<T>::insert(const_iterator position, In
         InputIterator last)
 {
 	if (first == last)
-		return position;
+		throw InvalidIterator("Tried inserting 0 elements in Container");
 
 	Node *aux1 = nullptr, *aux2 = aux1;
 	unsigned int count = 0;
@@ -578,7 +578,7 @@ typename Container<T>::iterator Container<T>::insert(const_iterator position, In
 
 	aux1->prev = position.pointing->prev;
 
-	if (position == begin())
+	if (position == cbegin())
 		this->first = aux1;
 	else
 		position.pointing->prev->next = aux1;

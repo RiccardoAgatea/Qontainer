@@ -1,5 +1,9 @@
 #include "Cocktail.h"
 
+std::string Cocktail::getType() const
+{
+	return "cocktail";
+}
 
 Cocktail::Cocktail(unsigned int t, const std::string &i, const std::string &g):
 	Alcoholic(t, i),

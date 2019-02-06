@@ -10,7 +10,6 @@ private:
 	std::string item;
 
 	static char separator;
-	static std::string empty;
 protected:
 	virtual std::string getType() const = 0;
 public:
@@ -26,8 +25,6 @@ public:
 
 	static char getSeparator();
 	static void setSeparator(char value);
-	static std::string getEmpty();
-	static void setEmpty(const std::string &value);
 };
 
 namespace PolyConstruct

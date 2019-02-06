@@ -37,7 +37,12 @@ SOURCES += \
     Beer.cpp \
     Wine.cpp \
     Cocktail.cpp \
-    UnavailableFile.cpp
+    UnavailableFile.cpp \
+    MakeOrder.cpp \
+    UnknownType.cpp \
+    Controller.cpp \
+    View.cpp \
+    AddOrderDialog.cpp
 
 HEADERS += \
 	Container.h \
@@ -63,7 +68,12 @@ HEADERS += \
     Wine.h \
     Cocktail.h \
     ContainerExceptions.h \
-    UnavailableFile.h
+    UnavailableFile.h \
+    MakeOrder.h \
+    UnknownType.h \
+    Controller.h \
+    View.h \
+    AddOrderDialog.h
 
 FORMS +=
 

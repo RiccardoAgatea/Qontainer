@@ -10,7 +10,7 @@ MeatBased::MeatBased(unsigned int t, const std::string &i, const std::string &w,
 
 std::string MeatBased::getDetails() const
 {
-	return temperature + getSeparator() + Food::getDetails();
+	return Food::getDetails() + getSeparator() + temperature;
 }
 
 void MeatBased::setDetails(const std::string &detail)

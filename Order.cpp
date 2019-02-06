@@ -2,7 +2,6 @@
 #include <typeinfo>
 
 char Order::separator = '$';
-std::string Order::empty = "!";
 
 Order::Order(unsigned int t, const std::string &i):
 	table(t),
@@ -13,14 +12,13 @@ Order::Order(unsigned int t, const std::string &i):
 
 std::string Order::recap() const
 {
-	std::string det = getDetails();
-	return getType() + separator + (det != "" ? det : empty) + separator + item + separator +
-		   std::to_string(table);
+	return getType() + separator + std::to_string(table) + separator + item
+		   + separator + getDetails();
 }
 
 bool Order::operator==(const Order &o) const
 {
-	return typeid(*this) == typeid(o) &&
+	return getType() == o.getType() &&
 		   table == o.table &&
 		   item == o.item;
 }
@@ -38,16 +36,6 @@ char Order::getSeparator()
 void Order::setSeparator(char value)
 {
 	separator = value;
-}
-
-std::string Order::getEmpty()
-{
-	return empty;
-}
-
-void Order::setEmpty(const std::string &value)
-{
-	empty = value;
 }
 
 namespace PolyConstruct

@@ -1,54 +1,51 @@
 #include "Model.h"
-#include <QFile>
-#include <QSaveFile>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
+#include <fstream>
+#include <sstream>
 #include "UnavailableFile.h"
+#include "MakeOrder.h"
 
-Model::Model(const QString &path)
+Model::Model(const std::string &path_to_do, const std::string &path_completed)
 {
-	load(path);
+	load(path_to_do, path_completed);
 }
 
-void Model::save(const QString &path) const
+void Model::save(const std::string &path_to_do, const std::string &path_completed) const
 {
-	QSaveFile file(path);
-
-	if (!file.open(QIODevice::WriteOnly))
-		throw UnavailableFile("Could not open file at path " + path.toStdString());
-
-	QXmlStreamWriter xml(&file);
-
-	xml.setAutoFormatting(true);
-
-	xml.writeStartDocument();
-
-	xml.writeStartElement("root");
-
-	xml.writeStartElement("todo");
+	std::ostringstream buffer1, buffer2;
 
 	for (auto it = to_do.begin(); it != to_do.end(); ++it)
-	{
-
-	}
-
-
-	xml.writeEndElement();
-	xml.writeStartElement("completed");
+		buffer1 << it->recap() << std::endl;
 
 	for (auto it = completed.begin(); it != completed.end(); ++it)
-	{
+		buffer2 << it->recap() << std::endl;
 
-	}
+	std::ofstream file1(path_to_do), file2(path_completed);
 
-	xml.writeEndElement();
-	xml.writeEndDocument();
+	if (!file1)
+		throw UnavailableFile("Invalid path to save uncompleted orders");
+
+	if (!file2)
+		throw UnavailableFile("Invalid path to save completed orders");
+
+	file1 << buffer1.str() << std::endl;
+	file2 << buffer2.str() << std::endl;
 }
 
-void Model::load(const QString &path)
+void Model::load(const std::string &path_to_do, const std::string &path_completed)
 {
-	QFile file(path);
+	std::ifstream file1(path_to_do), file2(path_completed);
 
-	if (!file.open(QIODevice::WriteOnly))
-		throw UnavailableFile("Could not open file at path " + path.toStdString());
+	if (!file1)
+		throw UnavailableFile("Invalid path to load uncompleted orders");
+
+	if (!file2)
+		throw UnavailableFile("Invalid path to load completed orders");
+
+	std::string temp;
+
+	while (std::getline(file1, temp))
+		to_do.push_back(*MakeOrder::make(temp));
+
+	while (std::getline(file2, temp))
+		completed.push_back(*MakeOrder::make(temp));
 }

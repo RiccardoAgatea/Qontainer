@@ -2,7 +2,7 @@
 #define MODEL_H
 #include "Container.h"
 #include "Order.h"
-#include <QString>
+#include <string>
 
 class Model
 {
@@ -11,9 +11,9 @@ private:
 	Container<Order> completed;
 public:
 	Model() = default;
-	explicit Model(const QString &);
-	void save(const QString &) const;
-	void load(const QString &);
+	explicit Model(const std::string &, const std::string &);
+	void save(const std::string &, const std::string &) const;
+	void load(const std::string &, const std::string &);
 };
 
 #endif // MODEL_H

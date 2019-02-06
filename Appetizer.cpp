@@ -25,7 +25,7 @@ Appetizer *Appetizer::move()
 
 std::string Appetizer::getDetails() const
 {
-	return (sauces != "" ? sauces : empty) + separator + Food::getDetails();
+	return Food::getDetails() + getSeparator() + sauces;
 }
 
 void Appetizer::setDetails(const std::string &detail)
