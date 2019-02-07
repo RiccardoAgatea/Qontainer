@@ -18,6 +18,9 @@ public:
 signals:
 
 public slots:
+	void newOrder();
+	void load();
+	void save();
 };
 
 #endif // VIEW_H

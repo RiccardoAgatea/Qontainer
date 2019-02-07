@@ -8,3 +8,23 @@ Controller::Controller(View *v):
 {
 
 }
+
+bool Controller::isModelEmpty() const
+{
+	return model == nullptr || model->empty();
+}
+
+void Controller::load(const QString &)
+{
+
+}
+
+void Controller::save(const QString &) const
+{
+
+}
+
+const std::vector<std::string> Controller::getTypes()
+{
+	return Model::getTypes();
+}

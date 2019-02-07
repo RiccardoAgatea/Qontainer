@@ -4,7 +4,7 @@
 
 std::string Wine::getType() const
 {
-	return "wine";
+	return "Wine";
 }
 
 Wine::Wine(unsigned int t, const std::string &i, bool v):

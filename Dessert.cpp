@@ -3,7 +3,7 @@
 
 std::string Dessert::getType() const
 {
-	return "dessert";
+	return "Dessert";
 }
 
 Dessert::Dessert(unsigned int t, const std::string &i, const std::string &w):

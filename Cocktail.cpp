@@ -2,7 +2,7 @@
 
 std::string Cocktail::getType() const
 {
-	return "cocktail";
+	return "Cocktail";
 }
 
 Cocktail::Cocktail(unsigned int t, const std::string &i, const std::string &g):

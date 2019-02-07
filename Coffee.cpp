@@ -4,7 +4,7 @@
 
 std::string Coffee::getType() const
 {
-	return "coffee";
+	return "Coffee";
 }
 
 Coffee::Coffee(unsigned int t, const std::string &i, const std::string &n):

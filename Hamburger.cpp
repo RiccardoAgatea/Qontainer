@@ -3,7 +3,7 @@
 
 std::string Hamburger::getType() const
 {
-	return "hamburger";
+	return "Hamburger";
 }
 
 Hamburger *Hamburger::clone() const

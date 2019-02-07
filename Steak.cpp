@@ -3,7 +3,7 @@
 
 std::string Steak::getType() const
 {
-	return "steak";
+	return "Steak";
 }
 
 Steak::Steak(unsigned int t, const std::string &i, const std::string &temp):

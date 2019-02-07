@@ -4,7 +4,7 @@
 
 std::string Analcoholic::getType() const
 {
-	return "analcoholic";
+	return "Analcoholic";
 }
 
 Analcoholic::Analcoholic(unsigned int t, const std::string &i, bool ic):

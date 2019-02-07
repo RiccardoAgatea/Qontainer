@@ -85,3 +85,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
 	- Delete before submitting \
 	- Delete before submitting
+
+RESOURCES +=

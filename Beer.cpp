@@ -3,7 +3,7 @@
 
 std::string Beer::getType() const
 {
-	return "beer";
+	return "Bbeer";
 }
 
 Beer::Beer(unsigned int t, const std::string &i, const std::string &s):

@@ -3,7 +3,7 @@
 
 std::string Sandwich::getType() const
 {
-	return "sandwich";
+	return "Sandwich";
 }
 
 Sandwich *Sandwich::clone() const
