@@ -1,4 +1,5 @@
 #include "AddOrderDialog.h"
+#include "MakeOrder.h"
 #include "Controller.h"
 #include <QLabel>
 #include <QHBoxLayout>
