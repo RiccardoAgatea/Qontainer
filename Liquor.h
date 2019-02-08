@@ -9,7 +9,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Liquor(unsigned int, const std::string &, bool );
+	Liquor(unsigned int,
+		   const std::string &,
+		   bool);
 	Liquor *clone() const override;
 	Liquor *move() override;
 	std::string getDetails() const override;

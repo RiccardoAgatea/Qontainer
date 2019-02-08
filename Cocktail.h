@@ -10,7 +10,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Cocktail(unsigned int, const std::string &, const std::string &);
+	Cocktail(unsigned int,
+			 const std::string &,
+			 const std::string &);
 	Cocktail *clone() const override;
 	Cocktail *move() override;
 	std::string getDetails() const override;

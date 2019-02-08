@@ -1,5 +1,5 @@
 #include "AddOrderDialog.h"
-#include "MakeOrder.h"
+#include "Controller.h"
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -11,7 +11,6 @@
 
 void AddOrderDialog::setDetails()
 {
-	//essenzialmente, non va
 	QString type = choose_type->checkedButton()->text();
 	MakeOrder::Info info = MakeOrder::getInfo(type.toStdString());
 
@@ -37,7 +36,8 @@ void AddOrderDialog::setDetails()
 
 	for (auto &x : info.long_texts)
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "), details_box);
+		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
+								   details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumSize(100, 75);
 
@@ -54,7 +54,8 @@ void AddOrderDialog::setDetails()
 
 	for (auto &x : info.short_texts)
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "), details_box);
+		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
+								   details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumWidth(100);
 
@@ -71,7 +72,8 @@ void AddOrderDialog::setDetails()
 
 	for (auto &x : info.checks)
 	{
-		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x), details_box);
+		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x),
+											details_box);
 
 		QHBoxLayout *layout = new QHBoxLayout();
 		layout->addWidget(checkbox);
@@ -83,25 +85,32 @@ void AddOrderDialog::setDetails()
 	}
 }
 
-AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *parent):
+AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
+							   QWidget *parent):
 	QDialog(parent),
+	table_input(new QLineEdit()),
+	item_input(new QLineEdit()),
 	choose_type(new QButtonGroup()),
 	details_box(new QGroupBox("Details")),
 	details_layout(new QVBoxLayout())
 {
 	QVBoxLayout *main_layout = new QVBoxLayout();
 	QHBoxLayout *table_layout = new QHBoxLayout();
+	QHBoxLayout *item_layout = new QHBoxLayout();
 	QGroupBox *type_box = new QGroupBox("Type");
 	QGridLayout *type_layout = new QGridLayout();
 	QHBoxLayout *buttons_layout = new QHBoxLayout();
 
-	QLineEdit *table_input = new QLineEdit();
 	table_input->setMaximumWidth(30);
 	table_input->setValidator(new QIntValidator(0, 100));
 
 	table_layout->addWidget(new QLabel("Table: "));
 	table_layout->addWidget(table_input);
 	table_layout->addStretch(1);
+
+	item_layout->addWidget(new QLabel("Item: "));
+	item_layout->addWidget(item_input);
+	item_layout->addStretch(1);
 
 	int pos = 0;
 
@@ -128,6 +137,7 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *p
 	details_box->setLayout(details_layout);
 
 	main_layout->addLayout(table_layout);
+	main_layout->addLayout(item_layout);
 	main_layout->addWidget(type_box);
 	main_layout->addWidget(details_box);
 	main_layout->addStretch(1);
@@ -145,6 +155,11 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *p
 
 void AddOrderDialog::accept()
 {
+	QString aux = choose_type->checkedButton()->text() +
+				  Controller::separator +
+				  table_input->text() +
+				  Controller::separator +
+				  item_input->text();//how to format ditails???
 
 	QDialog::accept();
 }

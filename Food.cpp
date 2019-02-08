@@ -1,6 +1,8 @@
 #include "Food.h"
 
-Food::Food(unsigned int t, const std::string &i, const std::string &w):
+Food::Food(unsigned int t,
+		   const std::string &i,
+		   const std::string &w):
 	Order(t, i),
 	without(w)
 {

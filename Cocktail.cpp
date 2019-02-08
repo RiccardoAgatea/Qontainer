@@ -5,7 +5,9 @@ std::string Cocktail::getType() const
 	return "Cocktail";
 }
 
-Cocktail::Cocktail(unsigned int t, const std::string &i, const std::string &g):
+Cocktail::Cocktail(unsigned int t,
+				   const std::string &i,
+				   const std::string &g):
 	Alcoholic(t, i),
 	garnish(g)
 {

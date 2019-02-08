@@ -1,6 +1,8 @@
 #include "MeatBased.h"
 
-MeatBased::MeatBased(unsigned int t, const std::string &i, const std::string &w,
+MeatBased::MeatBased(unsigned int t,
+					 const std::string &i,
+					 const std::string &w,
 					 const std::string &temp):
 	Food(t, i, w),
 	temperature(temp)

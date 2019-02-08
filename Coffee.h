@@ -10,7 +10,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Coffee(unsigned int, const std::string &, const std::string &);
+	Coffee(unsigned int,
+		   const std::string &,
+		   const std::string &);
 	Coffee *clone() const override;
 	Coffee *move() override;
 	std::string getDetails() const override;

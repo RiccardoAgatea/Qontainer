@@ -1,13 +1,16 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
+#include <utility>
 #include "PolyConstruct.h"
 
 //T is required to provide specializations for the two overloadings of the clone() function template int the PolyConstruct namespace. Specifically, T *clone(const T &t) should implement the standard polymorphic copy construction, while T *clone(T &&t) should provide the same functionality for move semantics
 
 template<typename T> class DeepPtr;
 
-template<typename T> bool operator==(const DeepPtr<T> &, const DeepPtr<T> &);
-template<typename T> bool operator!=(const DeepPtr<T> &, const DeepPtr<T> &);
+template<typename T> bool operator==(const DeepPtr<T> &,
+									 const DeepPtr<T> &);
+template<typename T> bool operator!=(const DeepPtr<T> &,
+									 const DeepPtr<T> &);
 
 template<typename T>
 class DeepPtr
@@ -32,6 +35,7 @@ public:
 	T *operator->();
 	const T *operator->() const;
 	void swap(DeepPtr &);
+	T &&move();
 
 	//the takeResponsibility method makes the calling DeepPtr point to the object passed as parameter (NOT a copy of it). This means that the calling DeepPtr from that point on will manage this object, and will also destroy it automatically. Destroying the object through different means (an explicit call to delete on the pointer passed as parameter, for example) causes undefined behaviour
 	void takeResponsibility(T *);
@@ -134,6 +138,12 @@ void DeepPtr<T>::swap(DeepPtr &dp)
 }
 
 template<typename T>
+T &&DeepPtr<T>::move()
+{
+	return std::move(*ptr);
+}
+
+template<typename T>
 void DeepPtr<T>::takeResponsibility(T *t)
 {
 	delete ptr;
@@ -142,7 +152,8 @@ void DeepPtr<T>::takeResponsibility(T *t)
 }
 
 template<typename T>
-bool operator==(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2)
+bool operator==(const DeepPtr<T> &dp1,
+				const DeepPtr<T> &dp2)
 {
 	if (dp1.ptr == dp2.ptr)
 		return true;
@@ -154,7 +165,8 @@ bool operator==(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2)
 }
 
 template<typename T>
-bool operator!=(const DeepPtr<T> &dp1, const DeepPtr<T> &dp2)
+bool operator!=(const DeepPtr<T> &dp1,
+				const DeepPtr<T> &dp2)
 {
 	return !(dp1 == dp2);
 }

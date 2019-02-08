@@ -6,7 +6,9 @@ std::string Appetizer::getType() const
 	return "Appetizer";
 }
 
-Appetizer::Appetizer(unsigned int t, const std::string &i, const std::string &s):
+Appetizer::Appetizer(unsigned int t,
+					 const std::string &i,
+					 const std::string &s):
 	Food(t, i, ""),
 	sauces(s)
 {
@@ -25,7 +27,7 @@ Appetizer *Appetizer::move()
 
 std::string Appetizer::getDetails() const
 {
-	return Food::getDetails() + separator + sauces;
+	return sauces;
 }
 
 void Appetizer::setDetails(const std::string &detail)

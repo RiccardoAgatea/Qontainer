@@ -6,7 +6,9 @@ std::string Dessert::getType() const
 	return "Dessert";
 }
 
-Dessert::Dessert(unsigned int t, const std::string &i, const std::string &w):
+Dessert::Dessert(unsigned int t,
+				 const std::string &i,
+				 const std::string &w):
 	Food(t, i, ""),
 	with(w)
 {

@@ -14,9 +14,13 @@ private:
 	static const std::vector<std::string> types;
 public:
 	Model() = default;
-	explicit Model(const std::string &, const std::string &);
-	void save(const std::string &, const std::string &) const;
-	void load(const std::string &, const std::string &);
+	explicit Model(const std::string &,
+				   const std::string &);
+	void save(const std::string &,
+			  const std::string &) const;
+	void load(const std::string &,
+			  const std::string &);
+	void addOrder(const std::string &);
 	bool empty() const;
 
 	static const std::vector<std::string> &getTypes();

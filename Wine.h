@@ -9,7 +9,8 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Wine(unsigned int, const std::string &, bool);
+	Wine(unsigned int,
+		 const std::string &, bool);
 	Wine *clone() const override;
 	Wine *move() override;
 	std::string getDetails() const override;

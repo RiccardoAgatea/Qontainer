@@ -10,7 +10,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Appetizer(unsigned int, const std::string &, const std::string &);
+	Appetizer(unsigned int,
+			  const std::string &,
+			  const std::string &);
 	Appetizer *clone() const override;
 	Appetizer *move() override;
 	std::string getDetails() const override;

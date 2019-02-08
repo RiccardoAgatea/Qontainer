@@ -1,7 +1,6 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
 #include <initializer_list>
-#include <algorithm>
 #include "DeepPtr.h"
 #include "ContainerExceptions.h"
 
@@ -9,8 +8,10 @@
 
 template<typename T> class Container;
 
-template<typename T> bool operator==(const Container<T> &, const Container<T> &);
-template<typename T> bool operator!=(const Container<T> &, const Container<T> &);
+template<typename T> bool operator==(const Container<T> &,
+									 const Container<T> &);
+template<typename T> bool operator!=(const Container<T> &,
+									 const Container<T> &);
 
 namespace ReferenceTypes
 {
@@ -49,9 +50,15 @@ private:
 		Node *next, *prev;
 
 		//However it's passed, the T parameter is forwarded untouched to the constructor of the info field
-		Node(const T * = nullptr, Node * = nullptr, Node * = nullptr);
-		Node(const T &, Node * = nullptr, Node * = nullptr);
-		Node(T &&, Node * = nullptr, Node * = nullptr);
+		Node(const T * = nullptr,
+			 Node * = nullptr,
+			 Node * = nullptr);
+		Node(const T &,
+			 Node * = nullptr,
+			 Node * = nullptr);
+		Node(T &&,
+			 Node * = nullptr,
+			 Node * = nullptr);
 
 		~Node();
 
@@ -74,7 +81,8 @@ public:
 		temp_iterator(Node *);
 	public:
 		using pointer = typename ReferenceTypes::pointer<T, constness>::type;
-		using reference = typename ReferenceTypes::reference<T, constness>::type;
+		using reference = typename
+						  ReferenceTypes::reference<T, constness>::type;
 
 		temp_iterator();
 
@@ -99,11 +107,13 @@ public:
 
 	//Constructors, destructor, and assignment operator
 	Container();
-	Container(unsigned int, const T & = T());
+	Container(unsigned int,
+			  const T & = T());
 	Container(const Container &);
 	Container(Container &&);
 	template<typename InputIterator>
-	Container(InputIterator, InputIterator);
+	Container(InputIterator,
+			  InputIterator);
 	Container(std::initializer_list<T>);
 	~Container();
 	Container &operator=(const Container &);
@@ -137,22 +147,29 @@ public:
 	void pop_back();
 
 	//the insert() methods return an iterator to the (first) element newly inserted. the first parameter should be a valid iterator in the object *this
-	iterator insert(const_iterator, const T &);
-	iterator insert(const_iterator, T &&);
+	iterator insert(const_iterator,
+					const T &);
+	iterator insert(const_iterator,
+					T &&);
 	template<typename InputIterator>
-	iterator insert(const_iterator, InputIterator, InputIterator);
+	iterator insert(const_iterator,
+					InputIterator,
+					InputIterator);
 
 	//the erase() methods return an iterator to the first element after the removed one(s). In a call q.erase(position), position should be a dereferenceable iterator in the object *this. In a call q.erase(first, last), first and last should be valid iterators in the object *this such that all iterators in the range [first, last) are dereferenceable.
 	iterator erase(iterator);
-	iterator erase(iterator, iterator);
+	iterator erase(iterator,
+				   iterator);
 
 	//In a call swap(it1, it2), it1 and it2 should be dereferenceable iterators, eventually in different objects of type Container<T>
-	static void swap(const iterator &, const iterator &);
+	static void swap(const iterator &,
+					 const iterator &);
 
 	void swap(Container &);
 
 	//A call q.takeTo(from, to) moves the element pointed by from to the position before to. from and to don't need to be iterators over the same Container object, but from should be an iterator over the calling object. from should be a dereferenceable iterator, to should be a valid iterator
-	void takeTo(const iterator &, const iterator &);
+	void takeTo(const iterator &,
+				const iterator &);
 	void clear();
 
 	//Finding
@@ -174,7 +191,9 @@ public:
 
 //Node methods definition
 template<typename T>
-Container<T>::Node::Node(const T *t, Node *n, Node *p):
+Container<T>::Node::Node(const T *t,
+						 Node *n,
+						 Node *p):
 	info(t), //DeepPtr<T>::DeepPtr(const T*) called
 	next(n),
 	prev(p)
@@ -183,7 +202,9 @@ Container<T>::Node::Node(const T *t, Node *n, Node *p):
 }
 
 template<typename T>
-Container<T>::Node::Node(const T &t, Node *n, Node *p):
+Container<T>::Node::Node(const T &t,
+						 Node *n,
+						 Node *p):
 	info(t), //DeepPtr<T>::DeepPtr(const T&) called
 	next(n),
 	prev(p)
@@ -192,7 +213,9 @@ Container<T>::Node::Node(const T &t, Node *n, Node *p):
 }
 
 template<typename T>
-Container<T>::Node::Node(T &&t, Node *n, Node *p):
+Container<T>::Node::Node(T &&t,
+						 Node *n,
+						 Node *p):
 	info(t), //DeepPtr<T>::DeepPtr(T &&) called
 	next(n),
 	prev(p)
@@ -322,14 +345,16 @@ Container<T>::temp_iterator<constness>::operator--
 
 template<typename T>
 template<bool constness>
-bool Container<T>::temp_iterator<constness>::operator==(const temp_iterator &it) const
+bool Container<T>::temp_iterator<constness>::operator==
+(const temp_iterator &it) const
 {
 	return pointing == it.pointing;
 }
 
 template<typename T>
 template<bool constness>
-bool Container<T>::temp_iterator<constness>::operator!=(const temp_iterator &it) const
+bool Container<T>::temp_iterator<constness>::operator!=
+(const temp_iterator &it) const
 {
 	return !(*this == it);
 }
@@ -345,7 +370,8 @@ Container<T>::Container():
 }
 
 template<typename T>
-Container<T>::Container(unsigned int n, const T &t):
+Container<T>::Container(unsigned int n,
+						const T &t):
 	Container()
 {
 	while (n > 0)
@@ -371,7 +397,8 @@ Container<T>::Container(Container &&q):
 
 template<typename T>
 template<typename InputIterator>
-Container<T>::Container(InputIterator first, InputIterator last):
+Container<T>::Container(InputIterator first,
+						InputIterator last):
 	Container()
 {
 	insert(begin(), first, last);
@@ -445,7 +472,8 @@ typename Container<T>::const_iterator Container<T>::cend() const
 }
 
 template<typename T>
-typename Container<T>::const_iterator Container<T>::toConstIter(const iterator &it)
+typename Container<T>::const_iterator
+Container<T>::toConstIter(const iterator &it)
 {
 	return const_iterator(it.pointing);
 }
@@ -535,13 +563,17 @@ void Container<T>::pop_back()
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::insert(const_iterator position, const T &t)
+typename Container<T>::iterator
+Container<T>::insert(const_iterator position,
+					 const T &t)
 {
 	return insert(position, &t, &t + 1);
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::insert(const_iterator position, T &&t)
+typename Container<T>::iterator
+Container<T>::insert(const_iterator position,
+					 T &&t)
 {
 	Node *aux = new Node(t, position.pointing, position.pointing->prev);
 	position.pointing->prev = aux;
@@ -554,8 +586,10 @@ typename Container<T>::iterator Container<T>::insert(const_iterator position, T 
 
 template<typename T>
 template<typename InputIterator>
-typename Container<T>::iterator Container<T>::insert(const_iterator position, InputIterator first,
-        InputIterator last)
+typename Container<T>::iterator
+Container<T>::insert(const_iterator position,
+					 InputIterator first,
+					 InputIterator last)
 {
 	if (first == last)
 		throw InvalidIterator("Tried inserting 0 elements in Container");
@@ -606,7 +640,9 @@ typename Container<T>::iterator Container<T>::erase(iterator position)
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::erase(iterator first, iterator last)
+typename Container<T>::iterator
+Container<T>::erase(iterator first,
+					iterator last)
 {
 	if (first != last)
 	{
@@ -634,7 +670,8 @@ typename Container<T>::iterator Container<T>::erase(iterator first, iterator las
 }
 
 template<typename T>
-void Container<T>::swap(const iterator &it1, const iterator &it2)
+void Container<T>::swap(const iterator &it1,
+						const iterator &it2)
 {
 	it1.pointing->info.swap(it2.pointing->info);
 }
@@ -656,7 +693,8 @@ void Container<T>::swap(Container &q)
 }
 
 template<typename T>
-void Container<T>::takeTo(const iterator &from, const iterator &to)
+void Container<T>::takeTo(const iterator &from,
+						  const iterator &to)
 {
 	Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
 	to.pointing->prev = aux;
@@ -675,7 +713,8 @@ void Container<T>::clear()
 }
 
 template<typename T>
-typename Container<T>::iterator Container<T>::find(const T &t)
+typename Container<T>::iterator
+Container<T>::find(const T &t)
 {
 	return find_if([&t](const T & t2)
 	{
@@ -684,7 +723,8 @@ typename Container<T>::iterator Container<T>::find(const T &t)
 }
 
 template<typename T>
-typename Container<T>::const_iterator Container<T>::find(const T &t) const
+typename Container<T>::const_iterator
+Container<T>::find(const T &t) const
 {
 	return find_if([&t](const T & t2)
 	{
@@ -694,7 +734,8 @@ typename Container<T>::const_iterator Container<T>::find(const T &t) const
 
 template<typename T>
 template<typename Pred>
-typename Container<T>::iterator Container<T>::find_if(Pred p)
+typename Container<T>::iterator
+Container<T>::find_if(Pred p)
 {
 	auto it = begin();
 
@@ -711,7 +752,8 @@ typename Container<T>::iterator Container<T>::find_if(Pred p)
 
 template<typename T>
 template<typename Pred>
-typename Container<T>::const_iterator Container<T>::find_if(Pred p) const
+typename Container<T>::const_iterator
+Container<T>::find_if(Pred p) const
 {
 	auto it = begin();
 
@@ -727,7 +769,8 @@ typename Container<T>::const_iterator Container<T>::find_if(Pred p) const
 }
 
 template<typename T>
-bool operator==(const Container<T> &q1, const Container<T> &q2)
+bool operator==(const Container<T> &q1,
+				const Container<T> &q2)
 {
 	if (q1.size() != q2.size())
 		return false;
@@ -739,7 +782,8 @@ bool operator==(const Container<T> &q1, const Container<T> &q2)
 }
 
 template<typename T>
-bool operator!=(const Container<T> &q1, const Container<T> &q2)
+bool operator!=(const Container<T> &q1,
+				const Container<T> &q2)
 {
 	return !(q1 == q2);
 }

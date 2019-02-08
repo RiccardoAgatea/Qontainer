@@ -11,7 +11,8 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Analcoholic(unsigned int, const std::string &, bool);
+	Analcoholic(unsigned int,
+				const std::string &, bool);
 	Analcoholic *clone() const override;
 	Analcoholic *move() override;
 	std::string getDetails() const override;

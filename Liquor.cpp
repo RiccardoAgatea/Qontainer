@@ -7,7 +7,9 @@ std::string Liquor::getType() const
 	return "Liquor";
 }
 
-Liquor::Liquor(unsigned int t, const std::string &i, bool ic):
+Liquor::Liquor(unsigned int t,
+			   const std::string &i,
+			   bool ic):
 	Alcoholic(t, i),
 	ice(ic)
 {

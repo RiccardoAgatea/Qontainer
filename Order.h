@@ -13,7 +13,8 @@ protected:
 public:
 	static const char separator = '$';
 
-	Order(unsigned int, const std::string &);
+	Order(unsigned int,
+		  const std::string &);
 	virtual ~Order() = default;
 	virtual Order *clone() const = 0;
 	virtual Order *move() = 0;

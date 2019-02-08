@@ -12,13 +12,16 @@ class AddOrderDialog: public QDialog
 {
 	Q_OBJECT
 private:
+	QLineEdit *table_input;
+	QLineEdit *item_input;
 	QButtonGroup *choose_type;
 	QGroupBox *details_box;
 	QVBoxLayout *details_layout;
 private slots:
 	void setDetails();
 public:
-	explicit AddOrderDialog(const std::vector<std::string> &, QWidget * = nullptr);
+	explicit AddOrderDialog(const std::vector<std::string> &,
+							QWidget * = nullptr);
 	void accept() override;
 	QSize sizeHint() const override;
 

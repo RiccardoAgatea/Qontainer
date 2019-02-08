@@ -10,7 +10,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Dessert(unsigned int, const std::string &, const std::string &);
+	Dessert(unsigned int,
+			const std::string &,
+			const std::string &);
 	Dessert *clone() const override;
 	Dessert *move() override;
 	std::string getDetails() const override;

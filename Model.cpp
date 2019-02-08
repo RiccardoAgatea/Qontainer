@@ -24,12 +24,14 @@ const std::vector<std::string> &Model::getTypes()
 	return types;
 }
 
-Model::Model(const std::string &path_to_do, const std::string &path_completed)
+Model::Model(const std::string &path_to_do,
+			 const std::string &path_completed)
 {
 	load(path_to_do, path_completed);
 }
 
-void Model::save(const std::string &path_to_do, const std::string &path_completed) const
+void Model::save(const std::string &path_to_do,
+				 const std::string &path_completed) const
 {
 	std::ostringstream buffer1, buffer2;
 
@@ -51,7 +53,8 @@ void Model::save(const std::string &path_to_do, const std::string &path_complete
 	file2 << buffer2.str() << std::endl;
 }
 
-void Model::load(const std::string &path_to_do, const std::string &path_completed)
+void Model::load(const std::string &path_to_do,
+				 const std::string &path_completed)
 {
 	std::ifstream file1(path_to_do), file2(path_completed);
 
@@ -68,6 +71,11 @@ void Model::load(const std::string &path_to_do, const std::string &path_complete
 
 	while (std::getline(file2, temp))
 		completed.push_back(*MakeOrder::make(temp));
+}
+
+void Model::addOrder(const std::string &ord)
+{
+	to_do.push_back(MakeOrder::make(ord).move());
 }
 
 bool Model::empty() const

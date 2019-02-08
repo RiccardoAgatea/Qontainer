@@ -1,7 +1,8 @@
 #include "Order.h"
 #include <typeinfo>
 
-Order::Order(unsigned int t, const std::string &i):
+Order::Order(unsigned int t,
+			 const std::string &i):
 	table(t),
 	item(i)
 {
@@ -10,7 +11,8 @@ Order::Order(unsigned int t, const std::string &i):
 
 std::string Order::recap() const
 {
-	return getType() + separator + std::to_string(table) + separator + item
+	return getType() + separator + std::to_string(table) + separator +
+		   item
 		   + separator + getDetails();
 }
 

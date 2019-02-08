@@ -22,9 +22,9 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Steak")
 		return DeepPtr<Order>(
 		           Steak(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
-		               s.substr(item_sep + 2)
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
+		               s.substr(item_sep + 1)
 		           )
 		       );
 
@@ -33,9 +33,9 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 		unsigned int det_sep1 = s.find(Order::separator, item_sep);
 		return DeepPtr<Order>(
 		           Hamburger(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
-		               s.substr(item_sep + 1, det_sep1 - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
+		               s.substr(item_sep + 1, det_sep1 - item_sep - 2),
 		               s.substr(det_sep1 + 1)
 		           )
 		       );
@@ -44,8 +44,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Sandwich")
 		return DeepPtr<Order>(
 		           Sandwich(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1)
 		           )
 		       );
@@ -53,26 +53,26 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Appetizer")
 		return DeepPtr<Order>(
 		           Appetizer(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
-		               s.substr(item_sep + 2)
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
+		               s.substr(item_sep + 1)
 		           )
 		       );
 
 	if (type == "Dessert")
 		return DeepPtr<Order>(
 		           Dessert(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
-		               s.substr(item_sep + 2)
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
+		               s.substr(item_sep + 1)
 		           )
 		       );
 
 	if (type == "Liquor")
 		return DeepPtr<Order>(
 		           Liquor(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1) == "1"
 		           )
 		       );
@@ -80,8 +80,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Beer")
 		return DeepPtr<Order>(
 		           Beer(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1)
 		           )
 		       );
@@ -89,8 +89,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Cocktail")
 		return DeepPtr<Order>(
 		           Cocktail(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1)
 		           )
 		       );
@@ -98,8 +98,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Wine")
 		return DeepPtr<Order>(
 		           Wine(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1) == "1"
 		           )
 		       );
@@ -107,8 +107,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Analcoholic")
 		return DeepPtr<Order>(
 		           Analcoholic(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1) == "1"
 		           )
 		       );
@@ -116,8 +116,8 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 	if (type == "Coffee")
 		return DeepPtr<Order>(
 		           Coffee(
-		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),
-		               s.substr(table_sep + 1, item_sep - 1),
+		               std::stoul(s.substr(type_sep + 1, table_sep - type_sep - 2)),
+		               s.substr(table_sep + 1, item_sep - table_sep - 2),
 		               s.substr(item_sep + 1)
 		           )
 		       );

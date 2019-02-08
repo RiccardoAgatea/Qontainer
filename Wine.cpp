@@ -7,7 +7,9 @@ std::string Wine::getType() const
 	return "Wine";
 }
 
-Wine::Wine(unsigned int t, const std::string &i, bool v):
+Wine::Wine(unsigned int t,
+		   const std::string &i,
+		   bool v):
 	Alcoholic(t, i),
 	vintage(v)
 {

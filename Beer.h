@@ -10,7 +10,9 @@ private:
 protected:
 	std::string getType() const override;
 public:
-	Beer(unsigned int, const std::string &, const std::string &);
+	Beer(unsigned int,
+		 const std::string &,
+		 const std::string &);
 	Beer *clone() const override;
 	Beer *move() override;
 	std::string getDetails() const override;

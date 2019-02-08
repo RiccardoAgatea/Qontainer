@@ -1,6 +1,8 @@
 #include "Controller.h"
 #include "View.h"
 
+const char &Controller::separator = Order::separator;
+
 Controller::Controller(View *v):
 	QWidget(v),
 	model(nullptr),
@@ -22,6 +24,19 @@ void Controller::load(const QString &)
 void Controller::save(const QString &) const
 {
 
+}
+
+void Controller::addOrder(const QString &type,
+						  unsigned int table,
+						  const QString &item,
+						  const QString &details)
+{
+	model->addOrder(
+		type.toStdString() + separator +
+		std::to_string(table) + separator +
+		item.toStdString() + separator +
+		details.toStdString()
+	);
 }
 
 const std::vector<std::string> Controller::getTypes()
