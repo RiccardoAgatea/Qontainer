@@ -14,6 +14,7 @@ private:
 	void createTabs();
 public:
 	explicit View(QWidget * = nullptr);
+	QSize sizeHint() const override;
 
 signals:
 

@@ -14,9 +14,9 @@
 
 DeepPtr<Order> MakeOrder::make(const std::string &s)
 {
-	unsigned int type_sep = s.find(Order::getSeparator(), 0);
-	unsigned int table_sep = s.find(Order::getSeparator(), type_sep + 1);
-	unsigned int item_sep = s.find(Order::getSeparator(), table_sep + 1);
+	unsigned int type_sep = s.find(Order::separator, 0);
+	unsigned int table_sep = s.find(Order::separator, type_sep + 1);
+	unsigned int item_sep = s.find(Order::separator, table_sep + 1);
 	std::string type = s.substr(0, type_sep - 1);
 
 	if (type == "Steak")
@@ -30,7 +30,7 @@ DeepPtr<Order> MakeOrder::make(const std::string &s)
 
 	if (type == "Hamburger")
 	{
-		unsigned int det_sep1 = s.find(Order::getSeparator(), item_sep);
+		unsigned int det_sep1 = s.find(Order::separator, item_sep);
 		return DeepPtr<Order>(
 		           Hamburger(
 		               std::stoul(s.substr(type_sep + 1, table_sep - 1)),

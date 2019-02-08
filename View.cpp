@@ -43,7 +43,7 @@ View::View(QWidget *parent):
 	QMainWindow(parent),
 	controller(new Controller(this))
 {
-	resize(750, 500);
+	move(25, 25);
 
 	//Menu
 	QMenu *file = new QMenu("File");
@@ -79,6 +79,11 @@ View::View(QWidget *parent):
 
 	//Tabs
 	createTabs();
+}
+
+QSize View::sizeHint() const
+{
+	return QSize(1000, 750);
 }
 
 void View::newOrder()

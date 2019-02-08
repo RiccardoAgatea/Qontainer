@@ -1,7 +1,6 @@
 #include "AddOrderDialog.h"
 #include "MakeOrder.h"
 #include <QLabel>
-#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QIntValidator>
@@ -16,16 +15,30 @@ void AddOrderDialog::setDetails()
 	QString type = choose_type->checkedButton()->text();
 	MakeOrder::Info info = MakeOrder::getInfo(type.toStdString());
 
-	for (auto it = details.begin(); it != details.end();)
+	while (!details_layout->isEmpty())
 	{
-		details_layout->removeItem(*it);
-		it = details.erase(it);
+		QLayoutItem *item = details_layout->takeAt(0);
+
+		if (item->widget() != nullptr)
+			delete item->widget();
+		else if (item->layout() != nullptr)
+		{
+			while (!item->layout()->isEmpty())
+			{
+				QLayoutItem *it = item->layout()->takeAt(0);
+
+				delete it->widget();
+				delete it;
+			}
+
+			delete item;
+		}
 	}
 
 	for (auto &x : info.long_texts)
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "));
-		QLineEdit *line_edit = new QLineEdit();
+		QLabel *label = new QLabel(QString::fromStdString(x + ": "), details_box);
+		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumSize(100, 75);
 
 		QHBoxLayout *layout = new QHBoxLayout();
@@ -34,13 +47,15 @@ void AddOrderDialog::setDetails()
 		layout->addStretch(1);
 
 		details_layout->addLayout(layout);
-		details.push_back(layout);
+
+		label->show();
+		line_edit->show();
 	}
 
 	for (auto &x : info.short_texts)
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "));
-		QLineEdit *line_edit = new QLineEdit();
+		QLabel *label = new QLabel(QString::fromStdString(x + ": "), details_box);
+		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumWidth(100);
 
 		QHBoxLayout *layout = new QHBoxLayout();
@@ -49,35 +64,35 @@ void AddOrderDialog::setDetails()
 		layout->addStretch(1);
 
 		details_layout->addLayout(layout);
-		details.push_back(layout);
+
+		label->show();
+		line_edit->show();
 	}
 
 	for (auto &x : info.checks)
 	{
-		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x + ": "));
+		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x), details_box);
 
 		QHBoxLayout *layout = new QHBoxLayout();
 		layout->addWidget(checkbox);
 		layout->addStretch(1);
 
 		details_layout->addLayout(layout);
-		details.push_back(layout);
-	}
 
-	show();
+		checkbox->show();
+	}
 }
 
 AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *parent):
 	QDialog(parent),
 	choose_type(new QButtonGroup()),
+	details_box(new QGroupBox("Details")),
 	details_layout(new QVBoxLayout())
 {
 	QVBoxLayout *main_layout = new QVBoxLayout();
 	QHBoxLayout *table_layout = new QHBoxLayout();
 	QGroupBox *type_box = new QGroupBox("Type");
-	QGroupBox *details_box = new QGroupBox("Details");
 	QGridLayout *type_layout = new QGridLayout();
-	QHBoxLayout *details_layout = new QHBoxLayout();
 	QHBoxLayout *buttons_layout = new QHBoxLayout();
 
 	QLineEdit *table_input = new QLineEdit();
@@ -101,7 +116,7 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *p
 	connect(choose_type, QOverload<int>::of(&QButtonGroup::buttonClicked),
 			this, &AddOrderDialog::setDetails);
 
-	choose_type->buttons()[0]->toggle();
+	choose_type->buttons()[0]->click();
 
 	QPushButton *ok = new QPushButton("Ok");
 	QPushButton *cancel = new QPushButton("Cancel");
@@ -115,6 +130,7 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *p
 	main_layout->addLayout(table_layout);
 	main_layout->addWidget(type_box);
 	main_layout->addWidget(details_box);
+	main_layout->addStretch(1);
 	main_layout->addLayout(buttons_layout);
 
 	setLayout(main_layout);
@@ -125,4 +141,15 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types, QWidget *p
 
 	connect(cancel, &QPushButton::clicked,
 			this, &AddOrderDialog::reject);
+}
+
+void AddOrderDialog::accept()
+{
+
+	QDialog::accept();
+}
+
+QSize AddOrderDialog::sizeHint() const
+{
+	return QSize(200, 400);
 }

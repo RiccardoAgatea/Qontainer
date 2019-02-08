@@ -1,8 +1,6 @@
 #include "Order.h"
 #include <typeinfo>
 
-char Order::separator = '$';
-
 Order::Order(unsigned int t, const std::string &i):
 	table(t),
 	item(i)
@@ -26,16 +24,6 @@ bool Order::operator==(const Order &o) const
 bool Order::operator!=(const Order &o) const
 {
 	return !(*this == o);
-}
-
-char Order::getSeparator()
-{
-	return separator;
-}
-
-void Order::setSeparator(char value)
-{
-	separator = value;
 }
 
 namespace PolyConstruct

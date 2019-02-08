@@ -42,7 +42,8 @@ SOURCES += \
     UnknownType.cpp \
     Controller.cpp \
     View.cpp \
-    AddOrderDialog.cpp
+    AddOrderDialog.cpp \
+    OrderWidget.cpp
 
 HEADERS += \
 	Container.h \
@@ -73,7 +74,8 @@ HEADERS += \
     UnknownType.h \
     Controller.h \
     View.h \
-    AddOrderDialog.h
+    AddOrderDialog.h \
+    OrderWidget.h
 
 FORMS +=
 
