@@ -5,6 +5,7 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QDialog>
+#include <QString>
 #include <string>
 #include <vector>
 
@@ -17,6 +18,7 @@ private:
 	QButtonGroup *choose_type;
 	QGroupBox *details_box;
 	QVBoxLayout *details_layout;
+	QString recap;
 private slots:
 	void setDetails();
 public:
@@ -24,6 +26,7 @@ public:
 							QWidget * = nullptr);
 	void accept() override;
 	QSize sizeHint() const override;
+	QString getRecap() const;
 
 signals:
 

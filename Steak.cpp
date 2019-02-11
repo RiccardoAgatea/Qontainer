@@ -28,5 +28,10 @@ std::string Steak::getDetails() const
 {
 	std::string aux = MeatBased::getDetails();
 
+	return aux.substr(1, 0);
+}
 
+void Steak::setDetails(const std::string &d)
+{
+	MeatBased::setDetails("-" + d);
 }

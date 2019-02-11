@@ -156,11 +156,11 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 
 void AddOrderDialog::accept()
 {
-	QString aux = choose_type->checkedButton()->text() +
-				  Controller::separator +
-				  table_input->text() +
-				  Controller::separator +
-				  item_input->text();//how to format ditails???
+	recap = choose_type->checkedButton()->text() +
+			Controller::separator +
+			table_input->text() +
+			Controller::separator +
+			item_input->text();//how to format details???
 
 	QDialog::accept();
 }
@@ -168,4 +168,9 @@ void AddOrderDialog::accept()
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(200, 400);
+}
+
+QString AddOrderDialog::getRecap() const
+{
+	return recap;
 }

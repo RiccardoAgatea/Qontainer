@@ -21,10 +21,7 @@ public:
 	bool isModelEmpty() const;
 	void load(const QString &);
 	void save(const QString &) const;
-	void addOrder(const QString &,
-				  unsigned int,
-				  const QString &,
-				  const QString &);
+	void addOrder(const QString &);
 
 	static const std::vector<std::string> getTypes();
 
