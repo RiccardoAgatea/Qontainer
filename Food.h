@@ -7,11 +7,17 @@ class Food : public Order
 private:
 	std::string without;
 public:
+	struct Details: public Order::Details
+	{
+		std::string without;
+
+		Details(const Food &);
+	};
+
 	Food(unsigned int,
 		 const std::string &,
 		 const std::string &);
-	std::string getDetails() const override;
-	void setDetails(const std::string &) override;
+	DeepPtr<Order::Details> getDetails() const override;
 	bool operator==(const Order &) const override;
 };
 

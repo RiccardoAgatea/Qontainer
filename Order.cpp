@@ -9,11 +9,14 @@ Order::Order(unsigned int t,
 
 }
 
-std::string Order::recap() const
+unsigned int Order::getTable()
 {
-	return getType() + separator + std::to_string(table) + separator +
-		   item
-		   + separator + getDetails();
+	return table;
+}
+
+std::string Order::getItem()
+{
+	return item;
 }
 
 bool Order::operator==(const Order &o) const

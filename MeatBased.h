@@ -8,12 +8,17 @@ class MeatBased : public Food
 private:
 	std::string temperature;
 public:
+	struct Details: public Food::Details
+	{
+		std::string temperature;
+
+		Details(const MeatBased &);
+	};
 	MeatBased(unsigned int,
 			  const std::string &,
 			  const std::string &,
 			  const std::string &);
-	std::string getDetails() const override;
-	void setDetails(const std::string &) override;
+	DeepPtr<Order::Details> getDetails() const override;
 	bool operator==(const Order &) const override;
 };
 

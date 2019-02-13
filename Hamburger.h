@@ -5,12 +5,11 @@
 
 class Hamburger: public MeatBased
 {
-protected:
-	std::string getType() const override;
 public:
 	using MeatBased::MeatBased;
 	Hamburger *clone() const override;
 	Hamburger *move() override;
+	std::string getType() const override;
 };
 
 #endif // HAMBURGER_H

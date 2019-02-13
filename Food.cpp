@@ -9,18 +9,19 @@ Food::Food(unsigned int t,
 
 }
 
-std::string Food::getDetails() const
+DeepPtr<Order::Details> Food::getDetails() const
 {
-	return without;
-}
-
-void Food::setDetails(const std::string &detail)
-{
-	without = detail;
+	return DeepPtr<Order::Details>(Details(*this));
 }
 
 bool Food::operator==(const Order &o) const
 {
 	return Order::operator==(o) &&
 		   without == static_cast<const Food &>(o).without;
+}
+
+Food::Details::Details(const Food &f):
+	without(f.without)
+{
+
 }
