@@ -26,9 +26,17 @@ void Controller::save(const QString &) const
 
 }
 
-void Controller::addOrder(const QString &s)
+void Controller::addOrder(const QString &type,
+						  unsigned int table,
+						  const QString &item,
+						  const QString &details)
 {
-	model->addOrder(s.toStdString());
+	model->addOrder(
+		type.toStdString() + separator +
+		std::to_string(table) + separator +
+		item.toStdString() + separator +
+		details.toStdString()
+	);
 }
 
 const std::vector<std::string> Controller::getTypes()

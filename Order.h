@@ -11,7 +11,7 @@ private:
 protected:
 	virtual std::string getType() const = 0;
 public:
-	static const char separator;
+	static const char separator = '$';
 
 	Order(unsigned int,
 		  const std::string &);

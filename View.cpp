@@ -89,9 +89,7 @@ QSize View::sizeHint() const
 void View::newOrder()
 {
 	AddOrderDialog dial(Controller::getTypes(), this);
-
-	if (dial.exec())
-		controller->addOrder(dial.getRecap());
+	dial.exec();
 }
 
 void View::load()

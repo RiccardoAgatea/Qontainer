@@ -1,8 +1,6 @@
 #include "Order.h"
 #include <typeinfo>
 
-const char Order::separator = '$';
-
 Order::Order(unsigned int t,
 			 const std::string &i):
 	table(t),
