@@ -1,5 +1,5 @@
 #include "AddOrderDialog.h"
-#include "MakeOrder.h"
+#include "PolyStatic.h"
 #include "Controller.h"
 #include <QLabel>
 #include <QHBoxLayout>
@@ -13,7 +13,7 @@
 void AddOrderDialog::setDetails()
 {
 	QString type = choose_type->checkedButton()->text();
-	MakeOrder::Info info = MakeOrder::getInfo(type.toStdString());
+	PolyStatic::Info info = PolyStatic::getInfo(type.toStdString());
 
 	while (!details_layout->isEmpty())
 	{

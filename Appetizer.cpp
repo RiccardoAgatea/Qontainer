@@ -1,11 +1,6 @@
 #include "Appetizer.h"
 #include <utility>
 
-std::string Appetizer::getType() const
-{
-	return "Appetizer";
-}
-
 Appetizer::Appetizer(unsigned int t,
 					 const std::string &i,
 					 const std::string &s):
@@ -25,14 +20,19 @@ Appetizer *Appetizer::move()
 	return new Appetizer(std::move(*this));
 }
 
-std::string Appetizer::getDetails() const
+std::string Appetizer::getType() const
+{
+	return "Appetizer";
+}
+
+std::string Appetizer::getSauces() const
 {
 	return sauces;
 }
 
-void Appetizer::setDetails(const std::string &detail)
+std::vector<std::string> Appetizer::getDetails() const
 {
-	sauces = detail;
+	return {getSauces()};
 }
 
 bool Appetizer::operator==(const Order &o) const

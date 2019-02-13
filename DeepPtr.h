@@ -1,7 +1,7 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
 #include <utility>
-#include "PolyConstruct.h"
+#include "PolyClone.h"
 
 //T is required to provide specializations for the two overloadings of the clone() function template int the PolyConstruct namespace. Specifically, T *clone(const T &t) should implement the standard polymorphic copy construction, while T *clone(T &&t) should provide the same functionality for move semantics
 
@@ -48,21 +48,21 @@ public:
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T *t):
-	ptr(t != nullptr ? PolyConstruct::clone(*t) : nullptr)
+	ptr(t != nullptr ? PolyClone::clone(*t) : nullptr)
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T &t):
-	ptr(PolyConstruct::clone(t))
+	ptr(PolyClone::clone(t))
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(T &&t):
-	ptr(PolyConstruct::clone(t))
+	ptr(PolyClone::clone(t))
 {
 
 }

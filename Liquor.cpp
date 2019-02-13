@@ -2,11 +2,6 @@
 #include <utility>
 #include <stdexcept>
 
-std::string Liquor::getType() const
-{
-	return "Liquor";
-}
-
 Liquor::Liquor(unsigned int t,
 			   const std::string &i,
 			   bool ic):
@@ -26,17 +21,19 @@ Liquor *Liquor::move()
 	return new Liquor(std::move(*this));
 }
 
-std::string Liquor::getDetails() const
+std::string Liquor::getType() const
 {
-	return ice ? "1" : "0";
+	return "Liquor";
 }
 
-void Liquor::setDetails(const std::string &detail)
+bool Liquor::isIced() const
 {
-	if (detail != "0" && detail != "1")
-		throw std::invalid_argument("Liquor::setDetails() called with argument not in {0,1}");
+	return ice;
+}
 
-	ice = detail == "1";
+std::vector<std::string> Liquor::getDetails() const
+{
+	return {isIced() ? "1" : "0"};
 }
 
 bool Liquor::operator==(const Order &o) const

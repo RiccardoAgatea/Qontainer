@@ -1,11 +1,6 @@
 #include "Beer.h"
 #include <utility>
 
-std::string Beer::getType() const
-{
-	return "Bbeer";
-}
-
 Beer::Beer(unsigned int t,
 		   const std::string &i,
 		   const std::string &s):
@@ -25,14 +20,19 @@ Beer *Beer::move()
 	return new Beer(std::move(*this));
 }
 
-std::string Beer::getDetails() const
+std::string Beer::getType() const
+{
+	return "Bbeer";
+}
+
+std::string Beer::getSize() const
 {
 	return size;
 }
 
-void Beer::setDetails(const std::string &detail)
+std::vector<std::string> Beer::getDetails() const
 {
-	size = detail;
+	return {getSize()};
 }
 
 bool Beer::operator==(const Order &o) const

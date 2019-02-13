@@ -2,11 +2,6 @@
 #include <utility>
 #include <stdexcept>
 
-std::string Wine::getType() const
-{
-	return "Wine";
-}
-
 Wine::Wine(unsigned int t,
 		   const std::string &i,
 		   bool v):
@@ -26,17 +21,19 @@ Wine *Wine::move()
 	return new Wine(std::move(*this));
 }
 
-std::string Wine::getDetails() const
+std::string Wine::getType() const
 {
-	return vintage ? "1" : "0";
+	return "Wine";
 }
 
-void Wine::setDetails(const std::string &detail)
+bool Wine::isVintage() const
 {
-	if (detail != "0" && detail != "1")
-		throw std::invalid_argument("Wine::setDetails() called with argument not in {0,1}");
+	return vintage;
+}
 
-	vintage = detail == "1";
+std::vector<std::string> Wine::getDetails() const
+{
+	return {isVintage() ? "1" : "0"};
 }
 
 bool Wine::operator==(const Order &o) const

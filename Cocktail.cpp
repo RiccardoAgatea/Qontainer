@@ -1,10 +1,5 @@
 #include "Cocktail.h"
 
-std::string Cocktail::getType() const
-{
-	return "Cocktail";
-}
-
 Cocktail::Cocktail(unsigned int t,
 				   const std::string &i,
 				   const std::string &g):
@@ -24,14 +19,19 @@ Cocktail *Cocktail::move()
 	return new Cocktail(std::move(*this));
 }
 
-std::string Cocktail::getDetails() const
+std::string Cocktail::getType() const
+{
+	return "Cocktail";
+}
+
+std::string Cocktail::getGarnish() const
 {
 	return garnish;
 }
 
-void Cocktail::setDetails(const std::string &detail)
+std::vector<std::string> Cocktail::getDetails() const
 {
-	garnish = detail;
+	return {getGarnish()};
 }
 
 bool Cocktail::operator==(const Order &o) const

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "UnavailableFile.h"
-#include "MakeOrder.h"
+#include "PolyStatic.h"
 
 const std::vector<std::string> Model::types =
 {
@@ -67,15 +67,15 @@ void Model::load(const std::string &path_to_do,
 	std::string temp;
 
 	while (std::getline(file1, temp))
-		to_do.push_back(*MakeOrder::make(temp));
+		to_do.push_back(*PolyStatic::make(temp));
 
 	while (std::getline(file2, temp))
-		completed.push_back(*MakeOrder::make(temp));
+		completed.push_back(*PolyStatic::make(temp));
 }
 
 void Model::addOrder(const std::string &ord)
 {
-	to_do.push_back(MakeOrder::make(ord).move());
+	to_do.push_back(PolyStatic::make(ord).move());
 }
 
 bool Model::empty() const

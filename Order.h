@@ -2,8 +2,11 @@
 #define ORDER_H
 #include <string>
 #include <vector>
-#include "PolyConstruct.h"
-#include "DeepPtr.h"
+#include "PolyClone.h"
+
+/**
+ * @brief  A polymorphic abstract base class representing an order arriving to the kitchen af a restaurant
+ */
 
 class Order
 {
@@ -13,21 +16,53 @@ private:
 protected:
 
 public:
-	struct Details {};
 	Order(unsigned int,
 		  const std::string &);
+
+	/**
+	 * @brief Destructor for Order class.
+	 *
+	 * It's virtual since the class is polymorphic. It does nothing more than the standard destructor.
+	 */
 	virtual ~Order() = default;
+
+	/**
+	 * @brief Standard polymorphic clone method, necessary to implement a kind of polymorphic copy construction.
+	 * @return a pointer to a copy of __*this__ on the heap.
+	 *
+	 * The responsibility about the destruction of the constructed object is of the caller.
+	 */
 	virtual Order *clone() const = 0;
+
+	/**
+	 * @brief Similar to the clone() method, necessary to implement polymorphic move construction.
+	 * @return A pointer to a copy of __*this__ on the heap.
+	 *
+	 * The responsibility about the destruction of the constructed object is of the caller. After the call to move(), *this is left in a valid but unspecified state.
+	 */
 	virtual Order *move() = 0;
+
 	unsigned int getTable();
 	std::string getItem();
+
+	/**
+	 * @brief Useful to obtain information about the type of __*this__.
+	 * @return The type of __*this__, in the form of a string.
+	 *
+	 * A call _p->getType()_ is very similar to a call _typeid(*p).name()_; the main difference is that the string returned by _getType()_ is not implementation defined.
+	 */
 	virtual std::string getType() const = 0;
-	virtual DeepPtr<Details> getDetails() const = 0;
+
+	/**
+	 * @brief Getter method for the deatils about __*this__.
+	 * @return A vector of strings, each one associated to a detail about the calling object.
+	 */
+	virtual std::vector<std::string> getDetails() const = 0;
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
 };
 
-namespace PolyConstruct
+namespace PolyClone
 {
 template<>
 Order *clone(const Order &);

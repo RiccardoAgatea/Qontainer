@@ -38,12 +38,12 @@ SOURCES += \
     Wine.cpp \
     Cocktail.cpp \
     UnavailableFile.cpp \
-    MakeOrder.cpp \
     UnknownType.cpp \
     Controller.cpp \
     View.cpp \
     AddOrderDialog.cpp \
-    OrderWidget.cpp
+    OrderWidget.cpp \
+    PolyStatic.cpp
 
 HEADERS += \
 	Container.h \
@@ -59,7 +59,6 @@ HEADERS += \
     Sandwich.h \
     Appetizer.h \
     Model.h \
-    PolyConstruct.h \
     Dessert.h \
     Analcoholic.h \
     Coffee.h \
@@ -70,12 +69,13 @@ HEADERS += \
     Cocktail.h \
     ContainerExceptions.h \
     UnavailableFile.h \
-    MakeOrder.h \
     UnknownType.h \
     Controller.h \
     View.h \
     AddOrderDialog.h \
-    OrderWidget.h
+    OrderWidget.h \
+    PolyStatic.h \
+    PolyClone.h
 
 FORMS +=
 

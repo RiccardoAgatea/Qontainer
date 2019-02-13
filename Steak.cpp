@@ -23,3 +23,8 @@ std::string Steak::getType() const
 {
 	return "Steak";
 }
+
+std::vector<std::string> Steak::getDetails() const
+{
+	return {getTemperature()};
+}

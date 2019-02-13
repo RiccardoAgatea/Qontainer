@@ -2,22 +2,20 @@
 #define FOOD_H
 #include "Order.h"
 
+/**
+ * @brief Represents an order of some food (as opposed to drinks)
+ */
+
 class Food : public Order
 {
 private:
 	std::string without;
 public:
-	struct Details: public Order::Details
-	{
-		std::string without;
-
-		Details(const Food &);
-	};
-
 	Food(unsigned int,
 		 const std::string &,
 		 const std::string &);
-	DeepPtr<Order::Details> getDetails() const override;
+	std::string getRemovedParts() const;
+	std::vector<std::string> getDetails() const override;
 	bool operator==(const Order &) const override;
 };
 

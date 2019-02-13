@@ -2,11 +2,6 @@
 #include <utility>
 #include <stdexcept>
 
-std::string Analcoholic::getType() const
-{
-	return "Analcoholic";
-}
-
 Analcoholic::Analcoholic(unsigned int t,
 						 const std::string &i,
 						 bool ic):
@@ -26,17 +21,19 @@ Analcoholic *Analcoholic::move()
 	return new Analcoholic(std::move(*this));
 }
 
-std::string Analcoholic::getDetails() const
+std::string Analcoholic::getType() const
 {
-	return ice ? "1" : "0";
+	return "Analcoholic";
 }
 
-void Analcoholic::setDetails(const std::string &detail)
+bool Analcoholic::isIced() const
 {
-	if (detail != "0" && detail != "1")
-		throw std::invalid_argument("Analcoholic::setDetails() called with argument not in {0,1}");
+	return ice;
+}
 
-	ice = detail == "1";
+std::vector<std::string> Analcoholic::getDetails() const
+{
+	return {isIced() ? "1" : "0"};
 }
 
 bool Analcoholic::operator==(const Order &o) const

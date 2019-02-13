@@ -1,11 +1,6 @@
 #include "Dessert.h"
 #include <utility>
 
-std::string Dessert::getType() const
-{
-	return "Dessert";
-}
-
 Dessert::Dessert(unsigned int t,
 				 const std::string &i,
 				 const std::string &w):
@@ -25,14 +20,19 @@ Dessert *Dessert::move()
 	return new Dessert(std::move(*this));
 }
 
-std::string Dessert::getDetails() const
+std::string Dessert::getType() const
+{
+	return "Dessert";
+}
+
+std::string Dessert::getAddedParts() const
 {
 	return with;
 }
 
-void Dessert::setDetails(const std::string &detail)
+std::vector<std::string> Dessert::getDetails() const
 {
-	with = detail;
+	return {getAddedParts()};
 }
 
 bool Dessert::operator==(const Order &o) const

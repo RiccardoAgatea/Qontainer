@@ -1,12 +1,6 @@
 #include "Coffee.h"
 #include <utility>
 
-
-std::string Coffee::getType() const
-{
-	return "Coffee";
-}
-
 Coffee::Coffee(unsigned int t,
 			   const std::string &i,
 			   const std::string &n):
@@ -26,14 +20,19 @@ Coffee *Coffee::move()
 	return new Coffee(std::move(*this));
 }
 
-std::string Coffee::getDetails() const
+std::string Coffee::getType() const
+{
+	return "Coffee";
+}
+
+std::string Coffee::getNotes() const
 {
 	return notes;
 }
 
-void Coffee::setDetails(const std::string &detail)
+std::vector<std::string> Coffee::getDetails() const
 {
-	notes = detail;
+	return {getNotes()};
 }
 
 bool Coffee::operator==(const Order &o) const

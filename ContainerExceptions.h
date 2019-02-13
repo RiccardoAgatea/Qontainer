@@ -1,5 +1,5 @@
-#ifndef CUSTOMEXCEPTIONS_H
-#define CUSTOMEXCEPTIONS_H
+#ifndef CONTAINEREXCEPTIONS_H
+#define CONTAINEREXCEPTIONS_H
 #include "InvalidIterator.h"
 #include "EmptyContainer.h"
-#endif // CUSTOMEXCEPTIONS_H
+#endif // CONTAINEREXCEPTIONS_H

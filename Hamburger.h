@@ -1,7 +1,6 @@
 #ifndef HAMBURGER_H
 #define HAMBURGER_H
 #include "MeatBased.h"
-#include <string>
 
 class Hamburger: public MeatBased
 {

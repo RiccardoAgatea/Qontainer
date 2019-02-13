@@ -10,20 +10,21 @@ MeatBased::MeatBased(unsigned int t,
 
 }
 
-DeepPtr<Order::Details> MeatBased::getDetails() const
+std::string MeatBased::getTemperature() const
 {
-	return DeepPtr<Order::Details>(Details(*this));
+	return temperature;
+}
+
+std::vector<std::string> MeatBased::getDetails() const
+{
+	std::vector<std::string> aux = Food::getDetails();
+	aux.push_back(getTemperature());
+
+	return aux;
 }
 
 bool MeatBased::operator==(const Order &o) const
 {
 	return Food::operator==(o) &&
 		   temperature == static_cast<const MeatBased &>(o).temperature;
-}
-
-MeatBased::Details::Details(const MeatBased &mb):
-	Food::Details(mb),
-	temperature(mb.temperature)
-{
-
 }

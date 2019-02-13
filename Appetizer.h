@@ -1,22 +1,20 @@
 #ifndef APPETIZER_H
 #define APPETIZER_H
 #include "Food.h"
-#include <string>
 
 class Appetizer: public Food
 {
 private:
 	std::string sauces;
-protected:
-	std::string getType() const override;
 public:
 	Appetizer(unsigned int,
 			  const std::string &,
 			  const std::string &);
 	Appetizer *clone() const override;
 	Appetizer *move() override;
-	std::string getDetails() const override;
-	void setDetails(const std::string &) override;
+	std::string getType() const override;
+	std::string getSauces() const;
+	std::vector<std::string> getDetails() const override;
 	bool operator==(const Order &) const override;
 };
 
