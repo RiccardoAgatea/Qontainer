@@ -2,13 +2,16 @@
 #define WINE_H
 #include "Alcoholic.h"
 
+/**
+ * @brief      Represents an order of some wine.
+ */
 class Wine: public Alcoholic
 {
 private:
 	bool vintage;
 public:
 	Wine(unsigned int,
-		 const std::string &, bool);
+	     const std::string &, bool);
 	Wine *clone() const override;
 	Wine *move() override;
 	std::string getType() const override;

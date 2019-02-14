@@ -2,9 +2,10 @@
 #include <typeinfo>
 
 /**
- * @brief Constructor for the Order class
- * @param t Table that issued the order
- * @param i Ordered item
+ * @brief      Constructor for an Order subobject.
+ *
+ * @param      t     Table that issued the order.
+ * @param      i     Ordered item.
  */
 
 Order::Order(unsigned int t,
@@ -16,8 +17,9 @@ Order::Order(unsigned int t,
 }
 
 /**
- * @brief Getter for the *table* field
- * @return Table that issued the order
+ * @brief      Getter for the *table* field.
+ *
+ * @return     Table that issued the order.
  */
 
 unsigned int Order::getTable()
@@ -26,8 +28,9 @@ unsigned int Order::getTable()
 }
 
 /**
- * @brief Getter for the *item* field
- * @return Ordered item
+ * @brief      Getter for the *item* field.
+ *
+ * @return     Ordered item.
  */
 
 std::string Order::getItem()
@@ -36,11 +39,18 @@ std::string Order::getItem()
 }
 
 /**
- * @brief Equality operator for Order objects
- * @param o Order with which __*this__ should be compared
- * @return true if all the comparison operators between the respective fields return true and the two objects are of the same subtype of Order
+ * @brief      Equality operator for Order objects.
  *
- * Of particular note is the fact that operator==() compares the types of the two objects (it does so through the getType() method). The comparison evaluates to true if the types are the same.
+ * @param      o     Order with which __*this__ should be compared.
+ *
+ * @return     true if all the comparison operators between the respective
+ *             fields return true and the two objects are of the same subtype of
+ *             Order.
+ *
+ *             Of particular note is the fact that operator==() compares the
+ *             types of the two objects (it does so through the getType()
+ *             method). The comparison evaluates to true if the types are the
+ *             same.
  */
 
 bool Order::operator==(const Order &o) const
@@ -51,11 +61,14 @@ bool Order::operator==(const Order &o) const
 }
 
 /**
- * @brief Inequality operator for Order objects
- * @param o Order with which __*this__ should be compared
- * @return true if and only if _operator==(o)_ returns false
+ * @brief      Inequality operator for Order objects.
  *
- * This method is not virtual, but calls operator==(), which is, in its body
+ * @param      o     Order with which __*this__ should be compared.
+ *
+ * @return     true if and only if _operator==(o)_ returns false.
+ *
+ *             This method is not virtual, but calls operator==(), which is, in
+ *             its body.
  */
 
 bool Order::operator!=(const Order &o) const

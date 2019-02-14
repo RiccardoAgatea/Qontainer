@@ -2,14 +2,17 @@
 #define BEER_H
 #include "Alcoholic.h"
 
+/**
+ * @brief      Represents an order of some beer.
+ */
 class Beer: public Alcoholic
 {
 private:
 	std::string size;
 public:
 	Beer(unsigned int,
-		 const std::string &,
-		 const std::string &);
+	     const std::string &,
+	     const std::string &);
 	Beer *clone() const override;
 	Beer *move() override;
 	std::string getType() const override;

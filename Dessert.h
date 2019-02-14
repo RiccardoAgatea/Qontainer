@@ -2,14 +2,17 @@
 #define DESSERT_H
 #include "Food.h"
 
+/**
+ * @brief      Represents an order of some dessert.
+ */
 class Dessert: public Food
 {
 private:
 	std::string with;
 public:
 	Dessert(unsigned int,
-			const std::string &,
-			const std::string &);
+	        const std::string &,
+	        const std::string &);
 	Dessert *clone() const override;
 	Dessert *move() override;
 	std::string getType() const override;

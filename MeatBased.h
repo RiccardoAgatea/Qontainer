@@ -3,15 +3,19 @@
 #include "Food.h"
 #include <string>
 
+/**
+ * @brief      Represents an order of some meat-based food
+ */
+
 class MeatBased : public Food
 {
 private:
 	std::string temperature;
 public:
 	MeatBased(unsigned int,
-			  const std::string &,
-			  const std::string &,
-			  const std::string &);
+	          const std::string &,
+	          const std::string &,
+	          const std::string &);
 	std::string getTemperature() const;
 	std::vector<std::string> getDetails() const override;
 	bool operator==(const Order &) const override;
