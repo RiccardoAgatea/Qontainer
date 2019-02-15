@@ -22,7 +22,7 @@ public:
 	/**
 	 * @brief      Destructor for Order class.
 	 *
-	 *             It's virtual since the class is polymorphic. It does nothing
+	 * @details    It's virtual since the class is polymorphic. It does nothing
 	 *             more than the standard destructor.
 	 */
 	virtual ~Order() = default;
@@ -33,7 +33,7 @@ public:
 	 *
 	 * @return     a pointer to a copy of __*this__ on the heap.
 	 *
-	 *             The responsibility about the destruction of the constructed
+	 * @details    The responsibility about the destruction of the constructed
 	 *             object is of the caller.
 	 */
 	virtual Order *clone() const = 0;
@@ -44,9 +44,9 @@ public:
 	 *
 	 * @return     A pointer to a copy of __*this__ on the heap.
 	 *
-	 *             The responsibility about the destruction of the constructed
-	 *             object is of the caller. After the call to move(), __*this__ is
-	 *             left in a valid but unspecified state.
+	 * @details    The responsibility about the destruction of the constructed
+	 *             object is of the caller. After the call to move(), __*this__
+	 *             is left in a valid but unspecified state.
 	 */
 	virtual Order *move() = 0;
 
@@ -58,7 +58,7 @@ public:
 	 *
 	 * @return     The type of __*this__, in the form of a string.
 	 *
-	 *             A call _p->getType()_ is very similar to a call
+	 * @details    A call _p->getType()_ is very similar to a call
 	 *             _typeid(*p).name()_; the main difference is that the string
 	 *             returned by _getType()_ is not implementation defined.
 	 */

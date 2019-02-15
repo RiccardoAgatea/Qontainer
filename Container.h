@@ -126,14 +126,22 @@ private:
 	Node *first, *past_the_end;
 	unsigned int size_;
 public:
-	//NOTE:An iterator in the object q is dereferenceable if it's in the range [q.begin(), q.end()), while it's valid if it's either dereferenceable or a past-the-end iterator.
-
 	/**
 	 * @brief      (Template of) bidirectional iterator type over a Container
 	 *             object
 	 *
 	 * @tparam     constness  Wether the iterator is also an output iterator or
 	 *                        only an input iterator
+	 *
+	 *             A note on iterator validity: An iterator over the object q is
+	 *             dereferenceable if it's in the range [q.begin(), q.end()),
+	 *             while it's valid if it's either dereferenceable or a
+	 *             past-the-end iterator. Dereferencing a default-constructed
+	 *             iterator or a past-the-end iterator results in an exception
+	 *             being thrown (InvalidIterator). Dereferencing an invalid
+	 *             iterator in an unspecified state (for example, the iterator
+	 *             passed as parameter to the Container<T>::erase() method)
+	 *             results in undefined behaviour.
 	 */
 	template<bool constness>
 	class temp_iterator
@@ -481,7 +489,7 @@ public:
 	//the insert() methods return an iterator to the (first) element newly inserted. the first parameter should be a valid iterator in the object *this
 
 	/**
-	 * @brief      Insert element in arbitrary position
+	 * @brief      Insert one element in arbitrary position
 	 *
 	 * @param[in]  position  Iterator to the element before which the new element
 	 *                       should be copy constructed.
@@ -495,7 +503,7 @@ public:
 	                const T &);
 
 	/**
-	 * @brief      Insert element in arbitrary position
+	 * @brief      Insert one element in arbitrary position
 	 *
 	 * @param[in]  position  Iterator to the element before which the new element
 	 *                       should be move constructed.
@@ -531,19 +539,75 @@ public:
 	                InputIterator);
 
 	//the erase() methods return an iterator to the first element after the removed one(s). In a call q.erase(position), position should be a dereferenceable iterator in the object *this. In a call q.erase(first, last), first and last should be valid iterators in the object *this such that all iterators in the range [first, last) are dereferenceable.
+
+	/**
+	 * @brief      Removes one element  in arbitrary position
+	 *
+	 * @param[in]  position  Iterator to the element to be removed.
+	 *
+	 * @return     An iterator to the first element after the removed one. Can
+	 *             be the past-the-end iterator.
+	 *
+	 * @pre        position is a dereferenceable iterator over __*this__.
+	 *
+	 * @post       position is invalidated.
+	 */
 	iterator erase(iterator);
+
+	/**
+	 * @brief      Removes one element  in arbitrary position
+	 *
+	 * @param[in]  first  iterator to the first element in the range to be removed
+	 * @param[in]  last   iterator to the element after the last in the range to be
+	 *                    removed. Can be a past-the-end iterator.
+	 *
+	 * @return     An iterator to the first element after the removed ones.
+	 *
+	 * @pre        first and last are valid iterators over __*this__, and every
+	 *             iterator in the range [first, last) is dereferenceable.
+	 *
+	 * @post       every iterator in the range [first, last) is invalidated.
+	 */
 	iterator erase(iterator,
 	               iterator);
 
-	//In a call swap(it1, it2), it1 and it2 should be dereferenceable iterators, eventually in different objects of type Container<T>
+	/**
+	 * @brief      Swaps elements
+	 *
+	 * @param[in]  it1   iterator to the first element to be swapped.
+	 * @param[in]  it2   iterator to the second element to be swapped.
+	 *
+	 * it1 and it2 don't need to be iterators over the same container.
+	 *
+	 * @pre        it1 and it2 are dereferenceable iterators over the respective
+	 *             container.
+	 *
+	 * @post       All iterators mantain validity. The container over which it1
+	 *             iterates is the one over which it2 was iterating before the
+	 *             call, and viceversa.
+	 */
 	static void swap(const iterator &,
 	                 const iterator &);
 
+	/**
+	 * @brief      Swaps content between two containers
+	 *
+	 * @param      c     Container to be swapped with __*this__.
+	 */
 	void swap(Container &);
 
 	//A call q.takeTo(from, to) moves the element pointed by from to the position before to. from and to don't need to be iterators over the same Container object, but from should be an iterator over the calling object. from should be a dereferenceable iterator, to should be a valid iterator
+
+	/**
+	 * @brief      Moves element to a different position
+	 *
+	 * @param[in]  <unnamed>  Iterator to the element to be moved.
+	 * @param[in]  <unnamed>  Iterator to the element before which __*from__ should be put.
+	 *
+	 * from and to
+	 */
 	void takeTo(const iterator &,
-	            const iterator &);
+	            const const_iterator &);
 	void clear();
 
 	//Finding
@@ -1051,24 +1115,24 @@ void Container<T>::swap(const iterator &it1,
 }
 
 template<typename T>
-void Container<T>::swap(Container &q)
+void Container<T>::swap(Container &c)
 {
-	Node *ptr = q.first;
-	q.first = first;
+	Node *ptr = c.first;
+	c.first = first;
 	first = ptr;
 
-	ptr = q.past_the_end;
-	q.past_the_end = past_the_end;
+	ptr = c.past_the_end;
+	c.past_the_end = past_the_end;
 	past_the_end = ptr;
 
-	unsigned int temp = q.size_;
-	q.size_ = size_;
+	unsigned int temp = c.size_;
+	c.size_ = size_;
 	size_ = temp;
 }
 
 template<typename T>
 void Container<T>::takeTo(const iterator &from,
-                          const iterator &to)
+                          const const_iterator &to)
 {
 	Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
 	to.pointing->prev = aux;
