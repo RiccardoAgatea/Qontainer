@@ -8,7 +8,7 @@
  * @param[in]  i     Ordered item.
  * @param[in]  temp  The temperature that the meat should be cooked at.
  *
- *             To be noted that Steak objects can't be ordered removing some
+ * @details    To be noted that Steak objects can't be ordered removing some
  *             parts.
  */
 Steak::Steak(unsigned int t,
@@ -25,7 +25,7 @@ Steak::Steak(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Steak *Steak::clone() const
@@ -39,9 +39,9 @@ Steak *Steak::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
- *             object is of the caller. After the call to move(), __*this__ is left
- *             in a valid but unspecified state.
+ * @details    The responsibility about the destruction of the constructed
+ *             object is of the caller. After the call to move(), __*this__ is
+ *             left in a valid but unspecified state.
  */
 Steak *Steak::move()
 {

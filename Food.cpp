@@ -47,7 +47,7 @@ std::vector<std::string> Food::getDetails() const
  *             fields return true and the two objects are of the same subtype of
  *             Food.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *without* field.
  */
 bool Food::operator==(const Order &o) const

@@ -8,7 +8,7 @@
  * @param[in]  i     Ordered item.
  * @param[in]  s     Sauces ordered.
  *
- *             To be noted that Appetizer objects can't be ordered removing some
+ * @details    To be noted that Appetizer objects can't be ordered removing some
  *             parts.
  */
 Appetizer::Appetizer(unsigned int t,
@@ -26,7 +26,7 @@ Appetizer::Appetizer(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Appetizer *Appetizer::clone() const
@@ -40,9 +40,9 @@ Appetizer *Appetizer::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
- *             object is of the caller. After the call to move(), __*this__ is left
- *             in a valid but unspecified state.
+ * @details    The responsibility about the destruction of the constructed
+ *             object is of the caller. After the call to move(), __*this__ is
+ *             left in a valid but unspecified state.
  */
 Appetizer *Appetizer::move()
 {
@@ -88,9 +88,10 @@ std::vector<std::string> Appetizer::getDetails() const
  * @param[in]  o     Order with which __*this__ should be compared.
  *
  * @return     true if all the comparison operators between the respective
- *             fields return true and the two objects are both of Appetizer type.
+ *             fields return true and the two objects are both of Appetizer
+ *             type.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *sauces* field.
  */
 bool Appetizer::operator==(const Order &o) const

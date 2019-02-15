@@ -7,7 +7,7 @@
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Sandwich *Sandwich::clone() const
@@ -21,9 +21,9 @@ Sandwich *Sandwich::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
- *             object is of the caller. After the call to move(), __*this__ is left
- *             in a valid but unspecified state.
+ * @details    The responsibility about the destruction of the constructed
+ *             object is of the caller. After the call to move(), __*this__ is
+ *             left in a valid but unspecified state.
  */
 Sandwich *Sandwich::move()
 {

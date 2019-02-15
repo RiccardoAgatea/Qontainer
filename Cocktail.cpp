@@ -22,7 +22,7 @@ Cocktail::Cocktail(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Cocktail *Cocktail::clone() const
@@ -36,7 +36,7 @@ Cocktail *Cocktail::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller. After the call to move(), __*this__ is
  *             left in a valid but unspecified state.
  */
@@ -84,7 +84,7 @@ std::vector<std::string> Cocktail::getDetails() const
  * @return     true if all the comparison operators between the respective
  *             fields return true and the two objects are both of type Cocktail.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *garnish* field.
  */
 bool Cocktail::operator==(const Order &o) const

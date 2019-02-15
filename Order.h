@@ -7,7 +7,6 @@
 /**
  * @brief      A polymorphic abstract base class representing an order arriving
  *             to the kitchen af a restaurant.
- *
  */
 
 class Order

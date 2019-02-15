@@ -9,12 +9,12 @@
  * @brief Headerfile containing all the definitions related to the Container class template
  */
 
-template<typename T> class Container;
+/*template<typename T> class Container;
 
 template<typename T> bool operator==(const Container<T> &,
                                      const Container<T> &);
 template<typename T> bool operator!=(const Container<T> &,
-                                     const Container<T> &);
+                                     const Container<T> &);*/
 
 /**
  * @namespace ReferenceTypes
@@ -66,7 +66,7 @@ template<typename T, bool constness> struct pointer;
  *
  * @tparam     T     Type of the pointed object.
  *
- *             The pointer is actually a reference to a smart pointer of type
+ * @details    The pointer is actually a reference to a smart pointer of type
  *             DeepPtr<T>.
  */
 template<typename T> struct pointer<T, true>
@@ -91,11 +91,11 @@ template<typename T> struct pointer<T, false>
  *
  * @tparam     T     Type of the objects to be held by an instance of Container.
  *
- *             Container is a class template that provides internal support for
- *             polymorphic types. An instance of Container<T> can hold objects of
- *             any subtype of T; for this, T is required to provide specializations for the
- *             two overloadings of the clone() function template in the
- *             PolyClone namespace.
+ * @details    Container is a class template that provides internal support for
+ *             polymorphic types. An instance of Container<T> can hold objects
+ *             of any subtype of T; for this, T is required to provide
+ *             specializations for the two overloadings of the clone() function
+ *             template in the PolyClone namespace.
  */
 template <typename T>
 class Container
@@ -133,7 +133,7 @@ public:
 	 * @tparam     constness  Wether the iterator is also an output iterator or
 	 *                        only an input iterator
 	 *
-	 *             A note on iterator validity: An iterator over the object q is
+	 * @details    A note on iterator validity: An iterator over the object q is
 	 *             dereferenceable if it's in the range [q.begin(), q.end()),
 	 *             while it's valid if it's either dereferenceable or a
 	 *             past-the-end iterator. Dereferencing a default-constructed
@@ -159,7 +159,7 @@ public:
 		/**
 		 * @brief      Default constructor
 		 *
-		 *             Constructs an invalid iterator.
+		 * @details    Constructs an invalid iterator.
 		 */
 		temp_iterator();
 
@@ -264,7 +264,7 @@ public:
 	/**
 	 * @brief      Default constructor
 	 *
-	 *             Constructs an empty container.
+	 * @details    Constructs an empty container.
 	 */
 	Container();
 
@@ -486,8 +486,6 @@ public:
 	 */
 	void pop_back();
 
-	//the insert() methods return an iterator to the (first) element newly inserted. the first parameter should be a valid iterator in the object *this
-
 	/**
 	 * @brief      Insert one element in arbitrary position
 	 *
@@ -537,8 +535,6 @@ public:
 	iterator insert(const_iterator,
 	                InputIterator,
 	                InputIterator);
-
-	//the erase() methods return an iterator to the first element after the removed one(s). In a call q.erase(position), position should be a dereferenceable iterator in the object *this. In a call q.erase(first, last), first and last should be valid iterators in the object *this such that all iterators in the range [first, last) are dereferenceable.
 
 	/**
 	 * @brief      Removes one element  in arbitrary position
@@ -596,35 +592,111 @@ public:
 	 */
 	void swap(Container &);
 
-	//A call q.takeTo(from, to) moves the element pointed by from to the position before to. from and to don't need to be iterators over the same Container object, but from should be an iterator over the calling object. from should be a dereferenceable iterator, to should be a valid iterator
-
 	/**
 	 * @brief      Moves element to a different position
 	 *
-	 * @param[in]  <unnamed>  Iterator to the element to be moved.
-	 * @param[in]  <unnamed>  Iterator to the element before which __*from__ should be put.
+	 * @param[in]  from  Iterator to the element to be moved.
+	 * @param[in]  to    Iterator to the element before which __*from__ should be put.
 	 *
-	 * from and to
+	 * @pre        from and to are both iterators over __*this__, from is
+	 *             dereferenceable, to is valid.
 	 */
 	void takeTo(const iterator &,
 	            const const_iterator &);
+
+
+	/**
+	 * @brief      Removes all elements, leaving the container empty
+	 */
 	void clear();
 
 	//Finding
 
-	//To use any of the two find(const T &) methods, T is required to provide an overloading for operator==
+	/**
+	 * @brief      Searches a non-const container for the first element equal to
+	 *             the parameter
+	 *
+	 * @param[in]  t     Element to be found.
+	 *
+	 * @return     An iterator to the first element the matches t if any is
+	 *             found, end() otherwise.
+	 *
+	 * @pre        T provides an overloading for operator==().
+	 */
 	iterator find(const T &);
+
+	/**
+	 * @brief      Searches a const container for the first element equal to
+	 *             the parameter
+	 *
+	 * @param[in]  t     Element to be found.
+	 *
+	 * @return     A const_iterator to the first element the matches t if any is
+	 *             found, end() otherwise.
+	 *
+	 * @pre        T provides an overloading for operator==().
+	 */
 	const_iterator find(const T &) const;
 
 	//the parameter should be a function pointer, a functor or a lambda expression taking one parameter of type const T& and returning bool
+
+
+	/**
+	 * @brief      Searches a non-const container for the first element for
+	 *             which p is true
+	 *
+	 * @param[in]  p     An unary predicate taking one parameter of type const T& and
+	 *                   returning bool.
+	 *
+	 * @tparam     Pred       A function pointer type, a functor type or a
+	 *                        lambda expression type.
+	 *
+	 * @return     An iterator to the first element for which p() evaluates to
+	 *             true if any is found, end() otherwise.
+	 */
 	template<typename Pred>
 	iterator find_if(Pred);
+
+	/**
+	 * @brief      Searches a const container for the first element for which p
+	 *             is true
+	 *
+	 * @param[in]  p     An unary predicate taking one parameter of type const T& and
+	 *                   returning bool.
+	 *
+	 * @tparam     Pred       A function pointer type, a functor type or a
+	 *                        lambda expression type.
+	 *
+	 * @return     A const_iterator to the first element for which p() evaluates
+	 *             to true if any is found, end() otherwise.
+	 */
 	template<typename Pred>
 	const_iterator find_if(Pred) const;
 
 	//Comparison operators
-	friend bool operator== <T>(const Container &, const Container &);
-	friend bool operator!= <T>(const Container &, const Container &);
+
+	/**
+	 * @brief      Equality operator
+	 *
+	 * @param[in]  c     Container tobe compared with __*this__
+	 *
+	 * @return     true if and only if c and __*this__ contain the same elements
+	 *             in the same order.
+	 *
+	 * @pre        T provides an overloading for operator==().
+	 */
+	bool operator==(const Container &);
+
+	/**
+	 * @brief      Inequality operator
+	 *
+	 * @param[in]  c     Container to be compared with __*this__
+	 *
+	 * @return     true if and only if operator==(c) returns false.
+	 *
+	 * @pre        T provides an overloading for operator==().
+	 */
+	bool operator!=(const Container &);
 };
 
 //Node methods definition
@@ -991,13 +1063,13 @@ void Container<T>::push_back(T &&t)
 template<typename T>
 void Container<T>::pop_front()
 {
-	erase(cbegin());
+	erase(begin());
 }
 
 template<typename T>
 void Container<T>::pop_back()
 {
-	erase(cend());
+	erase(end());
 }
 
 template<typename T>
@@ -1016,10 +1088,12 @@ Container<T>::insert(const_iterator position,
 	Node *aux = new Node(t, position.pointing, position.pointing->prev);
 	position.pointing->prev = aux;
 
-	if (position != begin())
+	if (position != cbegin())
 		aux->prev->next = aux;
 	else
 		first = aux;
+
+	return iterator(aux);
 }
 
 template<typename T>
@@ -1134,13 +1208,15 @@ template<typename T>
 void Container<T>::takeTo(const iterator &from,
                           const const_iterator &to)
 {
-	Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
+	/*Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
 	to.pointing->prev = aux;
 
 	if (aux->prev != nullptr)
-		aux->prev->next = aux;
+		aux->prev->next = aux;*/
 
-	swap(from, iterator(aux));
+	insert(to, std::move(*from));
+
+	//swap(from, iterator(aux));
 	erase(from);
 }
 
@@ -1207,22 +1283,20 @@ Container<T>::find_if(Pred p) const
 }
 
 template<typename T>
-bool operator==(const Container<T> &q1,
-                const Container<T> &q2)
+bool Container<T>::operator==(const Container<T> &c)
 {
-	if (q1.size() != q2.size())
+	if (size() != c.size())
 		return false;
 
-	if (q1.empty() || &q1 == &q2)
+	if (empty() || this == &c)
 		return true;
 
-	return *(q1.first) == *(q2.first);
+	return (*first) == *(c.first);
 }
 
 template<typename T>
-bool operator!=(const Container<T> &q1,
-                const Container<T> &q2)
+bool Container<T>::operator!=(const Container<T> &c)
 {
-	return !(q1 == q2);
+	return !((*this) == c);
 }
 #endif // CONTAINER_H

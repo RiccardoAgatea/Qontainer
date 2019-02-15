@@ -8,7 +8,7 @@
  * @param[in]  i     Ordered item.
  * @param[in]  w     Eventual additions to the dish.
  *
- *             To be noted that Steak objects can't be ordered removing some
+ * @details    To be noted that Steak objects can't be ordered removing some
  *             parts.
  */
 Dessert::Dessert(unsigned int t,
@@ -26,7 +26,7 @@ Dessert::Dessert(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Dessert *Dessert::clone() const
@@ -40,9 +40,9 @@ Dessert *Dessert::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
- *             object is of the caller. After the call to move(), __*this__ is left
- *             in a valid but unspecified state.
+ * @details    The responsibility about the destruction of the constructed
+ *             object is of the caller. After the call to move(), __*this__ is
+ *             left in a valid but unspecified state.
  */
 Dessert *Dessert::move()
 {
@@ -91,7 +91,7 @@ std::vector<std::string> Dessert::getDetails() const
  * @return     true if all the comparison operators between the respective
  *             fields return true and the two objects are both of type Dessert.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *with* field.
  */
 bool Dessert::operator==(const Order &o) const

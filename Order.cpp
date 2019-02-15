@@ -47,7 +47,7 @@ std::string Order::getItem()
  *             fields return true and the two objects are of the same subtype of
  *             Order.
  *
- *             Of particular note is the fact that operator==() compares the
+ * @details    Of particular note is the fact that operator==() compares the
  *             types of the two objects (it does so through the getType()
  *             method). The comparison evaluates to true if the types are the
  *             same.
@@ -67,7 +67,7 @@ bool Order::operator==(const Order &o) const
  *
  * @return     true if and only if _operator==(o)_ returns false.
  *
- *             This method is not virtual, but calls operator==(), which is, in
+ * @details    This method is not virtual, but calls operator==(), which is, in
  *             its body.
  */
 

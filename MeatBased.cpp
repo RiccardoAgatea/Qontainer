@@ -52,7 +52,7 @@ std::vector<std::string> MeatBased::getDetails() const
  *             fields return true and the two objects are of the same subtype of
  *             MeatBased.
  *
- *             Expands the functionality of Food::operator==() by checking for
+ * @details    Expands the functionality of Food::operator==() by checking for
  *             the equality in the *temperature* field.
  */
 bool MeatBased::operator==(const Order &o) const

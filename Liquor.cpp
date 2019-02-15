@@ -24,7 +24,7 @@ Liquor::Liquor(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Liquor *Liquor::clone() const
@@ -38,7 +38,7 @@ Liquor *Liquor::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller. After the call to move(), __*this__ is
  *             left in a valid but unspecified state.
  */
@@ -87,7 +87,7 @@ std::vector<std::string> Liquor::getDetails() const
  * @return     true if all the comparison operators between the respective
  *             fields return true and the two objects are both of type Liquor.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *ice* field.
  */
 bool Liquor::operator==(const Order &o) const

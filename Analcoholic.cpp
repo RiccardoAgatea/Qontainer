@@ -24,7 +24,7 @@ Analcoholic::Analcoholic(unsigned int t,
  *
  * @return     a pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller.
  */
 Analcoholic *Analcoholic::clone() const
@@ -38,7 +38,7 @@ Analcoholic *Analcoholic::clone() const
  *
  * @return     A pointer to a copy of __*this__ on the heap.
  *
- *             The responsibility about the destruction of the constructed
+ * @details    The responsibility about the destruction of the constructed
  *             object is of the caller. After the call to move(), __*this__ is
  *             left in a valid but unspecified state.
  */
@@ -88,7 +88,7 @@ std::vector<std::string> Analcoholic::getDetails() const
  *             fields return true and the two objects are both of type
  *             Analcoholic.
  *
- *             Expands the functionality of Order::operator==() by checking for
+ * @details    Expands the functionality of Order::operator==() by checking for
  *             the equality in the *ice* field.
  */
 bool Analcoholic::operator==(const Order &o) const
