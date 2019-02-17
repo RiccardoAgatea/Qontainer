@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief      Wraps the logic model for the application
+ */
 class Model
 {
 private:
@@ -15,11 +18,11 @@ private:
 public:
 	Model() = default;
 	explicit Model(const std::string &,
-				   const std::string &);
+	               const std::string &);
 	void save(const std::string &,
-			  const std::string &) const;
+	          const std::string &) const;
 	void load(const std::string &,
-			  const std::string &);
+	          const std::string &);
 	void addOrder(const std::string &);
 	bool empty() const;
 

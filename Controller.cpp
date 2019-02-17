@@ -1,8 +1,6 @@
 #include "Controller.h"
 #include "View.h"
 
-const char &Controller::separator = Order::separator;
-
 Controller::Controller(View *v):
 	QWidget(v),
 	model(nullptr),

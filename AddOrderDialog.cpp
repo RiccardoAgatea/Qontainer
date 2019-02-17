@@ -10,6 +10,10 @@
 #include <QCheckBox>
 #include <QString>
 
+/**
+ * @brief      Builds the details part of the window depending on the type
+ *             that's selected
+ */
 void AddOrderDialog::setDetails()
 {
 	QString type = choose_type->checkedButton()->text();
@@ -38,7 +42,7 @@ void AddOrderDialog::setDetails()
 	for (auto &x : info.long_texts)
 	{
 		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
-								   details_box);
+		                           details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumSize(100, 75);
 
@@ -56,7 +60,7 @@ void AddOrderDialog::setDetails()
 	for (auto &x : info.short_texts)
 	{
 		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
-								   details_box);
+		                           details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumWidth(100);
 
@@ -74,7 +78,7 @@ void AddOrderDialog::setDetails()
 	for (auto &x : info.checks)
 	{
 		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x),
-											details_box);
+		                                    details_box);
 
 		QHBoxLayout *layout = new QHBoxLayout();
 		layout->addWidget(checkbox);
@@ -86,8 +90,15 @@ void AddOrderDialog::setDetails()
 	}
 }
 
+/**
+ * @brief      Constructor
+ *
+ * @param[in]  types   Vector containing all the types of order that can be
+ *                     created.
+ * @param      parent  The parent widget.
+ */
 AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
-							   QWidget *parent):
+                               QWidget *parent):
 	QDialog(parent),
 	table_input(new QLineEdit()),
 	item_input(new QLineEdit()),
@@ -124,7 +135,7 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 	}
 
 	connect(choose_type, QOverload<int>::of(&QButtonGroup::buttonClicked),
-			this, &AddOrderDialog::setDetails);
+	        this, &AddOrderDialog::setDetails);
 
 	choose_type->buttons()[0]->click();
 
@@ -148,23 +159,34 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 	show();
 
 	connect(ok, &QPushButton::clicked,
-			this, &AddOrderDialog::accept);
+	        this, &AddOrderDialog::accept);
 
 	connect(cancel, &QPushButton::clicked,
-			this, &AddOrderDialog::reject);
+	        this, &AddOrderDialog::reject);
 }
 
+/**
+ * @brief      Override for QDialog::accept()
+ *
+ * @details    Virtual slot inherited from QDialog that is called when the user
+ *             presses the _ok_ button.
+ */
 void AddOrderDialog::accept()
 {
 	QString aux = choose_type->checkedButton()->text() +
-				  Controller::separator +
-				  table_input->text() +
-				  Controller::separator +
-				  item_input->text();//how to format ditails???
+	              Controller::separator +
+	              table_input->text() +
+	              Controller::separator +
+	              item_input->text();//how to format ditails???
 
 	QDialog::accept();
 }
 
+/**
+ * @brief      Override of QDialog::sizeHint()
+ *
+ * @return     A QSize representing the preferred size of the window.
+ */
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(200, 400);

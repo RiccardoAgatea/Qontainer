@@ -4,6 +4,9 @@
 
 class Controller;
 
+/**
+ * @brief      Provides a GUI for the data the Model manages
+ */
 class View: public QMainWindow
 {
 	Q_OBJECT

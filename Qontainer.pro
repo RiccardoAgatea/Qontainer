@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-12-06T14:46:01
-#
-#-------------------------------------------------
-
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -43,7 +37,8 @@ SOURCES += \
     View.cpp \
     AddOrderDialog.cpp \
     OrderWidget.cpp \
-    PolyStatic.cpp
+    PolyStatic.cpp \
+    NullPtrExcept.cpp
 
 HEADERS += \
 	Container.h \
@@ -75,7 +70,8 @@ HEADERS += \
     AddOrderDialog.h \
     OrderWidget.h \
     PolyStatic.h \
-    PolyClone.h
+    PolyClone.h \
+    NullPtrExcept.h
 
 FORMS +=
 

@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief      Provides a dialogue window for the insertion of a new Order in the queue
+ */
 class AddOrderDialog: public QDialog
 {
 	Q_OBJECT
@@ -21,7 +24,7 @@ private slots:
 	void setDetails();
 public:
 	explicit AddOrderDialog(const std::vector<std::string> &,
-							QWidget * = nullptr);
+	                        QWidget * = nullptr);
 	void accept() override;
 	QSize sizeHint() const override;
 
