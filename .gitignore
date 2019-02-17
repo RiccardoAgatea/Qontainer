@@ -1,4 +1,5 @@
 *.pro.*
+*.exe
 Specifiche.pdf
 /Documentation
 /build-Qontainer-Desktop_Qt_5_11_0_MinGW_32bit-Debug

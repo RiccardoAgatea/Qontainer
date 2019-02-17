@@ -106,6 +106,9 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 	details_box(new QGroupBox("Details")),
 	details_layout(new QVBoxLayout())
 {
+	setWindowModality(Qt::ApplicationModal);
+	setMinimumSize(sizeHint());
+
 	QVBoxLayout *main_layout = new QVBoxLayout();
 	QHBoxLayout *table_layout = new QHBoxLayout();
 	QHBoxLayout *item_layout = new QHBoxLayout();
@@ -173,11 +176,6 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
  */
 void AddOrderDialog::accept()
 {
-	QString aux = choose_type->checkedButton()->text() +
-	              Controller::separator +
-	              table_input->text() +
-	              Controller::separator +
-	              item_input->text();//how to format ditails???
 
 	QDialog::accept();
 }
@@ -189,5 +187,5 @@ void AddOrderDialog::accept()
  */
 QSize AddOrderDialog::sizeHint() const
 {
-	return QSize(200, 400);
+	return QSize(250, 415);
 }

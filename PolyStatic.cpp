@@ -13,10 +13,22 @@
 #include "Coffee.h"
 #include <stdexcept>
 
+/**
+ * @brief      Factory function for the Order hierarchy
+ *
+ * @param      type     Type of the object to be constucted
+ * @param      table    Number of the table that issued the order
+ * @param      item     Ordered item.
+ * @param      details  Vector containing the required details for the order.
+ *
+ * @return     A DeepPtr to the constructed object of the required type.
+ *
+ * @pre        *type* is a known type of the Order hierarchy, and details contains the right amout of details to construct an object of type *type*
+ */
 DeepPtr<Order> PolyStatic::make(const std::string &type,
-								unsigned int table,
-								const std::string &item,
-								const std::vector<std::string> &details)
+                                unsigned int table,
+                                const std::string &item,
+                                const std::vector<std::string> &details)
 {
 	try
 	{

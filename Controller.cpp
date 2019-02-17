@@ -29,12 +29,7 @@ void Controller::addOrder(const QString &type,
 						  const QString &item,
 						  const QString &details)
 {
-	model->addOrder(
-		type.toStdString() + separator +
-		std::to_string(table) + separator +
-		item.toStdString() + separator +
-		details.toStdString()
-	);
+
 }
 
 const std::vector<std::string> Controller::getTypes()
