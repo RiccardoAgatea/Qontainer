@@ -14,6 +14,30 @@
 #include <stdexcept>
 
 /**
+ * @brief      Provides a list of all instanciable types in the  hierarchy
+ *
+ * @return     A std::vector containing all the instanciable types in the Order
+ *             hierarchy, in the form of strings.
+ */
+std::vector<std::string> PolyStatic::getTypes()
+{
+	return
+	{
+		"Steak",
+		"Hamburger",
+		"Sandwich",
+		"Appetizer",
+		"Dessert",
+		"Liquor",
+		"Beer",
+		"Wine",
+		"Cocktail",
+		"Analcoholic",
+		"Coffee"
+	};
+}
+
+/**
  * @brief      Factory function for the Order hierarchy
  *
  * @param      type     Type of the object to be constucted
@@ -77,6 +101,16 @@ DeepPtr<Order> PolyStatic::make(const std::string &type,
 	}
 }
 
+/**
+ * @brief      Provides information about the details of the type passed as
+ *             parameter
+ *
+ * @param[in]  type  The type about which information is required, in the form
+ *                   of string
+ *
+ * @return     An Info struct containing the information about the
+ *             representation of the details of the requested type.
+ */
 PolyStatic::Info PolyStatic::getInfo(const std::string &type)
 {
 	if (type == "Steak")

@@ -2,6 +2,7 @@
 #define MODEL_H
 #include "Container.h"
 #include "Order.h"
+#include "PolyStatic.h"
 #include <string>
 #include <vector>
 
@@ -13,9 +14,8 @@ class Model
 private:
 	Container<Order> to_do;
 	Container<Order> completed;
-
-	static const std::vector<std::string> types;
 public:
+	using Info = PolyStatic::Info;
 	Model() = default;
 	explicit Model(const std::string &,
 	               const std::string &);
@@ -23,10 +23,14 @@ public:
 	          const std::string &) const;
 	void load(const std::string &,
 	          const std::string &);
-	void addOrder(const std::string &);
+	void addOrder(const std::string &,
+				  unsigned int,
+				  const std::string &,
+				  const std::vector<std::string> &);
 	bool empty() const;
 
-	static const std::vector<std::string> &getTypes();
+	static std::vector<std::string> getTypes();
+	static Info getInfo(const std::string &);
 };
 
 #endif // MODEL_H

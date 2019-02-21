@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "Model.h"
 #include <QString>
+#include <QVector>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,12 @@ private:
 	Model *model;
 	View *view;
 public:
+	struct Info
+	{
+		QVector<QString> long_texts;
+		QVector<QString> short_texts;
+		QVector<QString> checks;
+	};
 	explicit Controller(View *);
 	bool isModelEmpty() const;
 	void load(const QString &);
@@ -25,10 +32,10 @@ public:
 	void addOrder(const QString &,
 	              unsigned int,
 	              const QString &,
-	              const QString &);
+				  const QVector<QString> &);
 
-	static const std::vector<std::string> getTypes();
-
+	static QVector<QString> getTypes();
+	static Controller::Info getInfo(const QString &);
 signals:
 
 public slots:

@@ -1,6 +1,4 @@
 #include "AddOrderDialog.h"
-#include "PolyStatic.h"
-#include "Controller.h"
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -97,8 +95,8 @@ void AddOrderDialog::setDetails()
  *                     created.
  * @param      parent  The parent widget.
  */
-AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
-                               QWidget *parent):
+AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
+							   QWidget *parent):
 	QDialog(parent),
 	table_input(new QLineEdit()),
 	item_input(new QLineEdit()),
@@ -131,7 +129,7 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 
 	for (const auto &t : types)
 	{
-		QRadioButton *button = new QRadioButton(QString::fromStdString(t));
+		QRadioButton *button = new QRadioButton(t);
 		type_layout->addWidget(button, pos / 2, pos % 2);
 		choose_type->addButton(button);
 		++pos;
@@ -169,18 +167,6 @@ AddOrderDialog::AddOrderDialog(const std::vector<std::string> &types,
 }
 
 /**
- * @brief      Override for QDialog::accept()
- *
- * @details    Virtual slot inherited from QDialog that is called when the user
- *             presses the _ok_ button.
- */
-void AddOrderDialog::accept()
-{
-
-	QDialog::accept();
-}
-
-/**
  * @brief      Override of QDialog::sizeHint()
  *
  * @return     A QSize representing the preferred size of the window.
@@ -188,4 +174,25 @@ void AddOrderDialog::accept()
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(250, 415);
+}
+
+QString AddOrderDialog::getType() const
+{
+	return choose_type->checkedButton()->text();
+}
+
+unsigned int AddOrderDialog::getTable() const
+{
+	return table_input->text().toUInt();
+}
+
+QString AddOrderDialog::getItem() const
+{
+	return item_input->text();
+}
+
+QVector<QString> AddOrderDialog::getDetails() const
+{
+	QVector<QString> aux;
+
 }

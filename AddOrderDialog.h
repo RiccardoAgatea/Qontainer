@@ -5,8 +5,6 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QDialog>
-#include <string>
-#include <vector>
 
 /**
  * @brief      Provides a dialogue window for the insertion of a new Order in the queue
@@ -23,10 +21,13 @@ private:
 private slots:
 	void setDetails();
 public:
-	explicit AddOrderDialog(const std::vector<std::string> &,
+	explicit AddOrderDialog(const QVector<QString> &,
 	                        QWidget * = nullptr);
-	void accept() override;
 	QSize sizeHint() const override;
+	QString getType() const;
+	unsigned int getTable() const;
+	QString getItem() const;
+	QVector<QString> getDetails() const;
 
 signals:
 
