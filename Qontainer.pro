@@ -38,7 +38,8 @@ SOURCES += \
     AddOrderDialog.cpp \
     OrderWidget.cpp \
     PolyStatic.cpp \
-    NullPtrExcept.cpp
+    NullPtrExcept.cpp \
+    UniformInterface.cpp
 
 HEADERS += \
 	Container.h \
@@ -70,8 +71,8 @@ HEADERS += \
     AddOrderDialog.h \
     OrderWidget.h \
     PolyStatic.h \
-    PolyClone.h \
-    NullPtrExcept.h
+    NullPtrExcept.h \
+    UniformInterface.h
 
 FORMS +=
 

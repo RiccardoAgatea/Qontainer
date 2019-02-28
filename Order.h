@@ -2,13 +2,11 @@
 #define ORDER_H
 #include <string>
 #include <vector>
-#include "PolyClone.h"
 
 /**
  * @brief      A polymorphic abstract base class representing an order arriving
  *             to the kitchen af a restaurant.
  */
-
 class Order
 {
 private:
@@ -75,14 +73,5 @@ public:
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
 };
-
-namespace PolyClone
-{
-template<>
-Order *clone(const Order &);
-
-template<>
-Order *clone(Order &&);
-}
 
 #endif // ORDER_H

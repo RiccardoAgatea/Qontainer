@@ -85,10 +85,10 @@ template<typename T> struct pointer<T, false>
  * @tparam     T     Type of the objects to be held by an instance of Container.
  *
  * @details    Container is a class template that provides internal support for
- *             polymorphic types. An instance of Container<T> can hold objects
- *             of any subtype of T; for this, T is required to provide
- *             specializations for the two overloadings of the clone() function
- *             template in the PolyClone namespace.
+ *             polymorphic types: an instance of Container<T> can hold objects
+ *             of any subtype of T. T is required to provide valid
+ *             instanciations of the functions contained in the UniformInterface
+ *             namespace.
  */
 template <typename T>
 class Container

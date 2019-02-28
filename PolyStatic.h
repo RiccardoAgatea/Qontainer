@@ -31,22 +31,7 @@ DeepPtr<Order> make(const std::string &,
                     const std::string &,
                     const std::vector<std::string> &);
 
-/**
- * @brief      Represents the information about the details of a certain type
- *
- * @details    The three vectors long_texts, short_texts and checks should
- *             contain names for characteristics that are expected to be,
- *             respectively, full structured sentences, simple details, and
- *             true/false questions.
- */
-struct Info
-{
-	std::vector<std::string> long_texts;
-	std::vector<std::string> short_texts;
-	std::vector<std::string> checks;
-};
-
-Info getInfo(const std::string &);
+std::vector<std::vector<std::string>> getInfo(const std::string &);
 }
 
 #endif // POLYSTATIC_H

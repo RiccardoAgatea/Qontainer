@@ -19,12 +19,7 @@ private:
 	Model *model;
 	View *view;
 public:
-	struct Info
-	{
-		QVector<QString> long_texts;
-		QVector<QString> short_texts;
-		QVector<QString> checks;
-	};
+	using Info = QVector<QVector<QString>>;
 	explicit Controller(View *);
 	bool isModelEmpty() const;
 	void load(const QString &);
@@ -35,7 +30,7 @@ public:
 				  const QVector<QString> &);
 
 	static QVector<QString> getTypes();
-	static Controller::Info getInfo(const QString &);
+	static Info getInfo(const QString &);
 signals:
 
 public slots:

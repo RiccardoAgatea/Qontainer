@@ -16,6 +16,7 @@ void AddOrderDialog::setDetails()
 {
 	QString type = choose_type->checkedButton()->text();
 	PolyStatic::Info info = PolyStatic::getInfo(type.toStdString());
+	//SSSDVJVSDJVJVDJJVDOVDDVOOVDEQPIQEDNVMPKCDSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 	while (!details_layout->isEmpty())
 	{

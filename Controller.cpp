@@ -65,14 +65,15 @@ Controller::Info Controller::getInfo(const QString &type)
 	Model::Info temp = Model::getInfo(type.toStdString());
 	Info aux;
 
-	for (const auto &x : temp.long_texts)
-		aux.long_texts.push_back(QString::fromStdString(x));
+	for (const auto &v : temp)
+	{
+		QVector<QString> t;
 
-	for (const auto &x : temp.short_texts)
-		aux.short_texts.push_back(QString::fromStdString(x));
+		for (const auto &x : v)
+			t.push_back(QString::fromStdString(x));
 
-	for (const auto &x : temp.checks)
-		aux.checks.push_back(QString::fromStdString(x));
+		aux.push_back(t);
+	}
 
 	return aux;
 }

@@ -13,13 +13,15 @@
 #include "Coffee.h"
 #include <stdexcept>
 
+namespace PolyStatic
+{
 /**
  * @brief      Provides a list of all instanciable types in the  hierarchy
  *
  * @return     A std::vector containing all the instanciable types in the Order
  *             hierarchy, in the form of strings.
  */
-std::vector<std::string> PolyStatic::getTypes()
+std::vector<std::string> getTypes()
 {
 	return
 	{
@@ -49,10 +51,10 @@ std::vector<std::string> PolyStatic::getTypes()
  *
  * @pre        *type* is a known type of the Order hierarchy, and details contains the right amout of details to construct an object of type *type*
  */
-DeepPtr<Order> PolyStatic::make(const std::string &type,
-                                unsigned int table,
-                                const std::string &item,
-                                const std::vector<std::string> &details)
+DeepPtr<Order> make(const std::string &type,
+                    unsigned int table,
+                    const std::string &item,
+                    const std::vector<std::string> &details)
 {
 	try
 	{
@@ -108,43 +110,46 @@ DeepPtr<Order> PolyStatic::make(const std::string &type,
  * @param[in]  type  The type about which information is required, in the form
  *                   of string
  *
- * @return     An Info struct containing the information about the
- *             representation of the details of the requested type.
+ * @return     Information about the representation of the details of the
+ *             requested type. Each vector of the return value represents a type
+ *             of detail: respectively, long texts, one line texts, and yes/no
+ *             questions.
  */
-PolyStatic::Info PolyStatic::getInfo(const std::string &type)
+std::vector<std::vector<std::string>> getInfo(const std::string &type)
 {
 	if (type == "Steak")
-		return Info{{}, {"Temperature"}, {}};
+		return {{}, {"Temperature"}, {}};
 
 	if (type == "Hamburger")
-		return Info{{"Not Including"}, {"Temperature"}, {}};
+		return {{"Not Including"}, {"Temperature"}, {}};
 
 	if (type == "Sandwich")
-		return Info{{"Not Including"}, {}, {}};
+		return {{"Not Including"}, {}, {}};
 
 	if (type == "Appetizer")
-		return Info{{}, {"Sauces"}, {}};
+		return {{}, {"Sauces"}, {}};
 
 	if (type == "Dessert")
-		return Info{{"Adding"}, {}, {}};
+		return {{"Adding"}, {}, {}};
 
 	if (type == "Liquor")
-		return Info{{}, {}, {"Ice"}};
+		return {{}, {}, {"Ice"}};
 
 	if (type == "Beer")
-		return Info{{}, {"Size"}, {}};
+		return {{}, {"Size"}, {}};
 
 	if (type == "Cocktail")
-		return Info{{"Garnish"}, {}, {}};
+		return {{"Garnish"}, {}, {}};
 
 	if (type == "Wine")
-		return Info{{}, {}, {"Vintage"}};
+		return {{}, {}, {"Vintage"}};
 
 	if (type == "Analcoholic")
-		return Info{{}, {}, {"Ice"}};
+		return {{}, {}, {"Ice"}};
 
 	if (type == "Coffee")
-		return Info{{"Notes"}, {}, {}};
+		return {{"Notes"}, {}, {}};
 
 	throw UnknownType("Tried obtaining info of a type not included in the hierarchy");
+}
 }

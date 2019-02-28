@@ -1,16 +1,17 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
 #include <utility>
-#include "PolyClone.h"
+#include "UniformInterface.h"
 #include "NullPtrExcept.h"
-
-//T is required to provide specializations for the two overloadings of the clone() function template int the PolyConstruct namespace. Specifically, T *clone(const T &t) should implement the standard polymorphic copy construction, while T *clone(T &&t) should provide the same functionality for move semantics
 
 /**
  * @brief      A smart pointer providing automatic management of memory for the
  *             pointed to object
  *
  * @tparam     T     Type of the pointed to object.
+ *
+ * @details    T is required to provide vaild instaciations of the functions in
+ *             the UniformInterface namespace.
  */
 template<typename T>
 class DeepPtr
@@ -181,21 +182,21 @@ public:
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T *t):
-	ptr(t != nullptr ? PolyClone::clone(*t) : nullptr)
+	ptr(t != nullptr ? UniformInterface::clone(*t) : nullptr)
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(const T &t):
-	ptr(PolyClone::clone(t))
+	ptr(UniformInterface::clone(t))
 {
 
 }
 
 template<typename T>
 DeepPtr<T>::DeepPtr(T &&t):
-	ptr(PolyClone::clone(t))
+	ptr(UniformInterface::clone(t))
 {
 
 }

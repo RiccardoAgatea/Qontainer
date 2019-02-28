@@ -15,7 +15,7 @@ private:
 	Container<Order> to_do;
 	Container<Order> completed;
 public:
-	using Info = PolyStatic::Info;
+	using Info = std::vector<std::vector<std::string>>;
 	Model() = default;
 	explicit Model(const std::string &,
 	               const std::string &);

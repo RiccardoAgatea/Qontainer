@@ -25,7 +25,7 @@ void Model::addOrder(const std::string &type,
 					 const std::string &item,
 					 const std::vector<std::string> &details)
 {
-
+	to_do.push_back(*PolyStatic::make(type, table, item, details));
 }
 
 /**
