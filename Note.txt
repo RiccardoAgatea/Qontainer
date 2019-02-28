@@ -4,6 +4,8 @@ I camerieri aggiungono gli ordini, i cuochi segnalano che sono pronti.
 
 NB: Il  modello, essenzialmente, deve essere un Container<Ordinazione>, ma nulla toglie che ci possano essere un paio di cose in più. Nello specifico, salvataggio e lettura su/da file non sono propriamente responsabilità di cui si deve accollare la gerarchia. Al massimo la gerarchia si occupa di presentare le informazioni al pubblico in modo decente, ma nulla di più. Ergo, useremo le classi di Qt per spippettare con XML, ma lo faremo ad un livello più alto della gerarchia, nello specifico al livello che poi si interfaccia direttamente con il controller (o la view).
 
+Espandi sulla linea del namespace PolyClone, cambiaci nome e mettici dentro anche una funzione per operator== e una per operator<, in modo che i requirements per il tipo di istanziazione del template siano tutti del tipo "T must provide a valid istanciation for the function bubu in the Things namespace" invece di "T must provide an overloading for operator==, and operator<, etc".
+
 AStyleFormatter options:
 --style=allman
 --pad-oper

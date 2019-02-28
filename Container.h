@@ -9,13 +9,6 @@
  * @brief Headerfile containing all the definitions related to the Container class template
  */
 
-/*template<typename T> class Container;
-
-template<typename T> bool operator==(const Container<T> &,
-                                     const Container<T> &);
-template<typename T> bool operator!=(const Container<T> &,
-                                     const Container<T> &);*/
-
 /**
  * @namespace ReferenceTypes
  * @brief      Namespace defining similar interfaces for reference and pointer
@@ -573,14 +566,12 @@ public:
 	 * @param[in]  it1   iterator to the first element to be swapped.
 	 * @param[in]  it2   iterator to the second element to be swapped.
 	 *
-	 * it1 and it2 don't need to be iterators over the same container.
+	 * @details    it1 and it2 don't need to be iterators over the same container.
 	 *
 	 * @pre        it1 and it2 are dereferenceable iterators over the respective
 	 *             container.
 	 *
-	 * @post       All iterators mantain validity. The container over which it1
-	 *             iterates is the one over which it2 was iterating before the
-	 *             call, and viceversa.
+	 * @post       All iterators mantain validity.
 	 */
 	static void swap(const iterator &,
 	                 const iterator &);
