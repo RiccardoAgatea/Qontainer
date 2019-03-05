@@ -23,7 +23,7 @@ void Model::load(const std::string &path_to_do,
 void Model::addOrder(const std::string &type,
 					 unsigned int table,
 					 const std::string &item,
-					 const std::vector<std::string> &details)
+					 const std::vector<std::vector<std::string> > &details)
 {
 	to_do.push_back(*PolyStatic::make(type, table, item, details));
 }
@@ -57,7 +57,8 @@ std::vector<std::string> Model::getTypes()
  * @return     An Info structure with the details for the representation of
  *             type.
  */
-Model::Info Model::getInfo(const std::string &type)
+std::vector<std::vector<std::string>> Model::getInfo(
+									   const std::string &type)
 {
 	return PolyStatic::getInfo(type);
 }

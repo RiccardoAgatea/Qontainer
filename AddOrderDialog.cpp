@@ -7,6 +7,7 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QString>
+#include <QDebug>
 
 /**
  * @brief      Builds the details part of the window depending on the type
@@ -15,33 +16,56 @@
 void AddOrderDialog::setDetails()
 {
 	QString type = choose_type->checkedButton()->text();
-	PolyStatic::Info info = PolyStatic::getInfo(type.toStdString());
-	//SSSDVJVSDJVJVDJJVDOVDDVOOVDEQPIQEDNVMPKCDSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	QVector<QVector<QString>> info = getInfo(type);
 
-	while (!details_layout->isEmpty())
+	while (!details_layout_long->isEmpty())
 	{
-		QLayoutItem *item = details_layout->takeAt(0);
+		QLayoutItem *item = details_layout_long->takeAt(0);
 
-		if (item->widget() != nullptr)
-			delete item->widget();
-		else if (item->layout() != nullptr)
+		while (!item->layout()->isEmpty())
 		{
-			while (!item->layout()->isEmpty())
-			{
-				QLayoutItem *it = item->layout()->takeAt(0);
+			QLayoutItem *it = item->layout()->takeAt(0);
 
-				delete it->widget();
-				delete it;
-			}
-
-			delete item;
+			delete it->widget();
+			delete it;
 		}
+
+		delete item;
 	}
 
-	for (auto &x : info.long_texts)
+	while (!details_layout_short->isEmpty())
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
-		                           details_box);
+		QLayoutItem *item = details_layout_short->takeAt(0);
+
+		while (!item->layout()->isEmpty())
+		{
+			QLayoutItem *it = item->layout()->takeAt(0);
+
+			delete it->widget();
+			delete it;
+		}
+
+		delete item;
+	}
+
+	while (!details_layout_check->isEmpty())
+	{
+		QLayoutItem *item = details_layout_check->takeAt(0);
+
+		while (!item->layout()->isEmpty())
+		{
+			QLayoutItem *it = item->layout()->takeAt(0);
+
+			delete it->widget();
+			delete it;
+		}
+
+		delete item;
+	}
+
+	for (auto &x : info[0])
+	{
+		QLabel *label = new QLabel(x + ": ", details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumSize(100, 75);
 
@@ -50,16 +74,15 @@ void AddOrderDialog::setDetails()
 		layout->addWidget(line_edit);
 		layout->addStretch(1);
 
-		details_layout->addLayout(layout);
+		details_layout_long->addLayout(layout);
 
 		label->show();
 		line_edit->show();
 	}
 
-	for (auto &x : info.short_texts)
+	for (auto &x : info[1])
 	{
-		QLabel *label = new QLabel(QString::fromStdString(x + ": "),
-		                           details_box);
+		QLabel *label = new QLabel(x + ": ", details_box);
 		QLineEdit *line_edit = new QLineEdit(details_box);
 		line_edit->setMinimumWidth(100);
 
@@ -68,22 +91,21 @@ void AddOrderDialog::setDetails()
 		layout->addWidget(line_edit);
 		layout->addStretch(1);
 
-		details_layout->addLayout(layout);
+		details_layout_short->addLayout(layout);
 
 		label->show();
 		line_edit->show();
 	}
 
-	for (auto &x : info.checks)
+	for (auto &x : info[2])
 	{
-		QCheckBox *checkbox = new QCheckBox(QString::fromStdString(x),
-		                                    details_box);
+		QCheckBox *checkbox = new QCheckBox(x, details_box);
 
 		QHBoxLayout *layout = new QHBoxLayout();
 		layout->addWidget(checkbox);
 		layout->addStretch(1);
 
-		details_layout->addLayout(layout);
+		details_layout_check->addLayout(layout);
 
 		checkbox->show();
 	}
@@ -94,16 +116,22 @@ void AddOrderDialog::setDetails()
  *
  * @param[in]  types   Vector containing all the types of order that can be
  *                     created.
+ * @param      get     Function object returning info about the details of
+ *                     a cetain type.
  * @param      parent  The parent widget.
  */
 AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
-							   QWidget *parent):
+                               const std::function<QVector<QVector<QString>>(const QString &)> &get,
+                               QWidget *parent):
 	QDialog(parent),
 	table_input(new QLineEdit()),
 	item_input(new QLineEdit()),
 	choose_type(new QButtonGroup()),
 	details_box(new QGroupBox("Details")),
-	details_layout(new QVBoxLayout())
+	details_layout_long(new QVBoxLayout()),
+	details_layout_short(new QVBoxLayout()),
+	details_layout_check(new QVBoxLayout()),
+	getInfo(get)
 {
 	setWindowModality(Qt::ApplicationModal);
 	setMinimumSize(sizeHint());
@@ -135,6 +163,11 @@ AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
 		choose_type->addButton(button);
 		++pos;
 	}
+
+	QVBoxLayout *details_layout = new QVBoxLayout();
+	details_layout->addLayout(details_layout_long);
+	details_layout->addLayout(details_layout_short);
+	details_layout->addLayout(details_layout_check);
 
 	connect(choose_type, QOverload<int>::of(&QButtonGroup::buttonClicked),
 	        this, &AddOrderDialog::setDetails);
@@ -192,8 +225,11 @@ QString AddOrderDialog::getItem() const
 	return item_input->text();
 }
 
-QVector<QString> AddOrderDialog::getDetails() const
+QVector<QVector<QString>> AddOrderDialog::getDetails() const
 {
-	QVector<QString> aux;
+	QVector<QVector<QString>> aux;
 
+
+
+	return aux;
 }

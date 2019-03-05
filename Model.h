@@ -15,7 +15,6 @@ private:
 	Container<Order> to_do;
 	Container<Order> completed;
 public:
-	using Info = std::vector<std::vector<std::string>>;
 	Model() = default;
 	explicit Model(const std::string &,
 	               const std::string &);
@@ -26,11 +25,12 @@ public:
 	void addOrder(const std::string &,
 				  unsigned int,
 				  const std::string &,
-				  const std::vector<std::string> &);
+				  const std::vector<std::vector<std::string>> &);
 	bool empty() const;
 
 	static std::vector<std::string> getTypes();
-	static Info getInfo(const std::string &);
+	static std::vector<std::vector<std::string>> getInfo(
+				const std::string &);
 };
 
 #endif // MODEL_H

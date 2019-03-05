@@ -33,8 +33,10 @@ namespace UniformInterface
  *             const method implementing th estandard polymporphic construction.
  */
 template<typename T>
-T *clone(const T &);
-
+T *clone(const T &t)
+{
+	return t.clone();
+}
 
 /**
  * @brief      Move construction
@@ -53,7 +55,10 @@ T *clone(const T &);
  *             const method implementing th estandard polymporphic construction.
  */
 template<typename T>
-T *clone(T &&);
+T *clone(T &&t)
+{
+	return t.move();
+}
 
 /**
  * @brief      Wrapper for the equality operator
@@ -69,7 +74,10 @@ T *clone(T &&);
  *             operator==().
  */
 template<typename T>
-bool equal(const T &, const T &);
+bool equal(const T &t1, const T &t2)
+{
+	return t1 == t2;
+}
 }
 
 #endif // UNIFORMINTERFACE_H

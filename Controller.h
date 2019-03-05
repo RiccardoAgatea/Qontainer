@@ -19,7 +19,6 @@ private:
 	Model *model;
 	View *view;
 public:
-	using Info = QVector<QVector<QString>>;
 	explicit Controller(View *);
 	bool isModelEmpty() const;
 	void load(const QString &);
@@ -27,10 +26,10 @@ public:
 	void addOrder(const QString &,
 	              unsigned int,
 	              const QString &,
-				  const QVector<QString> &);
+				  const QVector<QVector<QString>> &);
 
 	static QVector<QString> getTypes();
-	static Info getInfo(const QString &);
+	static QVector<QVector<QString>> getInfo(const QString &);
 signals:
 
 public slots:
