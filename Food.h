@@ -2,9 +2,6 @@
 #define FOOD_H
 #include "Order.h"
 
-/**
- * @brief      Represents an order of some food (as opposed to drinks).
- */
 class Food : public Order
 {
 private:

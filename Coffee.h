@@ -2,9 +2,6 @@
 #define COFFEE_H
 #include "Drink.h"
 
-/**
- * @brief      Represents an order of some coffe.
- */
 class Coffee: public Drink
 {
 private:

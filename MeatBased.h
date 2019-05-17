@@ -3,9 +3,6 @@
 #include "Food.h"
 #include <string>
 
-/**
- * @brief      Represents an order of some meat-based food
- */
 
 class MeatBased : public Food
 {

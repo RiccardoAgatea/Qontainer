@@ -2,9 +2,6 @@
 #define WINE_H
 #include "Alcoholic.h"
 
-/**
- * @brief      Represents an order of some wine.
- */
 class Wine: public Alcoholic
 {
 private:

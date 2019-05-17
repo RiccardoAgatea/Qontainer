@@ -24,13 +24,10 @@ void Controller::save(const QString &) const
 
 }
 
-/**
- * @brief      Provides an interface for the Model method addOrder()
- */
 void Controller::addOrder(const QString &type,
                           unsigned int table,
                           const QString &item,
-						  const QVector<QVector<QString>> &details)
+                          const QVector<QVector<QString>> &details)
 {
 	std::vector<std::string> aux;
 
@@ -43,10 +40,6 @@ void Controller::addOrder(const QString &type,
 	                aux);
 }
 
-/**
- * @brief      Provides an interface between the View and the Model method
- *             getTypes()
- */
 QVector<QString> Controller::getTypes()
 {
 	QVector<QString> aux;
@@ -57,13 +50,10 @@ QVector<QString> Controller::getTypes()
 	return aux;
 }
 
-/**
- * @brief      Provides an interface between the View and the Model method getInfo()
- */
 QVector<QVector<QString> > Controller::getInfo(const QString &type)
 {
 	std::vector<std::vector<std::string>> temp = Model::getInfo(
-										   type.toStdString());
+	                                       type.toStdString());
 	QVector<QVector<QString>> aux;
 
 	for (const auto &v : temp)

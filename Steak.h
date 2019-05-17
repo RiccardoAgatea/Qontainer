@@ -2,9 +2,6 @@
 #define STEAK_H
 #include "MeatBased.h"
 
-/**
- * @brief      Represents an order of some meat-based food.
- */
 class Steak: public MeatBased
 {
 public:

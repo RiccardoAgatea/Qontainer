@@ -2,9 +2,6 @@
 #define APPETIZER_H
 #include "Food.h"
 
-/**
- * @brief      Represents an order of some appetizer.
- */
 class Appetizer: public Food
 {
 private:

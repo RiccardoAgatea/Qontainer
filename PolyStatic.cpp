@@ -15,12 +15,6 @@
 
 namespace PolyStatic
 {
-/**
- * @brief      Provides a list of all instanciable types in the  hierarchy
- *
- * @return     A std::vector containing all the instanciable types in the Order
- *             hierarchy, in the form of strings.
- */
 std::vector<std::string> getTypes()
 {
 	return
@@ -39,18 +33,6 @@ std::vector<std::string> getTypes()
 	};
 }
 
-/**
- * @brief      Factory function for the Order hierarchy
- *
- * @param      type     Type of the object to be constucted
- * @param      table    Number of the table that issued the order
- * @param      item     Ordered item.
- * @param      details  Vector containing the required details for the order.
- *
- * @return     A DeepPtr to the constructed object of the required type.
- *
- * @pre        *type* is a known type of the Order hierarchy, and details contains the right amout of details to construct an object of type *type*
- */
 DeepPtr<Order> make(const std::string &type,
                     unsigned int table,
                     const std::string &item,
@@ -103,18 +85,6 @@ DeepPtr<Order> make(const std::string &type,
 	}
 }
 
-/**
- * @brief      Provides information about the details of the type passed as
- *             parameter
- *
- * @param[in]  type  The type about which information is required, in the form
- *                   of string
- *
- * @return     Information about the representation of the details of the
- *             requested type. Each vector of the return value represents a type
- *             of detail: respectively, long texts, one line texts, and yes/no
- *             questions.
- */
 std::vector<std::vector<std::string>> getInfo(const std::string &type)
 {
 	if (type == "Steak")

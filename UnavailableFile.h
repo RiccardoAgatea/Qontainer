@@ -2,9 +2,6 @@
 #define UNAVAILABLEFILE_H
 #include <stdexcept>
 
-/**
- * @brief      Exception class for an invalid file path
- */
 class UnavailableFile: public std::invalid_argument
 {
 public:

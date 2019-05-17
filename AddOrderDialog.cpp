@@ -9,10 +9,6 @@
 #include <QString>
 #include <QDebug>
 
-/**
- * @brief      Builds the details part of the window depending on the type
- *             that's selected
- */
 void AddOrderDialog::setDetails()
 {
 	QString type = choose_type->checkedButton()->text();
@@ -111,15 +107,6 @@ void AddOrderDialog::setDetails()
 	}
 }
 
-/**
- * @brief      Constructor
- *
- * @param[in]  types   Vector containing all the types of order that can be
- *                     created.
- * @param      get     Function object returning info about the details of
- *                     a cetain type.
- * @param      parent  The parent widget.
- */
 AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
                                const std::function<QVector<QVector<QString>>(const QString &)> &get,
                                QWidget *parent):
@@ -200,11 +187,6 @@ AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
 	        this, &AddOrderDialog::reject);
 }
 
-/**
- * @brief      Override of QDialog::sizeHint()
- *
- * @return     A QSize representing the preferred size of the window.
- */
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(250, 415);

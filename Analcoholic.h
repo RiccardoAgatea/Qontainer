@@ -2,9 +2,6 @@
 #define ANALCOHOLIC_H
 #include "Drink.h"
 
-/**
- * @brief      Represents an order of some analcoholic drink.
- */
 class Analcoholic: public Drink
 {
 private:

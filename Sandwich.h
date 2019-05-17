@@ -2,9 +2,6 @@
 #define SANDWICH_H
 #include "Food.h"
 
-/**
- * @brief      Represents an order of some sandwich.
- */
 class Sandwich: public Food
 {
 public:
