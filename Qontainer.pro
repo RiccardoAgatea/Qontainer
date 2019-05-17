@@ -35,10 +35,13 @@ SOURCES += \
     UnknownType.cpp \
     Controller.cpp \
     View.cpp \
-    AddOrderDialog.cpp \
     OrderWidget.cpp \
     PolyStatic.cpp \
-    NullPtrExcept.cpp
+    NullPtrExcept.cpp \
+    StaticOrder.cpp \
+	#AddOrderDialog1.cpp \
+    AddOrderDialog.cpp \
+    ThreeColGridLayout.cpp
 
 HEADERS += \
 	Container.h \
@@ -67,11 +70,14 @@ HEADERS += \
     UnknownType.h \
     Controller.h \
     View.h \
-    AddOrderDialog.h \
     OrderWidget.h \
     PolyStatic.h \
     NullPtrExcept.h \
-    UniformInterface.h
+    UniformInterface.h \
+    StaticOrder.h \
+	#AddOrderDialog1.h \
+    AddOrderDialog.h \
+    ThreeColGridLayout.h
 
 FORMS +=
 

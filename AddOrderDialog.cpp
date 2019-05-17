@@ -1,217 +1,127 @@
 #include "AddOrderDialog.h"
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QGroupBox>
 #include <QGridLayout>
-#include <QIntValidator>
 #include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QIntValidator>
 #include <QRadioButton>
 #include <QCheckBox>
-#include <QString>
-#include <QDebug>
 
-void AddOrderDialog::setDetails()
+void AddOrderDialog::setup()
 {
-	QString type = choose_type->checkedButton()->text();
-	QVector<QVector<QString>> info = getInfo(type);
-
-	while (!details_layout_long->isEmpty())
+	while (!details_layout->isEmpty())
 	{
-		QLayoutItem *item = details_layout_long->takeAt(0);
+		QLayoutItem *item = details_layout->takeAt(0);
 
-		while (!item->layout()->isEmpty())
-		{
-			QLayoutItem *it = item->layout()->takeAt(0);
-
-			delete it->widget();
-			delete it;
-		}
-
+		delete item->widget();
 		delete item;
 	}
 
-	while (!details_layout_short->isEmpty())
-	{
-		QLayoutItem *item = details_layout_short->takeAt(0);
+	auto fields =
+		StaticOrder::info.equal_range(
+			types_group->checkedButton()->text().toStdString());
 
-		while (!item->layout()->isEmpty())
+	for (auto it = fields.first; it != fields.second; ++it)
+	{
+		auto detail = it->second;
+
+		if (detail.first == StaticOrder::DetailType::SmallText)
 		{
-			QLayoutItem *it = item->layout()->takeAt(0);
-
-			delete it->widget();
-			delete it;
+			QLineEdit *text = new QLineEdit();
+			text->setPlaceholderText(QString::fromStdString(
+										 detail.second));
+			text->setMinimumWidth(100);
+			details_layout->addWidget(text);
+			text->show();
 		}
-
-		delete item;
-	}
-
-	while (!details_layout_check->isEmpty())
-	{
-		QLayoutItem *item = details_layout_check->takeAt(0);
-
-		while (!item->layout()->isEmpty())
+		else if (detail.first == StaticOrder::DetailType::LargeText)
 		{
-			QLayoutItem *it = item->layout()->takeAt(0);
-
-			delete it->widget();
-			delete it;
+			QTextEdit *text = new QTextEdit();
+			text->setPlaceholderText(QString::fromStdString(
+										 detail.second));
+			text->setMinimumSize(100, 75);
+			text->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+			details_layout->addWidget(text);
+			text->show();
 		}
-
-		delete item;
-	}
-
-	for (auto &x : info[0])
-	{
-		QLabel *label = new QLabel(x + ": ", details_box);
-		QLineEdit *line_edit = new QLineEdit(details_box);
-		line_edit->setMinimumSize(100, 75);
-
-		QHBoxLayout *layout = new QHBoxLayout();
-		layout->addWidget(label);
-		layout->addWidget(line_edit);
-		layout->addStretch(1);
-
-		details_layout_long->addLayout(layout);
-
-		label->show();
-		line_edit->show();
-	}
-
-	for (auto &x : info[1])
-	{
-		QLabel *label = new QLabel(x + ": ", details_box);
-		QLineEdit *line_edit = new QLineEdit(details_box);
-		line_edit->setMinimumWidth(100);
-
-		QHBoxLayout *layout = new QHBoxLayout();
-		layout->addWidget(label);
-		layout->addWidget(line_edit);
-		layout->addStretch(1);
-
-		details_layout_short->addLayout(layout);
-
-		label->show();
-		line_edit->show();
-	}
-
-	for (auto &x : info[2])
-	{
-		QCheckBox *checkbox = new QCheckBox(x, details_box);
-
-		QHBoxLayout *layout = new QHBoxLayout();
-		layout->addWidget(checkbox);
-		layout->addStretch(1);
-
-		details_layout_check->addLayout(layout);
-
-		checkbox->show();
+		else if (detail.first == StaticOrder::DetailType::CheckBox)
+		{
+			QCheckBox *check = new QCheckBox(QString::fromStdString(
+												 detail.second));
+			details_layout->addWidget(check);
+			check->show();
+		}
 	}
 }
 
-AddOrderDialog::AddOrderDialog(const QVector<QString> &types,
-                               const std::function<QVector<QVector<QString>>(const QString &)> &get,
-                               QWidget *parent):
+AddOrderDialog::AddOrderDialog(QWidget *parent):
 	QDialog(parent),
-	table_input(new QLineEdit()),
-	item_input(new QLineEdit()),
-	choose_type(new QButtonGroup()),
-	details_box(new QGroupBox("Details")),
-	details_layout_long(new QVBoxLayout()),
-	details_layout_short(new QVBoxLayout()),
-	details_layout_check(new QVBoxLayout()),
-	getInfo(get)
+	details_layout(new QVBoxLayout),
+	types_group(new QButtonGroup)
 {
-	setWindowModality(Qt::ApplicationModal);
-	setMinimumSize(sizeHint());
+	QVBoxLayout *main_layout = new QVBoxLayout;
+	QHBoxLayout *table_layout = new QHBoxLayout;
+	QHBoxLayout *item_layout = new QHBoxLayout;
+	QGroupBox *types_box = new QGroupBox("Type");
+	QHBoxLayout *buttons_layout = new QHBoxLayout;
 
-	QVBoxLayout *main_layout = new QVBoxLayout();
-	QHBoxLayout *table_layout = new QHBoxLayout();
-	QHBoxLayout *item_layout = new QHBoxLayout();
-	QGroupBox *type_box = new QGroupBox("Type");
-	QGridLayout *type_layout = new QGridLayout();
-	QHBoxLayout *buttons_layout = new QHBoxLayout();
-
-	table_input->setMaximumWidth(30);
-	table_input->setValidator(new QIntValidator(0, 100));
-
+	QLineEdit *table_line_edit = new QLineEdit;
+	table_line_edit->setMaximumWidth(30);
+	table_line_edit->setValidator(new QIntValidator(0, 100));
 	table_layout->addWidget(new QLabel("Table: "));
-	table_layout->addWidget(table_input);
+	table_layout->addWidget(table_line_edit);
 	table_layout->addStretch(1);
 
+	QLineEdit *item_line_edit = new QLineEdit;
 	item_layout->addWidget(new QLabel("Item: "));
-	item_layout->addWidget(item_input);
+	item_layout->addWidget(item_line_edit);
 	item_layout->addStretch(1);
+
+	QGridLayout *types_layout = new QGridLayout;
 
 	int pos = 0;
 
-	for (const auto &t : types)
+	for (const auto &t : StaticOrder::types)
 	{
-		QRadioButton *button = new QRadioButton(t);
-		type_layout->addWidget(button, pos / 2, pos % 2);
-		choose_type->addButton(button);
+		QRadioButton *button = new QRadioButton(QString::fromStdString(t));
+		types_layout->addWidget(button, pos / 2, pos % 2);
+		types_group->addButton(button);
 		++pos;
 	}
 
-	QVBoxLayout *details_layout = new QVBoxLayout();
-	details_layout->addLayout(details_layout_long);
-	details_layout->addLayout(details_layout_short);
-	details_layout->addLayout(details_layout_check);
+	types_box->setLayout(types_layout);
 
-	connect(choose_type, QOverload<int>::of(&QButtonGroup::buttonClicked),
-	        this, &AddOrderDialog::setDetails);
-
-	choose_type->buttons()[0]->click();
-
-	QPushButton *ok = new QPushButton("Ok");
-	QPushButton *cancel = new QPushButton("Cancel");
+	QPushButton *ok_button = new QPushButton("Ok");
+	QPushButton *cancel_button = new QPushButton("Cancel");
 	buttons_layout->addStretch(1);
-	buttons_layout->addWidget(ok);
-	buttons_layout->addWidget(cancel);
-
-	type_box->setLayout(type_layout);
-	details_box->setLayout(details_layout);
+	buttons_layout->addWidget(ok_button);
+	buttons_layout->addWidget(cancel_button);
 
 	main_layout->addLayout(table_layout);
 	main_layout->addLayout(item_layout);
-	main_layout->addWidget(type_box);
-	main_layout->addWidget(details_box);
+	main_layout->addWidget(types_box);
+	main_layout->addLayout(details_layout);
 	main_layout->addStretch(1);
 	main_layout->addLayout(buttons_layout);
 
 	setLayout(main_layout);
-	show();
 
-	connect(ok, &QPushButton::clicked,
-	        this, &AddOrderDialog::accept);
+	connect(types_group, QOverload<int>::of(&QButtonGroup::buttonClicked),
+			this, &AddOrderDialog::setup);
 
-	connect(cancel, &QPushButton::clicked,
-	        this, &AddOrderDialog::reject);
+	connect(ok_button, &QPushButton::clicked,
+			this, &AddOrderDialog::accept);
+
+	connect(cancel_button, &QPushButton::clicked,
+			this, &AddOrderDialog::reject);
+
+	types_group->buttons()[0]->click();
 }
 
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(250, 415);
-}
-
-QString AddOrderDialog::getType() const
-{
-	return choose_type->checkedButton()->text();
-}
-
-unsigned int AddOrderDialog::getTable() const
-{
-	return table_input->text().toUInt();
-}
-
-QString AddOrderDialog::getItem() const
-{
-	return item_input->text();
-}
-
-QVector<QVector<QString>> AddOrderDialog::getDetails() const
-{
-	QVector<QVector<QString>> aux;
-
-
-
-	return aux;
 }

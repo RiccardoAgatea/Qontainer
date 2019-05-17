@@ -6,7 +6,6 @@
 #include <QMenu>
 #include <QAction>
 #include <QTabWidget>
-#include <QScrollArea>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
@@ -15,70 +14,65 @@
 #include <QIntValidator>
 #include <QToolBar>
 #include <QFileDialog>
-
-void View::createTabs()
-{
-	//Tabs: general
-	QScrollArea *general = new QScrollArea();
-
-	//Tabs: bar
-	QScrollArea *bar = new QScrollArea();
-
-	//Tabs: desserts
-	QScrollArea *desserts = new QScrollArea();
-
-	//Tabs: completed
-	QScrollArea *completed = new QScrollArea();
-
-	//Tabs
-	QTabWidget *tabs = new QTabWidget();
-	tabs->addTab(general, "General");
-	tabs->addTab(bar, "Bar");
-	tabs->addTab(desserts, "Desserts");
-	tabs->addTab(completed, "Completed Orders");
-	setCentralWidget(tabs);
-}
+#include <QScrollArea>
 
 View::View(QWidget *parent):
 	QMainWindow(parent),
-	controller(new Controller(this))
+	controller(new Controller(this)),
+	general_layout(new QGridLayout()),
+	bar_layout(new QGridLayout()),
+	desserts_layout(new QGridLayout()),
+	completed_layout(new QGridLayout())
 {
 	move(25, 25);
 
 	//Menu
-	QMenu *file = new QMenu("File");
-	QAction *save = new QAction("Save");
-	QAction *load = new QAction("Load");
-	QAction *exit = new QAction("Exit");
+	QMenu *file_menu = new QMenu("File");
+	QAction *save_action = new QAction("Save");
+	QAction *load_action = new QAction("Load");
+	QAction *exit_action = new QAction("Exit");
 
-	menuBar()->addMenu(file);
-	file->addAction(save);
-	file->addAction(load);
-	file->addAction(exit);
+	menuBar()->addMenu(file_menu);
+	file_menu->addAction(save_action);
+	file_menu->addAction(load_action);
+	file_menu->addAction(exit_action);
 
-	connect(save, &QAction::triggered,
+	connect(save_action, &QAction::triggered,
 	        this, &View::save);
 
-	connect(load, &QAction::triggered,
+	connect(load_action, &QAction::triggered,
 	        this, &View::load);
 
-	connect(exit, &QAction::triggered,
+	connect(exit_action, &QAction::triggered,
 	        this, &View::close);
 
 	//ToolBar
-	QToolBar *tools = new QToolBar();
-	QAction *add_order = new QAction("Add Order");
-	tools->addAction(add_order);
-	tools->addAction(save);
-	tools->addAction(load);
+	QToolBar *tool_bar = new QToolBar();
+	QAction *add_order_action = new QAction("Add Order");
+	tool_bar->addAction(add_order_action);
+	tool_bar->addAction(save_action);
+	tool_bar->addAction(load_action);
 
-	addToolBar(tools);
+	addToolBar(tool_bar);
 
-	connect(add_order, &QAction::triggered,
+	connect(add_order_action, &QAction::triggered,
 	        this, &View::newOrder);
 
 	//Tabs
-	createTabs();
+	QTabWidget *tab_widget = new QTabWidget();
+	QScrollArea *general_scroll_area = new QScrollArea;
+	QScrollArea *bar_scroll_area = new QScrollArea;
+	QScrollArea *desserts_scroll_area = new QScrollArea;
+	QScrollArea *completed_scroll_area = new QScrollArea;
+	general_scroll_area->setLayout(general_layout);
+	bar_scroll_area->setLayout(bar_layout);
+	desserts_scroll_area->setLayout(desserts_layout);
+	completed_scroll_area->setLayout(completed_layout);
+	tab_widget->addTab(general_scroll_area, "General");
+	tab_widget->addTab(bar_scroll_area, "Bar");
+	tab_widget->addTab(desserts_scroll_area, "Desserts");
+	tab_widget->addTab(completed_scroll_area, "Completed Orders");
+	setCentralWidget(tab_widget);
 }
 
 QSize View::sizeHint() const
@@ -88,15 +82,31 @@ QSize View::sizeHint() const
 
 void View::newOrder()
 {
-	AddOrderDialog dial(Controller::getTypes(),
-	                    &Controller::getInfo,
-	                    this);
-	dial.exec();
+	AddOrderDialog *dial = new AddOrderDialog(this);
 
-	controller->addOrder(dial.getType(),
-	                     dial.getTable(),
-	                     dial.getItem(),
-	                     dial.getDetails());
+	if (dial->exec())
+	{
+		OrderWidget *o = new OrderWidget(DeepPtr<Order>(nullptr));
+		general_layout->addWidget(o);
+		o->show();
+	}
+}
+
+void View::removeOrder(OrderWidget *o)
+{
+	general_scroll_area->layout()->removeWidget(o);
+	bar_scroll_area->layout()->removeWidget(o);
+	desserts_scroll_area->layout()->removeWidget(o);
+	completed_scroll_area->layout()->removeWidget(o);
+	delete o;
+}
+
+void View::completeOrder(OrderWidget *o)
+{
+	general_scroll_area->layout()->removeWidget(o);
+	bar_scroll_area->layout()->removeWidget(o);
+	desserts_scroll_area->layout()->removeWidget(o);
+	completed_scroll_area->layout()->addWidget(o);
 }
 
 void View::load()

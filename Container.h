@@ -4,34 +4,6 @@
 #include "DeepPtr.h"
 #include "ContainerExceptions.h"
 
-
-namespace ReferenceTypes
-{
-template<typename T, bool constness> struct reference;
-
-template<typename T> struct reference<T, true>
-{
-	using type = const T&;
-};
-
-template<typename T> struct reference<T, false>
-{
-	using type = T&;
-};
-
-template<typename T, bool constness> struct pointer;
-
-template<typename T> struct pointer<T, true>
-{
-	using type = const DeepPtr<T> &;
-};
-
-template<typename T> struct pointer<T, false>
-{
-	using type = DeepPtr<T> &;
-};
-}
-
 template <typename T>
 class Container
 {

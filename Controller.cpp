@@ -3,7 +3,7 @@
 
 Controller::Controller(View *v):
 	QWidget(v),
-	model(nullptr),
+	model(new Model),
 	view(v)
 {
 
@@ -11,7 +11,7 @@ Controller::Controller(View *v):
 
 bool Controller::isModelEmpty() const
 {
-	return model == nullptr || model->empty();
+	return model->empty();
 }
 
 void Controller::load(const QString &)
@@ -29,15 +29,7 @@ void Controller::addOrder(const QString &type,
                           const QString &item,
                           const QVector<QVector<QString>> &details)
 {
-	std::vector<std::string> aux;
-
-	for (const auto &x : details)
-		aux.push_back(x.toStdString());
-
-	model->addOrder(type.toStdString(),
-	                table,
-	                item.toStdString(),
-	                aux);
+	if (type == "" || table || item == "" || details.empty()) return;
 }
 
 QVector<QString> Controller::getTypes()
