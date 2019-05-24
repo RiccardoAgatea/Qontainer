@@ -40,8 +40,7 @@ SOURCES += \
     NullPtrExcept.cpp \
     StaticOrder.cpp \
 	#AddOrderDialog1.cpp \
-    AddOrderDialog.cpp \
-    ThreeColGridLayout.cpp
+    AddOrderDialog.cpp
 
 HEADERS += \
 	Container.h \
@@ -76,8 +75,7 @@ HEADERS += \
     UniformInterface.h \
     StaticOrder.h \
 	#AddOrderDialog1.h \
-    AddOrderDialog.h \
-    ThreeColGridLayout.h
+    AddOrderDialog.h
 
 FORMS +=
 

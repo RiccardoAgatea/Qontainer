@@ -94,19 +94,19 @@ void View::newOrder()
 
 void View::removeOrder(OrderWidget *o)
 {
-	general_scroll_area->layout()->removeWidget(o);
-	bar_scroll_area->layout()->removeWidget(o);
-	desserts_scroll_area->layout()->removeWidget(o);
-	completed_scroll_area->layout()->removeWidget(o);
+	general_layout->removeWidget(o);
+	bar_layout->removeWidget(o);
+	desserts_layout->removeWidget(o);
+	completed_layout->removeWidget(o);
 	delete o;
 }
 
 void View::completeOrder(OrderWidget *o)
 {
-	general_scroll_area->layout()->removeWidget(o);
-	bar_scroll_area->layout()->removeWidget(o);
-	desserts_scroll_area->layout()->removeWidget(o);
-	completed_scroll_area->layout()->addWidget(o);
+	general_layout->removeWidget(o);
+	bar_layout->removeWidget(o);
+	desserts_layout->removeWidget(o);
+	completed_layout->addWidget(o);
 }
 
 void View::load()
