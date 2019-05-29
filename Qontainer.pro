@@ -36,7 +36,7 @@ SOURCES += \
     Controller.cpp \
     View.cpp \
     OrderWidget.cpp \
-    PolyStatic.cpp \
+	PolyStatic.cpp \
     NullPtrExcept.cpp \
     StaticOrder.cpp \
 	#AddOrderDialog1.cpp \
@@ -70,7 +70,7 @@ HEADERS += \
     Controller.h \
     View.h \
     OrderWidget.h \
-    PolyStatic.h \
+	PolyStatic.h \
     NullPtrExcept.h \
     UniformInterface.h \
     StaticOrder.h \

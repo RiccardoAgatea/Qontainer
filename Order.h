@@ -2,6 +2,7 @@
 #define ORDER_H
 #include <string>
 #include <vector>
+#include "StaticOrder.h"
 
 class Order
 {

@@ -6,6 +6,8 @@ class Liquor: public Alcoholic
 {
 private:
 	bool ice;
+
+	static StaticOrder::Empty empty;
 public:
 	Liquor(unsigned int,
 	       const std::string &,

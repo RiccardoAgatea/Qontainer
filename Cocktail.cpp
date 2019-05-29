@@ -1,5 +1,7 @@
 #include "Cocktail.h"
 
+StaticOrder::Empty Cocktail::empty("Cocktail");
+
 Cocktail::Cocktail(unsigned int t,
                    const std::string &i,
                    const std::string &g):

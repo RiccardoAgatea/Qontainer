@@ -2,6 +2,8 @@
 #include <utility>
 #include <stdexcept>
 
+StaticOrder::Empty Analcoholic::empty("Analcoholic");
+
 Analcoholic::Analcoholic(unsigned int t,
                          const std::string &i,
                          bool ic):

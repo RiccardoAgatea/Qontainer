@@ -4,6 +4,8 @@
 
 class Steak: public MeatBased
 {
+private:
+	static StaticOrder::Empty empty;
 public:
 	Steak(unsigned int,
 	      const std::string &,

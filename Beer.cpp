@@ -1,6 +1,8 @@
 #include "Beer.h"
 #include <utility>
 
+StaticOrder::Empty Beer::empty("Beer");
+
 Beer::Beer(unsigned int t,
            const std::string &i,
            const std::string &s):

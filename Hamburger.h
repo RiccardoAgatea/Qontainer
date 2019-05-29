@@ -4,6 +4,8 @@
 
 class Hamburger: public MeatBased
 {
+private:
+	static StaticOrder::Empty empty;
 public:
 	using MeatBased::MeatBased;
 	Hamburger *clone() const override;

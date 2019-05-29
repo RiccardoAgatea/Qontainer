@@ -1,6 +1,8 @@
 #include "Appetizer.h"
 #include <utility>
 
+StaticOrder::Empty Appetizer::empty("Appetizer");
+
 Appetizer::Appetizer(unsigned int t,
                      const std::string &i,
                      const std::string &s):

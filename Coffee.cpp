@@ -1,6 +1,8 @@
 #include "Coffee.h"
 #include <utility>
 
+StaticOrder::Empty Coffee::empty("Coffee");
+
 Coffee::Coffee(unsigned int t,
                const std::string &i,
                const std::string &n):

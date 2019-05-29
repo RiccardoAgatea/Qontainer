@@ -6,13 +6,18 @@
 class StaticOrder
 {
 public:
+	class Empty
+	{
+	public:
+		Empty(const std::string &);
+	};
 	enum class DetailType
 	{
 		CheckBox,
 		SmallText,
 		LargeText
 	};
-	static const std::vector<std::string> types;
+	static std::vector<std::string> types;
 	static const
 	std::multimap<std::string, std::pair<DetailType, std::string>>
 			info;

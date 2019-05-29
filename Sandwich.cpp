@@ -1,6 +1,8 @@
 #include "Sandwich.h"
 #include <utility>
 
+StaticOrder::Empty Sandwich::empty("Sandwich");
+
 Sandwich *Sandwich::clone() const
 {
 	return new Sandwich(*this);

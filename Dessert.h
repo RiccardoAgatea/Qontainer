@@ -6,6 +6,8 @@ class Dessert: public Food
 {
 private:
 	std::string with;
+
+	static StaticOrder::Empty empty;
 public:
 	Dessert(unsigned int,
 	        const std::string &,

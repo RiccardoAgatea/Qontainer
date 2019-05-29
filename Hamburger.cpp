@@ -1,6 +1,8 @@
 #include "Hamburger.h"
 #include <utility>
 
+StaticOrder::Empty Hamburger::empty("Hamburger");
+
 Hamburger *Hamburger::clone() const
 {
 	return new Hamburger(*this);

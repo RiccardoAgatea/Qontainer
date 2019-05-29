@@ -2,6 +2,8 @@
 #include <utility>
 #include <stdexcept>
 
+StaticOrder::Empty Wine::empty("Wine");
+
 Wine::Wine(unsigned int t,
            const std::string &i,
            bool v):

@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "UnavailableFile.h"
+#include "StaticOrder.h"
 #include "PolyStatic.h"
 
 Model::Model(const std::string &path_to_do,
@@ -35,7 +36,7 @@ bool Model::empty() const
 
 std::vector<std::string> Model::getTypes()
 {
-	return PolyStatic::getTypes();
+	return StaticOrder::types;
 }
 
 std::vector<std::vector<std::string>> Model::getInfo(

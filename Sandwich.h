@@ -4,6 +4,8 @@
 
 class Sandwich: public Food
 {
+private:
+	static StaticOrder::Empty empty;
 public:
 	using Food::Food;
 	Sandwich *clone() const override;

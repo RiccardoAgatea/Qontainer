@@ -6,6 +6,8 @@ class Cocktail: public Alcoholic
 {
 private:
 	std::string garnish;
+
+	static StaticOrder::Empty empty;
 public:
 	Cocktail(unsigned int,
 	         const std::string &,

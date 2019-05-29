@@ -1,6 +1,8 @@
 #include "Dessert.h"
 #include <utility>
 
+StaticOrder::Empty Dessert::empty("Dessert");
+
 Dessert::Dessert(unsigned int t,
                  const std::string &i,
                  const std::string &w):

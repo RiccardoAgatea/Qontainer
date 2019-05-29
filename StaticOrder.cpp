@@ -1,19 +1,12 @@
 #include "StaticOrder.h"
 
-const std::vector<std::string> StaticOrder::types
+StaticOrder::Empty::Empty(const std::string &type)
 {
-	"Steak",
-	"Hamburger",
-	"Sandwich",
-	"Appetizer",
-	"Dessert",
-	"Liquor",
-	"Beer",
-	"Wine",
-	"Cocktail",
-	"Analcoholic",
-	"Coffee"
-};
+	StaticOrder::types.push_back(type);
+}
+
+std::vector<std::string> types();
+
 const std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>>
 		StaticOrder::info
 {
@@ -30,3 +23,4 @@ const std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>
 	{"Analcoholic", {DetailType::CheckBox, "Ice"}},
 	{"Coffee", {DetailType::LargeText, "Notes"}}
 };
+
