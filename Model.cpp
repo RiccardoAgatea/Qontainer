@@ -21,26 +21,16 @@ void Model::load(const std::string &path_to_do,
 
 }
 
-void Model::addOrder(const std::string &type,
-                     unsigned int table,
-                     const std::string &item,
-                     const std::vector<std::vector<std::string> > &details)
+const Order &Model::addOrder(const std::string &type,
+							 unsigned int table,
+							 const std::string &item,
+							 const std::vector<std::string> &details)
 {
-
+	to_do.push_back(Order::getMake()[type](table, item, details).move());
+	return to_do.back();
 }
 
 bool Model::empty() const
 {
 	return to_do.empty() && completed.empty();
-}
-
-std::vector<std::string> Model::getTypes()
-{
-	return StaticOrder::types;
-}
-
-std::vector<std::vector<std::string>> Model::getInfo(
-                                       const std::string &type)
-{
-	return PolyStatic::getInfo(type);
 }

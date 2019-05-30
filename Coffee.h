@@ -7,7 +7,8 @@ class Coffee: public Drink
 private:
 	std::string notes;
 
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Coffee(unsigned int,
 	       const std::string &,

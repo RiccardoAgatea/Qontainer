@@ -7,7 +7,8 @@ class Wine: public Alcoholic
 private:
 	bool vintage;
 
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Wine(unsigned int,
 	     const std::string &, bool);

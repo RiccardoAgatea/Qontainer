@@ -1,7 +1,15 @@
 #include "Sandwich.h"
 #include <utility>
 
-StaticOrder::Empty Sandwich::empty("Sandwich");
+const std::string Sandwich::type("Sandwich");
+Order::Empty Sandwich::empty(type,
+{{DetailType::LargeText, "Not Including"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Sandwich(t, i, d[0]));
+});
 
 Sandwich *Sandwich::clone() const
 {
@@ -15,5 +23,5 @@ Sandwich *Sandwich::move()
 
 std::string Sandwich::getType() const
 {
-	return "Sandwich";
+	return type;
 }

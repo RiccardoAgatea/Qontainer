@@ -2,7 +2,15 @@
 #include <utility>
 #include <stdexcept>
 
-StaticOrder::Empty Liquor::empty("Liquor");
+const std::string Liquor::type("Liquor");
+Order::Empty Liquor::empty(type,
+{{DetailType::CheckBox, "Ice"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Liquor(t, i, std::stoi(d[0])));
+});
 
 Liquor::Liquor(unsigned int t,
                const std::string &i,
@@ -25,7 +33,7 @@ Liquor *Liquor::move()
 
 std::string Liquor::getType() const
 {
-	return "Liquor";
+	return type;
 }
 
 bool Liquor::isIced() const

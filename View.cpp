@@ -9,7 +9,6 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QIntValidator>
 #include <QToolBar>
@@ -19,10 +18,8 @@
 View::View(QWidget *parent):
 	QMainWindow(parent),
 	controller(new Controller(this)),
-	general_layout(new QGridLayout()),
-	bar_layout(new QGridLayout()),
-	desserts_layout(new QGridLayout()),
-	completed_layout(new QGridLayout())
+	lineup_layout(new QVBoxLayout()),
+	completed_layout(new QVBoxLayout())
 {
 	move(25, 25);
 
@@ -60,17 +57,11 @@ View::View(QWidget *parent):
 
 	//Tabs
 	QTabWidget *tab_widget = new QTabWidget();
-	QScrollArea *general_scroll_area = new QScrollArea;
-	QScrollArea *bar_scroll_area = new QScrollArea;
-	QScrollArea *desserts_scroll_area = new QScrollArea;
+	QScrollArea *lineup_scroll_area = new QScrollArea;
 	QScrollArea *completed_scroll_area = new QScrollArea;
-	general_scroll_area->setLayout(general_layout);
-	bar_scroll_area->setLayout(bar_layout);
-	desserts_scroll_area->setLayout(desserts_layout);
+	lineup_scroll_area->setLayout(lineup_layout);
 	completed_scroll_area->setLayout(completed_layout);
-	tab_widget->addTab(general_scroll_area, "General");
-	tab_widget->addTab(bar_scroll_area, "Bar");
-	tab_widget->addTab(desserts_scroll_area, "Desserts");
+	tab_widget->addTab(lineup_scroll_area, "Lineup");
 	tab_widget->addTab(completed_scroll_area, "Completed Orders");
 	setCentralWidget(tab_widget);
 }
@@ -86,26 +77,29 @@ void View::newOrder()
 
 	if (dial->exec())
 	{
-		OrderWidget *o = new OrderWidget(DeepPtr<Order>(nullptr));
-		general_layout->addWidget(o);
-		o->show();
+		OrderWidget *aux = new OrderWidget(
+			controller->addOrder(
+				dial->getType(),
+				dial->getTable(),
+				dial->getItem(),
+				dial->getDetails()
+			)
+		);
+		lineup_layout->addWidget(aux);
+		aux->show();
 	}
 }
 
 void View::removeOrder(OrderWidget *o)
 {
-	general_layout->removeWidget(o);
-	bar_layout->removeWidget(o);
-	desserts_layout->removeWidget(o);
+	lineup_layout->removeWidget(o);
 	completed_layout->removeWidget(o);
 	delete o;
 }
 
 void View::completeOrder(OrderWidget *o)
 {
-	general_layout->removeWidget(o);
-	bar_layout->removeWidget(o);
-	desserts_layout->removeWidget(o);
+	lineup_layout->removeWidget(o);
 	completed_layout->addWidget(o);
 }
 

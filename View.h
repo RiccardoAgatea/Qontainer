@@ -1,7 +1,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 #include <QMainWindow>
-#include <QGridLayout>
+#include <QVBoxLayout>
 #include "OrderWidget.h"
 
 class Controller;
@@ -12,10 +12,8 @@ class View: public QMainWindow
 
 private:
 	Controller *controller;
-	QGridLayout *general_layout;
-	QGridLayout *bar_layout;
-	QGridLayout *desserts_layout;
-	QGridLayout *completed_layout;
+	QVBoxLayout *lineup_layout;
+	QVBoxLayout *completed_layout;
 public:
 	explicit View(QWidget * = nullptr);
 	QSize sizeHint() const override;

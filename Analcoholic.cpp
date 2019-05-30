@@ -2,11 +2,19 @@
 #include <utility>
 #include <stdexcept>
 
-StaticOrder::Empty Analcoholic::empty("Analcoholic");
+const std::string Analcoholic::type("Analcoholic");
+Order::Empty Analcoholic::empty(type,
+{{DetailType::CheckBox, "Ice"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Analcoholic(t, i, std::stoi(d[0])));
+});
 
 Analcoholic::Analcoholic(unsigned int t,
-                         const std::string &i,
-                         bool ic):
+						 const std::string &i,
+						 bool ic):
 	Drink(t, i),
 	ice(ic)
 {
@@ -25,7 +33,7 @@ Analcoholic *Analcoholic::move()
 
 std::string Analcoholic::getType() const
 {
-	return "Analcoholic";
+	return type;
 }
 
 bool Analcoholic::isIced() const

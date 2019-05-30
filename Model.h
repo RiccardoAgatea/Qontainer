@@ -19,15 +19,11 @@ public:
 	          const std::string &) const;
 	void load(const std::string &,
 	          const std::string &);
-	void addOrder(const std::string &,
-	              unsigned int,
-	              const std::string &,
-	              const std::vector<std::vector<std::string>> &);
+	const Order &addOrder(const std::string &,
+						  unsigned int,
+						  const std::string &,
+						  const std::vector<std::string> &);
 	bool empty() const;
-
-	static std::vector<std::string> getTypes();
-	static std::vector<std::vector<std::string>> getInfo(
-	            const std::string &);
 };
 
 #endif // MODEL_H

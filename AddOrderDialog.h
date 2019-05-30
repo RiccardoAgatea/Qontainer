@@ -1,7 +1,8 @@
 #ifndef ADDORDERDIALOG_H
 #define ADDORDERDIALOG_H
 #include <QDialog>
-#include "StaticOrder.h"
+#include "Order.h"
+#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QButtonGroup>
 
@@ -9,13 +10,19 @@ class AddOrderDialog: public QDialog
 {
 	Q_OBJECT
 private:
-	QVBoxLayout *details_layout;
+	QLineEdit *table_line_edit;
+	QLineEdit *item_line_edit;
 	QButtonGroup *types_group;
+	QVBoxLayout *details_layout;
 private slots:
 	void setup();
 public:
 	explicit AddOrderDialog(QWidget * = nullptr);
 	QSize sizeHint() const;
+	QString getType() const;
+	unsigned int getTable() const;
+	QString getItem() const;
+	std::vector<std::string> getDetails() const;
 
 signals:
 

@@ -1,7 +1,15 @@
 #include "Appetizer.h"
 #include <utility>
 
-StaticOrder::Empty Appetizer::empty("Appetizer");
+const std::string Appetizer::type("Appetizer");
+Order::Empty Appetizer::empty(type,
+{{DetailType::SmallText, "Sauces"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Appetizer(t, i, d[0]));
+});
 
 Appetizer::Appetizer(unsigned int t,
                      const std::string &i,
@@ -24,7 +32,7 @@ Appetizer *Appetizer::move()
 
 std::string Appetizer::getType() const
 {
-	return "Appetizer";
+	return type;
 }
 
 std::string Appetizer::getSauces() const

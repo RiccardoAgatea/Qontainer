@@ -7,7 +7,8 @@ class Appetizer: public Food
 private:
 	std::string sauces;
 
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Appetizer(unsigned int,
 	          const std::string &,

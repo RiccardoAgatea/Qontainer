@@ -1,13 +1,17 @@
 #include "StaticOrder.h"
 
-StaticOrder::Empty::Empty(const std::string &type)
+StaticOrder::Empty::Empty(const std::string &type,
+						  const std::vector<std::pair<DetailType, std::string>> &details)
 {
-	StaticOrder::types.push_back(type);
+	types.push_back(type);
+
+	for (auto &x : details)
+		info.insert({type, x});
 }
 
-std::vector<std::string> types();
+std::vector<std::string> StaticOrder::types;
 
-const std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>>
+std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>>
 		StaticOrder::info
 {
 	{"Steak", {DetailType::SmallText, "Temperature"}},

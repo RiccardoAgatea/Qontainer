@@ -2,14 +2,45 @@
 #define ORDER_H
 #include <string>
 #include <vector>
-#include "StaticOrder.h"
+#include <map>
+#include <functional>
+#include "DeepPtr.h"
 
 class Order
 {
+public:
+	enum class DetailType;
 private:
 	unsigned int table;
 	std::string item;
+
+	static std::vector<std::string> &types();
+	static
+	std::multimap<std::string, std::pair<DetailType, std::string>> &
+			info();
+	static
+	std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
+			const std::string &,
+			const std::vector<std::string> &)>> &make();
+
+protected:
+	class Empty
+	{
+	public:
+		Empty(const std::string &,
+			  const std::vector<std::pair<DetailType, std::string>> &,
+			  const std::function<DeepPtr<Order>(unsigned int,
+					  const std::string &,
+					  const std::vector<std::string> &)> &);
+	};
 public:
+	enum class DetailType
+	{
+		CheckBox,
+		SmallText,
+		LargeText
+	};
+
 	Order(unsigned int,
 	      const std::string &);
 	virtual ~Order() = default;
@@ -21,6 +52,15 @@ public:
 	virtual std::vector<std::string> getDetails() const = 0;
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
+
+	static const std::vector<std::string> &getTypes();
+	static const
+	std::multimap<std::string, std::pair<DetailType, std::string>> &
+			getInfo();
+	static
+	std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
+			const std::string &,
+			const std::vector<std::string> &)>> &getMake();
 };
 
 #endif // ORDER_H

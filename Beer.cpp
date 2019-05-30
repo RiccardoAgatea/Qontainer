@@ -1,7 +1,15 @@
 #include "Beer.h"
 #include <utility>
 
-StaticOrder::Empty Beer::empty("Beer");
+const std::string Beer::type("Beer");
+Order::Empty Beer::empty(type,
+{{DetailType::SmallText, "Size"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Beer(t, i, d[0]));
+});
 
 Beer::Beer(unsigned int t,
            const std::string &i,
@@ -24,7 +32,7 @@ Beer *Beer::move()
 
 std::string Beer::getType() const
 {
-	return "Bbeer";
+	return type;
 }
 
 std::string Beer::getSize() const

@@ -8,9 +8,9 @@ class OrderWidget: public QWidget
 {
 	Q_OBJECT
 private:
-	const DeepPtr<Order> &order;
+	const Order &order;
 public:
-	explicit OrderWidget(const DeepPtr<Order> &, QWidget * = nullptr);
+	explicit OrderWidget(const Order &, QWidget * = nullptr);
 
 signals:
 	void complete();

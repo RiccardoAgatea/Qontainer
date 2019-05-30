@@ -1,7 +1,15 @@
 #include "Steak.h"
 #include <utility>
 
-StaticOrder::Empty Steak::empty("Steak");
+const std::string Steak::type("Steak");
+Order::Empty Steak::empty(type,
+{{Order::DetailType::SmallText, "Temperature"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Steak(t, i, d[0]));
+});
 
 Steak::Steak(unsigned int t,
              const std::string &i,
@@ -23,7 +31,7 @@ Steak *Steak::move()
 
 std::string Steak::getType() const
 {
-	return "Steak";
+	return type;
 }
 
 std::vector<std::string> Steak::getDetails() const

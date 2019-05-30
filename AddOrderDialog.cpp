@@ -21,36 +21,36 @@ void AddOrderDialog::setup()
 	}
 
 	auto fields =
-		StaticOrder::info.equal_range(
-			types_group->checkedButton()->text().toStdString());
+		Order::getInfo().equal_range(
+	        types_group->checkedButton()->text().toStdString());
 
 	for (auto it = fields.first; it != fields.second; ++it)
 	{
 		auto detail = it->second;
 
-		if (detail.first == StaticOrder::DetailType::SmallText)
+		if (detail.first == Order::DetailType::SmallText)
 		{
 			QLineEdit *text = new QLineEdit();
 			text->setPlaceholderText(QString::fromStdString(
-										 detail.second));
+			                             detail.second));
 			text->setMinimumWidth(100);
 			details_layout->addWidget(text);
 			text->show();
 		}
-		else if (detail.first == StaticOrder::DetailType::LargeText)
+		else if (detail.first == Order::DetailType::LargeText)
 		{
 			QTextEdit *text = new QTextEdit();
 			text->setPlaceholderText(QString::fromStdString(
-										 detail.second));
+			                             detail.second));
 			text->setMinimumSize(100, 75);
 			text->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 			details_layout->addWidget(text);
 			text->show();
 		}
-		else if (detail.first == StaticOrder::DetailType::CheckBox)
+		else if (detail.first == Order::DetailType::CheckBox)
 		{
 			QCheckBox *check = new QCheckBox(QString::fromStdString(
-												 detail.second));
+			                                     detail.second));
 			details_layout->addWidget(check);
 			check->show();
 		}
@@ -59,8 +59,10 @@ void AddOrderDialog::setup()
 
 AddOrderDialog::AddOrderDialog(QWidget *parent):
 	QDialog(parent),
-	details_layout(new QVBoxLayout),
-	types_group(new QButtonGroup)
+	table_line_edit(new QLineEdit),
+	item_line_edit(new QLineEdit),
+	types_group(new QButtonGroup),
+	details_layout(new QVBoxLayout)
 {
 	QVBoxLayout *main_layout = new QVBoxLayout;
 	QHBoxLayout *table_layout = new QHBoxLayout;
@@ -68,14 +70,12 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 	QGroupBox *types_box = new QGroupBox("Type");
 	QHBoxLayout *buttons_layout = new QHBoxLayout;
 
-	QLineEdit *table_line_edit = new QLineEdit;
 	table_line_edit->setMaximumWidth(30);
 	table_line_edit->setValidator(new QIntValidator(0, 100));
 	table_layout->addWidget(new QLabel("Table: "));
 	table_layout->addWidget(table_line_edit);
 	table_layout->addStretch(1);
 
-	QLineEdit *item_line_edit = new QLineEdit;
 	item_layout->addWidget(new QLabel("Item: "));
 	item_layout->addWidget(item_line_edit);
 	item_layout->addStretch(1);
@@ -84,7 +84,7 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 
 	int pos = 0;
 
-	for (const auto &t : StaticOrder::types)
+	for (auto &t : Order::getTypes())
 	{
 		QRadioButton *button = new QRadioButton(QString::fromStdString(t));
 		types_layout->addWidget(button, pos / 2, pos % 2);
@@ -110,13 +110,13 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 	setLayout(main_layout);
 
 	connect(types_group, QOverload<int>::of(&QButtonGroup::buttonClicked),
-			this, &AddOrderDialog::setup);
+	        this, &AddOrderDialog::setup);
 
 	connect(ok_button, &QPushButton::clicked,
-			this, &AddOrderDialog::accept);
+	        this, &AddOrderDialog::accept);
 
 	connect(cancel_button, &QPushButton::clicked,
-			this, &AddOrderDialog::reject);
+	        this, &AddOrderDialog::reject);
 
 	types_group->buttons()[0]->click();
 }
@@ -124,4 +124,54 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 QSize AddOrderDialog::sizeHint() const
 {
 	return QSize(250, 415);
+}
+
+QString AddOrderDialog::getType() const
+{
+	return types_group->checkedButton()->text();
+}
+
+unsigned int AddOrderDialog::getTable() const
+{
+	return table_line_edit->text().toUInt();
+}
+
+QString AddOrderDialog::getItem() const
+{
+	return item_line_edit->text();
+}
+
+std::vector<std::string> AddOrderDialog::getDetails() const
+{
+	std::vector<std::string> aux;
+
+	for (int i = 0; i < details_layout->count(); ++i)
+	{
+		QString text;
+
+		if (qobject_cast<QCheckBox *>(details_layout->
+									  itemAt(i)->
+									  widget()) != nullptr)
+			text = static_cast<QCheckBox *>(details_layout->
+											itemAt(i)->
+											widget())->isChecked() ?
+				   "1" :
+				   "0";
+		else if (qobject_cast<QLineEdit *>(details_layout->
+										   itemAt(i)->
+										   widget()) != nullptr)
+			text = static_cast<QLineEdit *>(details_layout->
+											itemAt(i)->
+											widget())->text();
+		else if (qobject_cast<QTextEdit *>(details_layout->
+										   itemAt(i)->
+										   widget()) != nullptr)
+			text = static_cast<QTextEdit *>(details_layout->
+											itemAt(i)->
+											widget())->toPlainText();
+
+		aux.push_back(text.toStdString());
+	}
+
+	return aux;
 }

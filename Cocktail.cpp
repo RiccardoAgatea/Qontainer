@@ -1,6 +1,14 @@
 #include "Cocktail.h"
 
-StaticOrder::Empty Cocktail::empty("Cocktail");
+const std::string Cocktail::type("Cocktail");
+Order::Empty Cocktail::empty(type,
+{{DetailType::LargeText, "Garnish"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Cocktail(t, i, d[0]));
+});
 
 Cocktail::Cocktail(unsigned int t,
                    const std::string &i,
@@ -23,7 +31,7 @@ Cocktail *Cocktail::move()
 
 std::string Cocktail::getType() const
 {
-	return "Cocktail";
+	return type;
 }
 
 std::string Cocktail::getGarnish() const

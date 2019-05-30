@@ -7,7 +7,8 @@ class Analcoholic: public Drink
 private:
 	bool ice;
 
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Analcoholic(unsigned int,
 	            const std::string &, bool);

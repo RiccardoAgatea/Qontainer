@@ -20,13 +20,10 @@ public:
 	bool isModelEmpty() const;
 	void load(const QString &);
 	void save(const QString &) const;
-	void addOrder(const QString &,
-	              unsigned int,
-	              const QString &,
-	              const QVector<QVector<QString>> &);
-
-	static QVector<QString> getTypes();
-	static QVector<QVector<QString>> getInfo(const QString &);
+	const Order &addOrder(const QString &,
+						  unsigned int,
+						  const QString &,
+						  const std::vector<std::string> &);
 signals:
 
 public slots:

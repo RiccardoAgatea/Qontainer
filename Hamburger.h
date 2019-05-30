@@ -5,7 +5,8 @@
 class Hamburger: public MeatBased
 {
 private:
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	using MeatBased::MeatBased;
 	Hamburger *clone() const override;

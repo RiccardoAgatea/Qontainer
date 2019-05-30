@@ -1,7 +1,15 @@
 #include "Coffee.h"
 #include <utility>
 
-StaticOrder::Empty Coffee::empty("Coffee");
+const std::string Coffee::type("Coffee");
+Order::Empty Coffee::empty(type,
+{{DetailType::LargeText, "Notes"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Coffee(t, i, d[0]));
+});
 
 Coffee::Coffee(unsigned int t,
                const std::string &i,
@@ -24,7 +32,7 @@ Coffee *Coffee::move()
 
 std::string Coffee::getType() const
 {
-	return "Coffee";
+	return type;
 }
 
 std::string Coffee::getNotes() const

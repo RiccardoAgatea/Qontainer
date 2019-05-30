@@ -7,7 +7,8 @@ class Cocktail: public Alcoholic
 private:
 	std::string garnish;
 
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Cocktail(unsigned int,
 	         const std::string &,

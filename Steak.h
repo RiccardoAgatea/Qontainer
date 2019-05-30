@@ -5,7 +5,8 @@
 class Steak: public MeatBased
 {
 private:
-	static StaticOrder::Empty empty;
+	static const std::string type;
+	static Order::Empty empty;
 public:
 	Steak(unsigned int,
 	      const std::string &,

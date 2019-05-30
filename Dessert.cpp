@@ -1,7 +1,15 @@
 #include "Dessert.h"
 #include <utility>
 
-StaticOrder::Empty Dessert::empty("Dessert");
+const std::string Dessert::type("Dessert");
+Order::Empty Dessert::empty(type,
+{{DetailType::LargeText, "Adding"}}, []
+(unsigned int t,
+ const std::string &i,
+ const std::vector<std::string> &d)
+{
+	return DeepPtr<Order>(Dessert(t, i, d[0]));
+});
 
 Dessert::Dessert(unsigned int t,
                  const std::string &i,
@@ -24,7 +32,7 @@ Dessert *Dessert::move()
 
 std::string Dessert::getType() const
 {
-	return "Dessert";
+	return type;
 }
 
 std::string Dessert::getAddedParts() const
