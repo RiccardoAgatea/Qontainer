@@ -33,14 +33,15 @@ SOURCES += \
     Cocktail.cpp \
     UnavailableFile.cpp \
     UnknownType.cpp \
-    Controller.cpp \
-    View.cpp \
+	#Controller.cpp \
+	#View.cpp \
     OrderWidget.cpp \
 	#PolyStatic.cpp \
     NullPtrExcept.cpp \
 	#StaticOrder.cpp \
 	#AddOrderDialog1.cpp \
-    AddOrderDialog.cpp
+    AddOrderDialog.cpp \
+    View.cpp
 
 HEADERS += \
 	Container.h \
@@ -67,15 +68,16 @@ HEADERS += \
     ContainerExceptions.h \
     UnavailableFile.h \
     UnknownType.h \
-    Controller.h \
-    View.h \
+	#Controller.h \
+	#View.h \
     OrderWidget.h \
 	#PolyStatic.h \
     NullPtrExcept.h \
     UniformInterface.h \
 	#StaticOrder.h \
 	#AddOrderDialog1.h \
-    AddOrderDialog.h
+    AddOrderDialog.h \
+    View.h
 
 FORMS +=
 

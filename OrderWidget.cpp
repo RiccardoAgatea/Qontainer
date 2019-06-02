@@ -4,9 +4,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-OrderWidget::OrderWidget(const Order &o, QWidget *parent):
+OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	QWidget(parent),
-	order(o)
+	order(in)
 {
 	QHBoxLayout *main_layout = new QHBoxLayout;
 	QVBoxLayout *specifics_layout = new QVBoxLayout;
@@ -30,4 +30,6 @@ OrderWidget::OrderWidget(const Order &o, QWidget *parent):
 	main_layout->addLayout(specifics_layout);
 	main_layout->addStretch(1);
 	main_layout->addLayout(buttons_layout);
+
+	setLayout(main_layout);
 }

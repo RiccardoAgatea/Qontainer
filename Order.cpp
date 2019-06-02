@@ -2,10 +2,6 @@
 #include <typeinfo>
 #include <QDebug>
 
-//std::vector<std::string> Order::types;
-//std::multimap<std::string, std::pair<Order::DetailType, std::string>>
-//Order::info;
-
 std::vector<std::string> &Order::types()
 {
 	static std::vector<std::string> *aux = new std::vector<std::string>;

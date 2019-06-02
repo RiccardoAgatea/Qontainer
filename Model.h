@@ -12,17 +12,25 @@ private:
 	Container<Order> to_do;
 	Container<Order> completed;
 public:
+	class Index
+	{
+		friend class Model;
+	private:
+		Container<Order>::iterator it;
+
+		Index(const Container<Order>::iterator &);
+	public:
+		const Order &getOrder() const;
+	};
+
 	Model() = default;
-	explicit Model(const std::string &,
-	               const std::string &);
-	void save(const std::string &,
-	          const std::string &) const;
-	void load(const std::string &,
-	          const std::string &);
-	const Order &addOrder(const std::string &,
-						  unsigned int,
-						  const std::string &,
-						  const std::vector<std::string> &);
+	void save(const std::string &path) const;
+	void load(const std::string &);
+	Index addOrder(const std::string &,
+				   unsigned int,
+				   const std::string &,
+				   const std::vector<std::string> &);
+	void removeOrder(const Index &);
 	bool empty() const;
 };
 

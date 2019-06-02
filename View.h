@@ -2,30 +2,25 @@
 #define VIEW_H
 #include <QMainWindow>
 #include <QVBoxLayout>
-#include "OrderWidget.h"
 
-class Controller;
+class Model;
 
-class View: public QMainWindow
+class View : public QMainWindow
 {
 	Q_OBJECT
-
 private:
-	Controller *controller;
+	Model *model;
 	QVBoxLayout *lineup_layout;
-	QVBoxLayout *completed_layout;
 public:
-	explicit View(QWidget * = nullptr);
+	explicit View(QWidget *parent = nullptr);
 	QSize sizeHint() const override;
 
 signals:
 
 public slots:
-	void newOrder();
-	void removeOrder(OrderWidget *);
-	void completeOrder(OrderWidget *);
-	void load();
+	void addOrder();
 	void save();
+	void load();
 };
 
 #endif // VIEW_H

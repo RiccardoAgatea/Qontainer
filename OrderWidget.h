@@ -1,20 +1,20 @@
 #ifndef ORDERWIDGET_H
 #define ORDERWIDGET_H
 #include <QWidget>
-#include "Controller.h"
+#include "Model.h"
 #include "Order.h"
 
 class OrderWidget: public QWidget
 {
 	Q_OBJECT
 private:
-	const Order &order;
+	Model::Index order;
 public:
-	explicit OrderWidget(const Order &, QWidget * = nullptr);
+	explicit OrderWidget(const Model::Index &, QWidget * = nullptr);
 
 signals:
 	void complete();
-	void remove();
+	void remove(const Model::Index &);
 
 public slots:
 };
