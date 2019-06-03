@@ -24,7 +24,7 @@ Model::Index Model::addOrder(const std::string &type,
 
 void Model::removeOrder(const Model::Index &index)
 {
-	to_do.erase(index.it);
+	to_do.erase(index);
 }
 
 bool Model::empty() const
@@ -32,13 +32,3 @@ bool Model::empty() const
 	return to_do.empty() && completed.empty();
 }
 
-Model::Index::Index(const Container<Order>::iterator &iter):
-	it(iter)
-{
-
-}
-
-const Order &Model::Index::getOrder() const
-{
-	return *it;
-}

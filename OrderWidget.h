@@ -11,6 +11,7 @@ private:
 	Model::Index order;
 public:
 	explicit OrderWidget(const Model::Index &, QWidget * = nullptr);
+	QSize sizeHint() const override;
 
 signals:
 	void complete();

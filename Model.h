@@ -12,16 +12,7 @@ private:
 	Container<Order> to_do;
 	Container<Order> completed;
 public:
-	class Index
-	{
-		friend class Model;
-	private:
-		Container<Order>::iterator it;
-
-		Index(const Container<Order>::iterator &);
-	public:
-		const Order &getOrder() const;
-	};
+	using Index = Container<Order>::iterator;
 
 	Model() = default;
 	void save(const std::string &path) const;

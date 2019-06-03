@@ -6,6 +6,8 @@ class Drink: public Order
 {
 public:
 	using Order::Order;
+	Drink *clone() const override = 0;
+	Drink *move() override = 0;
 };
 
 #endif // DRINK_H

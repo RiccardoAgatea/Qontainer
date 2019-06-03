@@ -10,6 +10,8 @@ public:
 	Food(unsigned int,
 	     const std::string &,
 	     const std::string &);
+	Food *clone() const override = 0;
+	Food *move() override = 0;
 	std::string getRemovedParts() const;
 	std::vector<std::string> getDetails() const override;
 	bool operator==(const Order &) const override;

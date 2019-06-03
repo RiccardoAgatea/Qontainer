@@ -33,10 +33,12 @@ View::View(QWidget *parent):
 
 	QScrollArea *scroll_area = new QScrollArea;
 	QWidget *widget = new QWidget;
-	setCentralWidget(scroll_area);
-	//scroll_area->setLayout(lineup_layout);
-	scroll_area->setWidget(widget);
+	lineup_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 	widget->setLayout(lineup_layout);
+	scroll_area->setWidget(widget);
+	scroll_area->setWidgetResizable(false);
+	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	setCentralWidget(scroll_area);
 
 	connect(exit_action, &QAction::triggered,
 			this, &View::close);
@@ -68,7 +70,6 @@ void View::addOrder()
 			)
 		);
 		lineup_layout->addWidget(order);
-		order->show();
 	}
 }
 

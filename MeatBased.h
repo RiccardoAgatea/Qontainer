@@ -13,6 +13,8 @@ public:
 	          const std::string &,
 	          const std::string &,
 	          const std::string &);
+	MeatBased *clone() const override = 0;
+	MeatBased *move() override = 0;
 	std::string getTemperature() const;
 	std::vector<std::string> getDetails() const override;
 	bool operator==(const Order &) const override;

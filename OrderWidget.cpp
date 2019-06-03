@@ -12,10 +12,24 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	QVBoxLayout *specifics_layout = new QVBoxLayout;
 	QVBoxLayout *buttons_layout = new QVBoxLayout;
 
+	main_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+	specifics_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+
 	QHBoxLayout *table_type_layout = new QHBoxLayout;
+	table_type_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 	QHBoxLayout *item_layout = new QHBoxLayout;
 	QVBoxLayout *details_layout = new QVBoxLayout;
 
+	QLabel *table = new QLabel;
+	table->setText("Table " + QString::number(order->getTable()));
+	QLabel *type = new QLabel;
+	type->setText(QString::fromStdString(order->getType()));
+	table_type_layout->addWidget(table);
+	table_type_layout->addStretch(1);
+	table_type_layout->addWidget(type);
+
+	QLabel *item = new QLabel(QString::fromStdString(order->getItem()));
+	item_layout->addWidget(item);
 
 	specifics_layout->addLayout(table_type_layout);
 	specifics_layout->addLayout(item_layout);
@@ -28,8 +42,12 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	buttons_layout->addWidget(complete_button);
 
 	main_layout->addLayout(specifics_layout);
-	main_layout->addStretch(1);
 	main_layout->addLayout(buttons_layout);
 
 	setLayout(main_layout);
+}
+
+QSize OrderWidget::sizeHint() const
+{
+	return QSize(400, 100);
 }
