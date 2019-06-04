@@ -10,6 +10,7 @@ private:
 public:
 	Steak(unsigned int,
 	      const std::string &,
+		  unsigned int,
 	      const std::string &);
 	Steak *clone() const override;
 	Steak *move() override;

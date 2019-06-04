@@ -6,15 +6,17 @@ Order::Empty Appetizer::empty(type,
 {{DetailType::SmallText, "Sauces"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Appetizer(t, i, d[0]));
+	return DeepPtr<Order>(Appetizer(t, i, q, d[0]));
 });
 
 Appetizer::Appetizer(unsigned int t,
-                     const std::string &i,
-                     const std::string &s):
-	Food(t, i, ""),
+					 const std::string &i,
+					 unsigned int q,
+					 const std::string &s):
+	Food(t, i, q, ""),
 	sauces(s)
 {
 

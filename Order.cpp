@@ -21,27 +21,29 @@ std::multimap<std::string, std::pair<Order::DetailType, std::string>>
 	return *aux;
 }
 
-std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
-		const std::string &,
-		const std::vector<std::string> &)>>
-				&Order::make()
+std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::string &, unsigned int, const std::vector<std::string> &)> >
+&Order::make()
 {
 	static std::map<std::string,
 		   std::function<DeepPtr<Order>(unsigned int,
 										const std::string &,
+										unsigned int,
 										const std::vector<std::string> &)>>
 		   *aux =
 			   new std::map<std::string,
 	std::function<DeepPtr<Order>(unsigned int,
 								 const std::string &,
+								 unsigned int,
 								 const std::vector<std::string> &)>>;
 	return *aux;
 }
 
 Order::Order(unsigned int t,
-             const std::string &i):
+			 const std::string &i,
+			 unsigned int q):
 	table(t),
-	item(i)
+	item(i),
+	quantity(q)
 {
 
 }
@@ -56,6 +58,11 @@ unsigned int Order::getTable()
 std::string Order::getItem()
 {
 	return item;
+}
+
+unsigned int Order::getQuantity() const
+{
+	return quantity;
 }
 
 
@@ -83,7 +90,7 @@ const std::multimap<std::string, std::pair<Order::DetailType, std::string> >
 	return info();
 }
 
-std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::string &, const std::vector<std::string> &)> >
+std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::string &, unsigned int, const std::vector<std::string> &)> >
 &Order::getMake()
 {
 	return make();
@@ -94,6 +101,7 @@ Order::Empty::Empty(const std::string &type,
 					std::string>> &details,
 					const std::function<DeepPtr<Order>(unsigned int,
 							const std::string &,
+							unsigned int,
 							const std::vector<std::string> &)> &constructor)
 {
 	types().push_back(type);

@@ -2,8 +2,9 @@
 
 Food::Food(unsigned int t,
            const std::string &i,
+		   unsigned int q,
            const std::string &w):
-	Order(t, i),
+	Order(t, i, q),
 	without(w)
 {
 

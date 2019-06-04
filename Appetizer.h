@@ -12,6 +12,7 @@ private:
 public:
 	Appetizer(unsigned int,
 	          const std::string &,
+			  unsigned int,
 	          const std::string &);
 	Appetizer *clone() const override;
 	Appetizer *move() override;

@@ -13,6 +13,7 @@ public:
 private:
 	unsigned int table;
 	std::string item;
+	unsigned int quantity;
 
 	static std::vector<std::string> &types();
 	static
@@ -21,6 +22,7 @@ private:
 	static
 	std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
 			const std::string &,
+			unsigned int,
 			const std::vector<std::string> &)>> &make();
 
 protected:
@@ -31,6 +33,7 @@ protected:
 			  const std::vector<std::pair<DetailType, std::string>> &,
 			  const std::function<DeepPtr<Order>(unsigned int,
 					  const std::string &,
+					  unsigned int,
 					  const std::vector<std::string> &)> &);
 	};
 public:
@@ -42,12 +45,14 @@ public:
 	};
 
 	Order(unsigned int,
-	      const std::string &);
+		  const std::string &,
+		  unsigned int);
 	virtual ~Order() = default;
 	virtual Order *clone() const = 0;
 	virtual Order *move() = 0;
 	unsigned int getTable();
 	std::string getItem();
+	unsigned int getQuantity() const;
 	virtual std::string getType() const = 0;
 	virtual std::vector<std::string> getDetails() const = 0;
 	virtual bool operator==(const Order &) const;
@@ -60,6 +65,7 @@ public:
 	static
 	std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
 			const std::string &,
+			unsigned int,
 			const std::vector<std::string> &)>> &getMake();
 };
 

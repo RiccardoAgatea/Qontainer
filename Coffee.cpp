@@ -6,15 +6,17 @@ Order::Empty Coffee::empty(type,
 {{DetailType::LargeText, "Notes"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Coffee(t, i, d[0]));
+	return DeepPtr<Order>(Coffee(t, i, q, d[0]));
 });
 
 Coffee::Coffee(unsigned int t,
                const std::string &i,
+			   unsigned int q,
                const std::string &n):
-	Drink(t, i),
+	Drink(t, i, q),
 	notes(n)
 {
 

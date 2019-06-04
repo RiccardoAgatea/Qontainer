@@ -9,6 +9,7 @@ private:
 public:
 	Food(unsigned int,
 	     const std::string &,
+		 unsigned int,
 	     const std::string &);
 	Food *clone() const override = 0;
 	Food *move() override = 0;

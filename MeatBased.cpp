@@ -2,9 +2,10 @@
 
 MeatBased::MeatBased(unsigned int t,
                      const std::string &i,
+					 unsigned int q,
                      const std::string &w,
                      const std::string &temp):
-	Food(t, i, w),
+	Food(t, i, q, w),
 	temperature(temp)
 {
 

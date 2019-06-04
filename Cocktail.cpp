@@ -5,15 +5,17 @@ Order::Empty Cocktail::empty(type,
 {{DetailType::LargeText, "Garnish"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Cocktail(t, i, d[0]));
+	return DeepPtr<Order>(Cocktail(t, i, q, d[0]));
 });
 
 Cocktail::Cocktail(unsigned int t,
                    const std::string &i,
+				   unsigned int q,
                    const std::string &g):
-	Alcoholic(t, i),
+	Alcoholic(t, i, q),
 	garnish(g)
 {
 

@@ -12,6 +12,7 @@ class AddOrderDialog: public QDialog
 private:
 	QLineEdit *table_line_edit;
 	QLineEdit *item_line_edit;
+	QLineEdit *quantity_line_edit;
 	QButtonGroup *types_group;
 	QVBoxLayout *details_layout;
 private slots:
@@ -22,6 +23,7 @@ public:
 	QString getType() const;
 	unsigned int getTable() const;
 	QString getItem() const;
+	unsigned int getQuantity() const;
 	std::vector<std::string> getDetails() const;
 
 signals:

@@ -6,15 +6,17 @@ Order::Empty Beer::empty(type,
 {{DetailType::SmallText, "Size"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Beer(t, i, d[0]));
+	return DeepPtr<Order>(Beer(t, i, q, d[0]));
 });
 
 Beer::Beer(unsigned int t,
            const std::string &i,
+		   unsigned int q,
            const std::string &s):
-	Alcoholic(t, i),
+	Alcoholic(t, i, q),
 	size(s)
 {
 

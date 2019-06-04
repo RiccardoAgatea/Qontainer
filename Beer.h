@@ -12,6 +12,7 @@ private:
 public:
 	Beer(unsigned int,
 	     const std::string &,
+		 unsigned int,
 	     const std::string &);
 	Beer *clone() const override;
 	Beer *move() override;

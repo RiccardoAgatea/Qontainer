@@ -6,9 +6,10 @@ Order::Empty Hamburger::empty(type,
 {{DetailType::LargeText, "Not Including"}, {DetailType::SmallText, "Temperature"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Hamburger(t, i, d[0], d[1]));
+	return DeepPtr<Order>(Hamburger(t, i, q, d[0], d[1]));
 });
 
 Hamburger *Hamburger::clone() const

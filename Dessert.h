@@ -12,6 +12,7 @@ private:
 public:
 	Dessert(unsigned int,
 	        const std::string &,
+			unsigned int,
 	        const std::string &);
 	Dessert *clone() const override;
 	Dessert *move() override;

@@ -6,9 +6,10 @@ Order::Empty Sandwich::empty(type,
 {{DetailType::LargeText, "Not Including"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Sandwich(t, i, d[0]));
+	return DeepPtr<Order>(Sandwich(t, i, q, d[0]));
 });
 
 Sandwich *Sandwich::clone() const

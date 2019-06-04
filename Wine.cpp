@@ -7,15 +7,17 @@ Order::Empty Wine::empty(type,
 {{DetailType::CheckBox, "Vintage"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Wine(t, i, std::stoi(d[0])));
+	return DeepPtr<Order>(Wine(t, i, q, std::stoi(d[0])));
 });
 
 Wine::Wine(unsigned int t,
            const std::string &i,
+		   unsigned int q,
            bool v):
-	Alcoholic(t, i),
+	Alcoholic(t, i, q),
 	vintage(v)
 {
 

@@ -20,8 +20,10 @@ public:
 	Index addOrder(const std::string &,
 				   unsigned int,
 				   const std::string &,
+				   unsigned int,
 				   const std::vector<std::string> &);
 	void removeOrder(const Index &);
+	void completeOrder(const Index &);
 	bool empty() const;
 };
 

@@ -6,15 +6,17 @@ Order::Empty Dessert::empty(type,
 {{DetailType::LargeText, "Adding"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Dessert(t, i, d[0]));
+	return DeepPtr<Order>(Dessert(t, i, q, d[0]));
 });
 
 Dessert::Dessert(unsigned int t,
                  const std::string &i,
+				 unsigned int q,
                  const std::string &w):
-	Food(t, i, ""),
+	Food(t, i, q, ""),
 	with(w)
 {
 

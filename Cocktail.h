@@ -12,6 +12,7 @@ private:
 public:
 	Cocktail(unsigned int,
 	         const std::string &,
+			 unsigned int,
 	         const std::string &);
 	Cocktail *clone() const override;
 	Cocktail *move() override;

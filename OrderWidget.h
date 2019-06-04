@@ -1,21 +1,21 @@
 #ifndef ORDERWIDGET_H
 #define ORDERWIDGET_H
-#include <QWidget>
+#include <QFrame>
+#include <QVBoxLayout>
 #include "Model.h"
-#include "Order.h"
 
-class OrderWidget: public QWidget
+class OrderWidget: public QFrame
 {
 	Q_OBJECT
 private:
 	Model::Index order;
 public:
 	explicit OrderWidget(const Model::Index &, QWidget * = nullptr);
-	QSize sizeHint() const override;
+	Model::Index getOrder() const;
 
 signals:
-	void complete();
-	void remove(const Model::Index &);
+	void complete(OrderWidget *);
+	void remove(OrderWidget *);
 
 public slots:
 };

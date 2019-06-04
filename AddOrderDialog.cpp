@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QIntValidator>
+#include <QRegExpValidator>
 #include <QRadioButton>
 #include <QCheckBox>
 
@@ -61,24 +62,33 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 	QDialog(parent),
 	table_line_edit(new QLineEdit),
 	item_line_edit(new QLineEdit),
+	quantity_line_edit(new QLineEdit),
 	types_group(new QButtonGroup),
 	details_layout(new QVBoxLayout)
 {
+	setMinimumWidth(250);
+	setMaximumWidth(250);
+
 	QVBoxLayout *main_layout = new QVBoxLayout;
-	QHBoxLayout *table_layout = new QHBoxLayout;
+	QHBoxLayout *table_quantity_layout = new QHBoxLayout;
 	QHBoxLayout *item_layout = new QHBoxLayout;
 	QGroupBox *types_box = new QGroupBox("Type");
 	QHBoxLayout *buttons_layout = new QHBoxLayout;
 
 	table_line_edit->setMaximumWidth(30);
+	quantity_line_edit->setMaximumWidth(30);
 	table_line_edit->setValidator(new QIntValidator(0, 100));
-	table_layout->addWidget(new QLabel("Table: "));
-	table_layout->addWidget(table_line_edit);
-	table_layout->addStretch(1);
+	quantity_line_edit->setValidator(new QIntValidator(0, 20));
+	table_quantity_layout->addWidget(new QLabel("Table: "));
+	table_quantity_layout->addWidget(table_line_edit);
+	table_quantity_layout->addStretch(1);
+	table_quantity_layout->addWidget(new QLabel("Quantity: "));
+	table_quantity_layout->addWidget(quantity_line_edit);
 
+	QRegExp item_regex("^.{0,50}$");
+	item_line_edit->setValidator(new QRegExpValidator(item_regex));
 	item_layout->addWidget(new QLabel("Item: "));
 	item_layout->addWidget(item_line_edit);
-	item_layout->addStretch(1);
 
 	QGridLayout *types_layout = new QGridLayout;
 
@@ -100,7 +110,7 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 	buttons_layout->addWidget(ok_button);
 	buttons_layout->addWidget(cancel_button);
 
-	main_layout->addLayout(table_layout);
+	main_layout->addLayout(table_quantity_layout);
 	main_layout->addLayout(item_layout);
 	main_layout->addWidget(types_box);
 	main_layout->addLayout(details_layout);
@@ -139,6 +149,11 @@ unsigned int AddOrderDialog::getTable() const
 QString AddOrderDialog::getItem() const
 {
 	return item_line_edit->text();
+}
+
+unsigned int AddOrderDialog::getQuantity() const
+{
+	return quantity_line_edit->text().toUInt();
 }
 
 std::vector<std::string> AddOrderDialog::getDetails() const

@@ -7,13 +7,16 @@
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QScrollArea>
-#include "OrderWidget.h"
+#include <QScrollBar>
 
 View::View(QWidget *parent):
 	QMainWindow(parent),
 	model(new Model),
 	lineup_layout(new QVBoxLayout)
 {
+	setMinimumWidth(500);
+	setMaximumWidth(500);
+
 	QAction *add_order_action = new QAction("Add Order");
 	QAction *save_action = new QAction("Save");
 	QAction *load_action = new QAction("Load");
@@ -34,8 +37,10 @@ View::View(QWidget *parent):
 	QScrollArea *scroll_area = new QScrollArea;
 	QWidget *widget = new QWidget;
 	lineup_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+	lineup_layout->addStretch(1);
 	widget->setLayout(lineup_layout);
 	scroll_area->setWidget(widget);
+	widget->setFixedWidth(475);
 	scroll_area->setWidgetResizable(false);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	setCentralWidget(scroll_area);
@@ -66,11 +71,35 @@ void View::addOrder()
 				add.getType().toStdString(),
 				add.getTable(),
 				add.getItem().toStdString(),
+				add.getQuantity(),
 				add.getDetails()
 			)
 		);
+
+		delete lineup_layout->takeAt(lineup_layout->count() - 1);
 		lineup_layout->addWidget(order);
+		lineup_layout->addStretch(1);
+
+		connect(order, &OrderWidget::remove,
+				this, &View::removeOrder);
+
+		connect(order, &OrderWidget::complete,
+				this, &View::completeOrder);
 	}
+}
+
+void View::removeOrder(OrderWidget *o)
+{
+	lineup_layout->removeWidget(o);
+	model->removeOrder(o->getOrder());
+	delete o;
+}
+
+void View::completeOrder(OrderWidget *o)
+{
+	lineup_layout->removeWidget(o);
+	model->completeOrder(o->getOrder());
+	delete o;
 }
 
 void View::save()

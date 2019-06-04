@@ -2,8 +2,9 @@
 #define VIEW_H
 #include <QMainWindow>
 #include <QVBoxLayout>
-
-class Model;
+#include <QSpacerItem>
+#include "Model.h"
+#include "OrderWidget.h"
 
 class View : public QMainWindow
 {
@@ -19,6 +20,8 @@ signals:
 
 public slots:
 	void addOrder();
+	void removeOrder(OrderWidget *);
+	void completeOrder(OrderWidget *);
 	void save();
 	void load();
 };

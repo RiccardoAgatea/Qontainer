@@ -12,6 +12,7 @@ private:
 public:
 	Liquor(unsigned int,
 	       const std::string &,
+		   unsigned int,
 	       bool);
 	Liquor *clone() const override;
 	Liquor *move() override;

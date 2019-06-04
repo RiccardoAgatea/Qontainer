@@ -6,15 +6,17 @@ Order::Empty Steak::empty(type,
 {{Order::DetailType::SmallText, "Temperature"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Steak(t, i, d[0]));
+	return DeepPtr<Order>(Steak(t, i, q, d[0]));
 });
 
 Steak::Steak(unsigned int t,
              const std::string &i,
+			 unsigned int q,
              const std::string &temp):
-	MeatBased(t, i, "", temp)
+	MeatBased(t, i, q, "", temp)
 {
 
 }

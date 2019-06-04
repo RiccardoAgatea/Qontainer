@@ -11,6 +11,7 @@ private:
 public:
 	MeatBased(unsigned int,
 	          const std::string &,
+			  unsigned int,
 	          const std::string &,
 	          const std::string &);
 	MeatBased *clone() const override = 0;

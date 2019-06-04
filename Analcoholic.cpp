@@ -7,15 +7,17 @@ Order::Empty Analcoholic::empty(type,
 {{DetailType::CheckBox, "Ice"}}, []
 (unsigned int t,
  const std::string &i,
+ unsigned int q,
  const std::vector<std::string> &d)
 {
-	return DeepPtr<Order>(Analcoholic(t, i, std::stoi(d[0])));
+	return DeepPtr<Order>(Analcoholic(t, i, q, std::stoi(d[0])));
 });
 
 Analcoholic::Analcoholic(unsigned int t,
 						 const std::string &i,
+						 unsigned int q,
 						 bool ic):
-	Drink(t, i),
+	Drink(t, i, q),
 	ice(ic)
 {
 
