@@ -14,3 +14,7 @@ AStyleFormatter options:
 --max-code-length=70
 --break-after-logical
 --indent=tab
+
+Check for a parameter name in Model.h
+
+Make all the getters for the hierarchy const qualified. Why aren't they already???

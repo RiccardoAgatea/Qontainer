@@ -1,0 +1,37 @@
+digraph Hierarchy {
+	rankdir=BT;
+	node [shape=box];
+
+	Order [style=dashed];
+	Food [style=dashed];
+	MeatBased [style=dashed];
+	Steak;
+	Hamburger;
+	Sandwich;
+	Appetizer;
+	Dessert;
+	Drink [style=dashed];
+	Alcoholic [style=dashed];
+	Beer;
+	Cocktail;
+	Wine;
+	Liquor;
+	Coffee;
+	Analcoholic;
+
+	Food -> Order;
+	Drink -> Order;
+	MeatBased -> Food;
+	Steak -> MeatBased;
+	Hamburger -> MeatBased;
+	Sandwich -> Food;
+	Appetizer -> Food;
+	Dessert -> Food;
+	Analcoholic -> Drink;
+	Coffee -> Drink;
+	Alcoholic -> Drink;
+	Beer -> Alcoholic;
+	Cocktail -> Alcoholic;
+	Wine -> Alcoholic;
+	Liquor -> Alcoholic;
+}
