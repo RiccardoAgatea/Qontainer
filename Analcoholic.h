@@ -11,11 +11,10 @@ private:
 	static Order::Empty empty;
 public:
 	Analcoholic(unsigned int,
-				const std::string &,
-				unsigned int,
-				bool);
+	            const std::string &,
+	            unsigned int,
+	            bool);
 	Analcoholic *clone() const override;
-	Analcoholic *move() override;
 	std::string getType() const override;
 	bool isIced() const;
 	std::vector<std::string> getDetails() const override;

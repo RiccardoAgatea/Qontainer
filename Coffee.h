@@ -12,10 +12,9 @@ private:
 public:
 	Coffee(unsigned int,
 	       const std::string &,
-		   unsigned int,
+	       unsigned int,
 	       const std::string &);
 	Coffee *clone() const override;
-	Coffee *move() override;
 	std::string getType() const override;
 	std::string getNotes() const;
 	std::vector<std::string> getDetails() const override;

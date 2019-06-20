@@ -14,7 +14,7 @@ Order::Empty Steak::empty(type,
 
 Steak::Steak(unsigned int t,
              const std::string &i,
-			 unsigned int q,
+             unsigned int q,
              const std::string &temp):
 	MeatBased(t, i, q, "", temp)
 {
@@ -24,11 +24,6 @@ Steak::Steak(unsigned int t,
 Steak *Steak::clone() const
 {
 	return new Steak(*this);
-}
-
-Steak *Steak::move()
-{
-	return new Steak(std::move(*this));
 }
 
 std::string Steak::getType() const

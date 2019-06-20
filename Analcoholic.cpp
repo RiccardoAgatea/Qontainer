@@ -14,9 +14,9 @@ Order::Empty Analcoholic::empty(type,
 });
 
 Analcoholic::Analcoholic(unsigned int t,
-						 const std::string &i,
-						 unsigned int q,
-						 bool ic):
+                         const std::string &i,
+                         unsigned int q,
+                         bool ic):
 	Drink(t, i, q),
 	ice(ic)
 {
@@ -26,11 +26,6 @@ Analcoholic::Analcoholic(unsigned int t,
 Analcoholic *Analcoholic::clone() const
 {
 	return new Analcoholic(*this);
-}
-
-Analcoholic *Analcoholic::move()
-{
-	return new Analcoholic(std::move(*this));
 }
 
 std::string Analcoholic::getType() const

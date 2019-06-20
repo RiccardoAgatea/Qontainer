@@ -9,13 +9,13 @@ std::vector<std::string> &Order::types()
 }
 
 std::multimap<std::string, std::pair<Order::DetailType, std::string>>
-		&Order::info()
+        &Order::info()
 {
 	static std::multimap<std::string,
-		   std::pair<Order::DetailType,
-		   std::string>>
-		   *aux =
-			   new std::multimap<std::string,
+	       std::pair<Order::DetailType,
+	       std::string>>
+	       *aux =
+	           new std::multimap<std::string,
 	std::pair<Order::DetailType,
 	std::string>>;
 	return *aux;
@@ -25,22 +25,22 @@ std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::str
 &Order::make()
 {
 	static std::map<std::string,
-		   std::function<DeepPtr<Order>(unsigned int,
-										const std::string &,
-										unsigned int,
-										const std::vector<std::string> &)>>
-		   *aux =
-			   new std::map<std::string,
+	       std::function<DeepPtr<Order>(unsigned int,
+	                                    const std::string &,
+	                                    unsigned int,
+	                                    const std::vector<std::string> &)>>
+	       *aux =
+	           new std::map<std::string,
 	std::function<DeepPtr<Order>(unsigned int,
-								 const std::string &,
-								 unsigned int,
-								 const std::vector<std::string> &)>>;
+	                             const std::string &,
+	                             unsigned int,
+	                             const std::vector<std::string> &)>>;
 	return *aux;
 }
 
 Order::Order(unsigned int t,
-			 const std::string &i,
-			 unsigned int q):
+             const std::string &i,
+             unsigned int q):
 	table(t),
 	item(i),
 	quantity(q)
@@ -48,14 +48,12 @@ Order::Order(unsigned int t,
 
 }
 
-
-unsigned int Order::getTable()
+unsigned int Order::getTable() const
 {
 	return table;
 }
 
-
-std::string Order::getItem()
+std::string Order::getItem() const
 {
 	return item;
 }
@@ -65,14 +63,12 @@ unsigned int Order::getQuantity() const
 	return quantity;
 }
 
-
 bool Order::operator==(const Order &o) const
 {
 	return getType() == o.getType() &&
 	       table == o.table &&
 	       item == o.item;
 }
-
 
 bool Order::operator!=(const Order &o) const
 {
@@ -97,12 +93,12 @@ std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::str
 }
 
 Order::Empty::Empty(const std::string &type,
-					const std::vector<std::pair<Order::DetailType,
-					std::string>> &details,
-					const std::function<DeepPtr<Order>(unsigned int,
-							const std::string &,
-							unsigned int,
-							const std::vector<std::string> &)> &constructor)
+                    const std::vector<std::pair<Order::DetailType,
+                    std::string>> &details,
+                    const std::function<DeepPtr<Order>(unsigned int,
+                            const std::string &,
+                            unsigned int,
+                            const std::vector<std::string> &)> &constructor)
 {
 	types().push_back(type);
 

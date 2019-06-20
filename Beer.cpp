@@ -14,7 +14,7 @@ Order::Empty Beer::empty(type,
 
 Beer::Beer(unsigned int t,
            const std::string &i,
-		   unsigned int q,
+           unsigned int q,
            const std::string &s):
 	Alcoholic(t, i, q),
 	size(s)
@@ -25,11 +25,6 @@ Beer::Beer(unsigned int t,
 Beer *Beer::clone() const
 {
 	return new Beer(*this);
-}
-
-Beer *Beer::move()
-{
-	return new Beer(std::move(*this));
 }
 
 std::string Beer::getType() const

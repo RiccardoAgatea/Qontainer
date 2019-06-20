@@ -49,9 +49,8 @@ public:
 		  unsigned int);
 	virtual ~Order() = default;
 	virtual Order *clone() const = 0;
-	virtual Order *move() = 0;
-	unsigned int getTable();
-	std::string getItem();
+	unsigned int getTable() const;
+	std::string getItem() const;
 	unsigned int getQuantity() const;
 	virtual std::string getType() const = 0;
 	virtual std::vector<std::string> getDetails() const = 0;

@@ -15,7 +15,7 @@ public:
 	using Index = Container<Order>::iterator;
 
 	Model() = default;
-	void save(const std::string &path) const;
+	void save(const std::string &) const;
 	void load(const std::string &);
 	Index addOrder(const std::string &,
 				   unsigned int,

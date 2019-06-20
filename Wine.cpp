@@ -15,7 +15,7 @@ Order::Empty Wine::empty(type,
 
 Wine::Wine(unsigned int t,
            const std::string &i,
-		   unsigned int q,
+           unsigned int q,
            bool v):
 	Alcoholic(t, i, q),
 	vintage(v)
@@ -26,11 +26,6 @@ Wine::Wine(unsigned int t,
 Wine *Wine::clone() const
 {
 	return new Wine(*this);
-}
-
-Wine *Wine::move()
-{
-	return new Wine(std::move(*this));
 }
 
 std::string Wine::getType() const

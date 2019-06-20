@@ -13,7 +13,7 @@ Order::Empty Cocktail::empty(type,
 
 Cocktail::Cocktail(unsigned int t,
                    const std::string &i,
-				   unsigned int q,
+                   unsigned int q,
                    const std::string &g):
 	Alcoholic(t, i, q),
 	garnish(g)
@@ -24,11 +24,6 @@ Cocktail::Cocktail(unsigned int t,
 Cocktail *Cocktail::clone() const
 {
 	return new Cocktail(*this);
-}
-
-Cocktail *Cocktail::move()
-{
-	return new Cocktail(std::move(*this));
 }
 
 std::string Cocktail::getType() const

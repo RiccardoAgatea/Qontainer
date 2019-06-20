@@ -14,7 +14,7 @@ Order::Empty Coffee::empty(type,
 
 Coffee::Coffee(unsigned int t,
                const std::string &i,
-			   unsigned int q,
+               unsigned int q,
                const std::string &n):
 	Drink(t, i, q),
 	notes(n)
@@ -25,11 +25,6 @@ Coffee::Coffee(unsigned int t,
 Coffee *Coffee::clone() const
 {
 	return new Coffee(*this);
-}
-
-Coffee *Coffee::move()
-{
-	return new Coffee(std::move(*this));
 }
 
 std::string Coffee::getType() const

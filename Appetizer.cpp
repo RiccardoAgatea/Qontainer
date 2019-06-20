@@ -13,9 +13,9 @@ Order::Empty Appetizer::empty(type,
 });
 
 Appetizer::Appetizer(unsigned int t,
-					 const std::string &i,
-					 unsigned int q,
-					 const std::string &s):
+                     const std::string &i,
+                     unsigned int q,
+                     const std::string &s):
 	Food(t, i, q, ""),
 	sauces(s)
 {
@@ -25,11 +25,6 @@ Appetizer::Appetizer(unsigned int t,
 Appetizer *Appetizer::clone() const
 {
 	return new Appetizer(*this);
-}
-
-Appetizer *Appetizer::move()
-{
-	return new Appetizer(std::move(*this));
 }
 
 std::string Appetizer::getType() const

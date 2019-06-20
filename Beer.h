@@ -12,10 +12,9 @@ private:
 public:
 	Beer(unsigned int,
 	     const std::string &,
-		 unsigned int,
+	     unsigned int,
 	     const std::string &);
 	Beer *clone() const override;
-	Beer *move() override;
 	std::string getType() const override;
 	std::string getSize() const;
 	std::vector<std::string> getDetails() const override;

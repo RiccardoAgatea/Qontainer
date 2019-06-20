@@ -14,7 +14,7 @@ Order::Empty Dessert::empty(type,
 
 Dessert::Dessert(unsigned int t,
                  const std::string &i,
-				 unsigned int q,
+                 unsigned int q,
                  const std::string &w):
 	Food(t, i, q, ""),
 	with(w)
@@ -25,11 +25,6 @@ Dessert::Dessert(unsigned int t,
 Dessert *Dessert::clone() const
 {
 	return new Dessert(*this);
-}
-
-Dessert *Dessert::move()
-{
-	return new Dessert(std::move(*this));
 }
 
 std::string Dessert::getType() const

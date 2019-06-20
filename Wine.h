@@ -11,11 +11,10 @@ private:
 	static Order::Empty empty;
 public:
 	Wine(unsigned int,
-		 const std::string &,
-		 unsigned int,
-		 bool);
+	     const std::string &,
+	     unsigned int,
+	     bool);
 	Wine *clone() const override;
-	Wine *move() override;
 	std::string getType() const override;
 	bool isVintage() const;
 	std::vector<std::string> getDetails() const override;

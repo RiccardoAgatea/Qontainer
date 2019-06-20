@@ -12,10 +12,9 @@ private:
 public:
 	Liquor(unsigned int,
 	       const std::string &,
-		   unsigned int,
+	       unsigned int,
 	       bool);
 	Liquor *clone() const override;
-	Liquor *move() override;
 	std::string getType() const override;
 	bool isIced() const;
 	std::vector<std::string> getDetails() const override;

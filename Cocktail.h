@@ -12,10 +12,9 @@ private:
 public:
 	Cocktail(unsigned int,
 	         const std::string &,
-			 unsigned int,
+	         unsigned int,
 	         const std::string &);
 	Cocktail *clone() const override;
-	Cocktail *move() override;
 	std::string getType() const override;
 	std::string getGarnish() const;
 	std::vector<std::string> getDetails() const override;

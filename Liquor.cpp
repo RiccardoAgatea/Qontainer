@@ -15,7 +15,7 @@ Order::Empty Liquor::empty(type,
 
 Liquor::Liquor(unsigned int t,
                const std::string &i,
-			   unsigned int q,
+               unsigned int q,
                bool ic):
 	Alcoholic(t, i, q),
 	ice(ic)
@@ -26,11 +26,6 @@ Liquor::Liquor(unsigned int t,
 Liquor *Liquor::clone() const
 {
 	return new Liquor(*this);
-}
-
-Liquor *Liquor::move()
-{
-	return new Liquor(std::move(*this));
 }
 
 std::string Liquor::getType() const

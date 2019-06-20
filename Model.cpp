@@ -20,7 +20,7 @@ Model::Index Model::addOrder(const std::string &type,
 							 const std::vector<std::string> &details)
 {
 	to_do.push_back(Order::getMake()[type](table, item, quantity,
-										   details).move());
+										   details));
 	return Index(--to_do.end());
 }
 
@@ -31,8 +31,7 @@ void Model::removeOrder(const Model::Index &index)
 
 void Model::completeOrder(const Model::Index &index)
 {
-	completed.push_back(*index->move());
-	to_do.erase(index);
+	to_do.give(index, completed, completed.cend());
 }
 
 bool Model::empty() const

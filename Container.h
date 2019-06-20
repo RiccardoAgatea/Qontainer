@@ -13,10 +13,12 @@ private:
 		DeepPtr<T> info;
 		Node *next, *prev;
 
-		//However it's passed, the T parameter is forwarded untouched to the constructor of the info field
-		Node(const T * = nullptr,
-		     Node * = nullptr,
-		     Node * = nullptr);
+		Node(const DeepPtr<T> & = DeepPtr<T>(),
+			 Node * = nullptr,
+			 Node * = nullptr);
+		Node(DeepPtr<T> &&,
+			 Node * = nullptr,
+			 Node * = nullptr);
 		Node(const T &,
 		     Node * = nullptr,
 		     Node * = nullptr);
@@ -99,12 +101,20 @@ public:
 
 	//Content modification
 
+	void push_front(const DeepPtr<T> &);
+	void push_front(DeepPtr<T> &&);
 	void push_front(const T &);
 	void push_front(T &&);
+	void push_back(const DeepPtr<T> &);
+	void push_back(DeepPtr<T> &&);
 	void push_back(const T &);
 	void push_back(T &&);
 	void pop_front();
 	void pop_back();
+	iterator insert(const_iterator,
+					const DeepPtr<T> &);
+	iterator insert(const_iterator,
+					DeepPtr<T> &&);
 	iterator insert(const_iterator,
 	                const T &);
 	iterator insert(const_iterator,
@@ -119,8 +129,9 @@ public:
 	static void swap(const iterator &,
 	                 const iterator &);
 	void swap(Container &);
-	void takeTo(const iterator &,
-	            const const_iterator &);
+	void give(const iterator &,
+			  Container &,
+			  const const_iterator &);
 
 	void clear();
 
@@ -143,10 +154,21 @@ public:
 
 //Node methods definition
 template<typename T>
-Container<T>::Node::Node(const T *t,
-                         Node *n,
-                         Node *p):
-	info(t), //DeepPtr<T>::DeepPtr(const T*) called
+Container<T>::Node::Node(const DeepPtr<T> &t,
+						 Node *n,
+						 Node *p):
+	info(t),
+	next(n),
+	prev(p)
+{
+
+}
+
+template<typename T>
+Container<T>::Node::Node(DeepPtr<T> &&t,
+						 Node *n,
+						 Node *p):
+	info(t),
 	next(n),
 	prev(p)
 {
@@ -479,6 +501,18 @@ const T &Container<T>::back() const
 }
 
 template<typename T>
+void Container<T>::push_front(const DeepPtr<T> &t)
+{
+	insert(cbegin(), t);
+}
+
+template<typename T>
+void Container<T>::push_front(DeepPtr<T> &&t)
+{
+	insert(cbegin(), t);
+}
+
+template<typename T>
 void Container<T>::push_front(const T &t)
 {
 	insert(cbegin(), t);
@@ -488,6 +522,18 @@ template<typename T>
 void Container<T>::push_front(T &&t)
 {
 	insert(cbegin(), t);
+}
+
+template<typename T>
+void Container<T>::push_back(const DeepPtr<T> &t)
+{
+	insert(cend(), t);
+}
+
+template<typename T>
+void Container<T>::push_back(DeepPtr<T> &&t)
+{
+	insert(cend(), t);
 }
 
 template<typename T>
@@ -511,7 +557,39 @@ void Container<T>::pop_front()
 template<typename T>
 void Container<T>::pop_back()
 {
-	erase(end());
+	erase(--end());
+}
+
+template<typename T>
+typename Container<T>::iterator
+Container<T>::insert(const_iterator position,
+					 const DeepPtr<T> &t)
+{
+	Node *aux = new Node(t, position.pointing, position.pointing->prev);
+	position.pointing->prev = aux;
+
+	if (position != cbegin())
+		aux->prev->next = aux;
+	else
+		first = aux;
+
+	return iterator(aux);
+}
+
+template<typename T>
+typename Container<T>::iterator
+Container<T>::insert(const_iterator position,
+					 DeepPtr<T> &&t)
+{
+	Node *aux = new Node(t, position.pointing, position.pointing->prev);
+	position.pointing->prev = aux;
+
+	if (position != cbegin())
+		aux->prev->next = aux;
+	else
+		first = aux;
+
+	return iterator(aux);
 }
 
 template<typename T>
@@ -519,7 +597,15 @@ typename Container<T>::iterator
 Container<T>::insert(const_iterator position,
                      const T &t)
 {
-	return insert(position, &t, &t + 1);
+	Node *aux = new Node(t, position.pointing, position.pointing->prev);
+	position.pointing->prev = aux;
+
+	if (position != cbegin())
+		aux->prev->next = aux;
+	else
+		first = aux;
+
+	return iterator(aux);
 }
 
 template<typename T>
@@ -647,19 +733,14 @@ void Container<T>::swap(Container &c)
 }
 
 template<typename T>
-void Container<T>::takeTo(const iterator &from,
-                          const const_iterator &to)
+void Container<T>::give(const iterator &this_one,
+						Container &to,
+						const const_iterator &here)
 {
-	/*Node *aux = new Node(nullptr, to.pointing, to.pointing->prev);
-	to.pointing->prev = aux;
-
-	if (aux->prev != nullptr)
-		aux->prev->next = aux;*/
-
-	insert(to, std::move(*from));
+	to.insert(here, std::move(this_one.pointing->info));
 
 	//swap(from, iterator(aux));
-	erase(from);
+	erase(this_one);
 }
 
 template<typename T>

@@ -52,7 +52,6 @@ public:
 	T *operator->();
 	const T *operator->() const;
 	void swap(DeepPtr &);
-	T &&move();
 	void takeResponsibility(T *);
 	bool operator==(const DeepPtr &);
 	bool operator!=(const DeepPtr &);
@@ -159,15 +158,6 @@ void DeepPtr<T>::swap(DeepPtr &dp)
 	T *temp = dp.ptr;
 	dp.ptr = ptr;
 	ptr = temp;
-}
-
-template<typename T>
-T &&DeepPtr<T>::move()
-{
-	if (ptr == nullptr)
-		throw NullPtrExcept("Tried dereferencing null smart pointer");
-
-	return std::move(*ptr);
 }
 
 template<typename T>

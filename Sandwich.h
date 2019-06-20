@@ -10,7 +10,6 @@ private:
 public:
 	using Food::Food;
 	Sandwich *clone() const override;
-	Sandwich *move() override;
 	std::string getType() const override;
 };
 

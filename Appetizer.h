@@ -12,10 +12,9 @@ private:
 public:
 	Appetizer(unsigned int,
 	          const std::string &,
-			  unsigned int,
+	          unsigned int,
 	          const std::string &);
 	Appetizer *clone() const override;
-	Appetizer *move() override;
 	std::string getType() const override;
 	std::string getSauces() const;
 	std::vector<std::string> getDetails() const override;
