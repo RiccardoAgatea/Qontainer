@@ -17,10 +17,11 @@ View::View(QWidget *parent):
 	setMinimumWidth(500);
 	setMaximumWidth(500);
 
-	QAction *add_order_action = new QAction("Add Order");
 	QAction *save_action = new QAction("Save");
 	QAction *load_action = new QAction("Load");
 	QAction *exit_action = new QAction("Exit");
+	QAction *add_order_action = new QAction("Add Order");
+	QAction *completed_action = new QAction("Completed Orders");
 
 	QMenu *file_menu = new QMenu("File");
 	file_menu->addAction(save_action);
@@ -29,9 +30,10 @@ View::View(QWidget *parent):
 	menuBar()->addMenu(file_menu);
 
 	QToolBar *tool_bar = new QToolBar;
-	tool_bar->addAction(add_order_action);
 	tool_bar->addAction(save_action);
 	tool_bar->addAction(load_action);
+	tool_bar->addAction(add_order_action);
+	tool_bar->addAction(completed_action);
 	addToolBar(tool_bar);
 
 	QScrollArea *scroll_area = new QScrollArea;
@@ -53,6 +55,8 @@ View::View(QWidget *parent):
 			this, &View::load);
 	connect(add_order_action, &QAction::triggered,
 			this, &View::addOrder);
+	//connect(completed_action, &QAction::triggered,
+	//		this, &View::addOrder);
 }
 
 QSize View::sizeHint() const

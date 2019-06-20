@@ -1,8 +1,6 @@
 #include "OrderWidget.h"
 #include <QLabel>
-#include <QLineEdit>
 #include <QTextEdit>
-#include <QCheckBox>
 #include <QPushButton>
 #include <QHBoxLayout>
 
@@ -44,46 +42,30 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	quantity->setText(QString::number(order->getQuantity()) + " pieces");
 	quantity_layout->addWidget(quantity);
 	quantity_layout->addStretch(1);
-	//Capisci come aggiungere i dettagli. Maybe metti su una classe che abbia
-	//	un label e un LineEdit, un TextEdit, o un Checkbox, e che si gestisca
-	//	da sola il posizionamento. Bho. Veid un po'.
-	/*
-		auto fields = Order::getInfo().equal_range(order->getType());
-		auto details = order->getDetails();
 
-		unsigned int i = 0;
+	auto det = Order::getInfo().equal_range(order->getType()).first;
 
-		for (auto it = fields.first; it != fields.second; ++i, ++it)
-		{
-			auto detail = it->second;
+	for (auto &x : order->getDetails())
+	{
+		QHBoxLayout *label_layout = new QHBoxLayout;
 
-			if (detail.first == Order::DetailType::SmallText)
-			{
-				QLineEdit *text = new QLineEdit();
-				text->setReadOnly(true);
-				text->setText(QString::fromStdString(details[i]));
-				text->setMinimumWidth(100);
-				details_layout->addWidget(text);
-				text->show();
-			}
-			else if (detail.first == Order::DetailType::LargeText)
-			{
-				QTextEdit *text = new QTextEdit();
-				text->setReadOnly(true);
-				text->setText(QString::fromStdString(details[i]));
-				text->setMinimumSize(100, 75);
-				text->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-				details_layout->addWidget(text);
-				text->show();
-			}
-			else if (detail.first == Order::DetailType::CheckBox)
-			{
-				QCheckBox *check = new QCheckBox(QString::fromStdString(
-													 detail.second));
-				details_layout->addWidget(check);
-				check->show();
-			}
-		}*/
+		QLabel *detail_name = new QLabel(QString::fromStdString(
+											 det->second.second) + ": ");
+
+		QTextEdit *detail_text = new QTextEdit(QString::fromStdString(x));
+		detail_text->setReadOnly(true);
+		detail_text->viewport()->setAutoFillBackground(false);
+
+		label_layout->addWidget(detail_name);
+		label_layout->addWidget(detail_text);
+		label_layout->addStretch(1);
+
+		details_layout->addLayout(label_layout);
+
+		++det;
+	}
+
+	details_layout->addStretch(1);
 
 	specifics_layout->addLayout(table_layout);
 	specifics_layout->addLayout(type_layout);
