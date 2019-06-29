@@ -64,8 +64,8 @@ public:
 	//Constructors, destructor, and assignment operator
 
 	Container();
-	Container(unsigned int,
-	          const T & = T());
+	explicit Container(unsigned int,
+					   const T & = T());
 	Container(const Container &);
 	Container(Container &&);
 	template<typename InputIterator>

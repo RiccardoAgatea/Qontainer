@@ -36,9 +36,19 @@ std::string Cocktail::getGarnish() const
 	return garnish;
 }
 
+void Cocktail::setGarnish(const std::string &g)
+{
+	garnish = g;
+}
+
 std::vector<std::string> Cocktail::getDetails() const
 {
 	return {getGarnish()};
+}
+
+void Cocktail::setDetails(const std::vector<std::string> &det)
+{
+	setGarnish(det[0]);
 }
 
 bool Cocktail::operator==(const Order &o) const

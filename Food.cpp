@@ -15,9 +15,19 @@ std::string Food::getRemovedParts() const
 	return without;
 }
 
+void Food::setRemovedParts(const std::string &w)
+{
+	without = w;
+}
+
 std::vector<std::string> Food::getDetails() const
 {
 	return {getRemovedParts()};
+}
+
+void Food::setDetails(const std::vector<std::string> &det)
+{
+	setRemovedParts(det[0]);
 }
 
 bool Food::operator==(const Order &o) const

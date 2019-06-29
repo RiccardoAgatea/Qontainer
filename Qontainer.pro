@@ -36,7 +36,8 @@ SOURCES += \
 	OrderWidget.cpp \
 	NullPtrExcept.cpp \
 	AddOrderDialog.cpp \
-    View.cpp
+    View.cpp \
+    EditOrderDialog.cpp
 
 HEADERS += \
 	Container.h \
@@ -67,7 +68,8 @@ HEADERS += \
 	NullPtrExcept.h \
     UniformInterface.h \
 	AddOrderDialog.h \
-    View.h
+    View.h \
+    EditOrderDialog.h
 
 FORMS +=
 

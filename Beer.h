@@ -17,7 +17,9 @@ public:
 	Beer *clone() const override;
 	std::string getType() const override;
 	std::string getSize() const;
+	void setSize(const std::string &);
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;
 };
 

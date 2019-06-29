@@ -37,9 +37,19 @@ std::string Dessert::getAddedParts() const
 	return with;
 }
 
+void Dessert::setAddedParts(const std::string &w)
+{
+	with = w;
+}
+
 std::vector<std::string> Dessert::getDetails() const
 {
 	return {getAddedParts()};
+}
+
+void Dessert::setDetails(const std::vector<std::string> &det)
+{
+	setAddedParts(det[0]);
 }
 
 bool Dessert::operator==(const Order &o) const

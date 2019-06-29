@@ -37,9 +37,19 @@ std::string Appetizer::getSauces() const
 	return sauces;
 }
 
+void Appetizer::setSauces(const std::string &s)
+{
+	sauces = s;
+}
+
 std::vector<std::string> Appetizer::getDetails() const
 {
 	return {getSauces()};
+}
+
+void Appetizer::setDetails(const std::vector<std::string> &det)
+{
+	setSauces(det[0]);
 }
 
 bool Appetizer::operator==(const Order &o) const

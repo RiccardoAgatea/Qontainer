@@ -9,11 +9,15 @@ class OrderWidget: public QFrame
 	Q_OBJECT
 private:
 	Model::Index order;
+
+private slots:
+	void edit();
 public:
 	explicit OrderWidget(const Model::Index &, QWidget * = nullptr);
 	Model::Index getOrder() const;
 
 signals:
+	void update();
 	void complete(OrderWidget *);
 	void remove(OrderWidget *);
 

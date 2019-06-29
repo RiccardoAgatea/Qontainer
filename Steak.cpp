@@ -35,3 +35,8 @@ std::vector<std::string> Steak::getDetails() const
 {
 	return {getTemperature()};
 }
+
+void Steak::setDetails(const std::vector<std::string> &det)
+{
+	setTemperature(det[0]);
+}

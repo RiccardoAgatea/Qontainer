@@ -52,8 +52,10 @@ public:
 	unsigned int getTable() const;
 	std::string getItem() const;
 	unsigned int getQuantity() const;
+	void setQuantity(unsigned int);
 	virtual std::string getType() const = 0;
 	virtual std::vector<std::string> getDetails() const = 0;
+	virtual void setDetails(const std::vector<std::string> &) = 0;
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
 

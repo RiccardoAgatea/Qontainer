@@ -15,6 +15,7 @@ public:
 	Steak *clone() const override;
 	std::string getType() const override;
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 };
 
 #endif // STEAK_H

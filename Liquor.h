@@ -17,7 +17,9 @@ public:
 	Liquor *clone() const override;
 	std::string getType() const override;
 	bool isIced() const;
+	void setIced(bool);
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;
 };
 

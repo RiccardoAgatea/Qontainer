@@ -17,7 +17,9 @@ public:
 	Wine *clone() const override;
 	std::string getType() const override;
 	bool isVintage() const;
+	void setVintage(bool);
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;
 };
 

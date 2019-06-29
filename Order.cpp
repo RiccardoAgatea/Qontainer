@@ -63,6 +63,11 @@ unsigned int Order::getQuantity() const
 	return quantity;
 }
 
+void Order::setQuantity(unsigned int q)
+{
+	quantity = q;
+}
+
 bool Order::operator==(const Order &o) const
 {
 	return getType() == o.getType() &&

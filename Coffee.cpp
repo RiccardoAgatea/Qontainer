@@ -37,9 +37,19 @@ std::string Coffee::getNotes() const
 	return notes;
 }
 
+void Coffee::setNotes(const std::string &n)
+{
+	notes = n;
+}
+
 std::vector<std::string> Coffee::getDetails() const
 {
 	return {getNotes()};
+}
+
+void Coffee::setDetails(const std::vector<std::string> &det)
+{
+	setNotes(det[0]);
 }
 
 bool Coffee::operator==(const Order &o) const

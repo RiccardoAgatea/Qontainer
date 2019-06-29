@@ -37,9 +37,19 @@ std::string Beer::getSize() const
 	return size;
 }
 
+void Beer::setSize(const std::string &s)
+{
+	size = s;
+}
+
 std::vector<std::string> Beer::getDetails() const
 {
 	return {getSize()};
+}
+
+void Beer::setDetails(const std::vector<std::string> &det)
+{
+	setSize(det[0]);
 }
 
 bool Beer::operator==(const Order &o) const

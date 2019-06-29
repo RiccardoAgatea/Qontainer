@@ -38,9 +38,19 @@ bool Wine::isVintage() const
 	return vintage;
 }
 
+void Wine::setVintage(bool v)
+{
+	vintage = v;
+}
+
 std::vector<std::string> Wine::getDetails() const
 {
 	return {isVintage() ? "1" : "0"};
+}
+
+void Wine::setDetails(const std::vector<std::string> &det)
+{
+	setVintage(det[0] == "1");
 }
 
 bool Wine::operator==(const Order &o) const

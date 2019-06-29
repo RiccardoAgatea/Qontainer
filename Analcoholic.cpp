@@ -38,9 +38,19 @@ bool Analcoholic::isIced() const
 	return ice;
 }
 
+void Analcoholic::setIced(bool ic)
+{
+	ice = ic;
+}
+
 std::vector<std::string> Analcoholic::getDetails() const
 {
 	return {isIced() ? "1" : "0"};
+}
+
+void Analcoholic::setDetails(const std::vector<std::string> &det)
+{
+	setIced(det[0] == "1");
 }
 
 bool Analcoholic::operator==(const Order &o) const

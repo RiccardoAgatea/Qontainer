@@ -16,7 +16,9 @@ public:
 	          const std::string &);
 	MeatBased *clone() const override = 0;
 	std::string getTemperature() const;
+	void setTemperature(const std::string &);
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;
 };
 

@@ -13,7 +13,9 @@ public:
 	     const std::string &);
 	Food *clone() const override = 0;
 	std::string getRemovedParts() const;
+	void setRemovedParts(const std::string &);
 	std::vector<std::string> getDetails() const override;
+	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;
 };
 

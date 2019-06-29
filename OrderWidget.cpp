@@ -1,8 +1,24 @@
 #include "OrderWidget.h"
+#include "EditOrderDialog.h"
 #include <QLabel>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QHBoxLayout>
+
+void OrderWidget::edit()
+{
+	EditOrderDialog edit_dialog(order->getType(),
+								order->getQuantity(),
+								order->getDetails());
+
+	if (edit_dialog.exec())
+	{
+		order->setQuantity(edit_dialog.getQuantity());
+		order->setDetails(edit_dialog.getDetails());
+
+		emit update();
+	}
+}
 
 OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	QFrame(parent),
@@ -45,22 +61,31 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 
 	auto det = Order::getInfo().equal_range(order->getType()).first;
 
-	for (auto &x : order->getDetails())
+	auto details = order->getDetails();
+
+	for (unsigned int i = 0; i < details.size(); ++i)
 	{
-		QHBoxLayout *label_layout = new QHBoxLayout;
+		QHBoxLayout *detail_layout = new QHBoxLayout;
 
 		QLabel *detail_name = new QLabel(QString::fromStdString(
 											 det->second.second) + ": ");
 
-		QTextEdit *detail_text = new QTextEdit(QString::fromStdString(x));
+		QTextEdit *detail_text = new QTextEdit(QString::fromStdString(
+				details[i]));
 		detail_text->setReadOnly(true);
 		detail_text->viewport()->setAutoFillBackground(false);
 
-		label_layout->addWidget(detail_name);
-		label_layout->addWidget(detail_text);
-		label_layout->addStretch(1);
+		detail_layout->addWidget(detail_name);
+		detail_layout->addWidget(detail_text);
+		detail_layout->addStretch(1);
 
-		details_layout->addLayout(label_layout);
+		details_layout->addLayout(detail_layout);
+
+		connect(this, &OrderWidget::update,
+				detail_text, [this, i, detail_text]()
+		{
+			detail_text->setText(QString::fromStdString(order->getDetails()[i]));
+		});
 
 		++det;
 	}
@@ -73,11 +98,13 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	specifics_layout->addLayout(quantity_layout);
 	specifics_layout->addLayout(details_layout);
 
-	QPushButton *remove_button = new QPushButton("Remove");
+	QPushButton *edit_button = new QPushButton("Edit");
 	QPushButton *complete_button = new QPushButton("Complete");
+	QPushButton *remove_button = new QPushButton("Remove");
 	buttons_layout->addStretch(1);
-	buttons_layout->addWidget(remove_button);
+	buttons_layout->addWidget(edit_button);
 	buttons_layout->addWidget(complete_button);
+	buttons_layout->addWidget(remove_button);
 
 	main_layout->addLayout(specifics_layout);
 	main_layout->addStretch(1);
@@ -85,16 +112,25 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 
 	setLayout(main_layout);
 
+	connect(edit_button, &QPushButton::clicked,
+			this, &OrderWidget::edit);
+
+	connect(complete_button, &QPushButton::clicked,
+			this, [this]()
+	{
+		emit complete(this);
+	});
+
 	connect(remove_button, &QPushButton::clicked,
 			this, [this]()
 	{
 		emit remove(this);
 	});
 
-	connect(complete_button, &QPushButton::clicked,
-			this, [this]()
+	connect(this, &OrderWidget::update,
+			quantity, [this, quantity]()
 	{
-		emit complete(this);
+		quantity->setText(QString::number(order->getQuantity()) + " pieces");
 	});
 }
 
