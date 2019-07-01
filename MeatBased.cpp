@@ -1,5 +1,7 @@
 #include "MeatBased.h"
 
+Order::Empty MeatBased::empty("MeatBased");
+
 MeatBased::MeatBased(unsigned int t,
                      const std::string &i,
 					 unsigned int q,

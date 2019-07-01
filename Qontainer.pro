@@ -37,7 +37,8 @@ SOURCES += \
 	NullPtrExcept.cpp \
 	AddOrderDialog.cpp \
     View.cpp \
-    EditOrderDialog.cpp
+    EditOrderDialog.cpp \
+    SearchDialog.cpp
 
 HEADERS += \
 	Container.h \
@@ -69,17 +70,7 @@ HEADERS += \
     UniformInterface.h \
 	AddOrderDialog.h \
     View.h \
-    EditOrderDialog.h
-
-FORMS +=
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-	- Delete before submitting \
-	- Delete before submitting
+    EditOrderDialog.h \
+    SearchDialog.h
 
 RESOURCES +=

@@ -1,5 +1,7 @@
 #include "Food.h"
 
+Order::Empty Food::empty("Food");
+
 Food::Food(unsigned int t,
            const std::string &i,
 		   unsigned int q,

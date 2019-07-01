@@ -21,7 +21,7 @@ View::View(QWidget *parent):
 	QAction *load_action = new QAction("Load");
 	QAction *exit_action = new QAction("Exit");
 	QAction *add_order_action = new QAction("Add Order");
-	QAction *completed_action = new QAction("Completed Orders");
+	//QAction *completed_action = new QAction("Completed Orders");
 
 	QMenu *file_menu = new QMenu("File");
 	file_menu->addAction(save_action);
@@ -33,7 +33,7 @@ View::View(QWidget *parent):
 	tool_bar->addAction(save_action);
 	tool_bar->addAction(load_action);
 	tool_bar->addAction(add_order_action);
-	tool_bar->addAction(completed_action);
+	//tool_bar->addAction(completed_action);
 	addToolBar(tool_bar);
 
 	QScrollArea *scroll_area = new QScrollArea;
@@ -115,7 +115,7 @@ void View::save()
 	choose.setNameFilter("XML file (*.xml)");
 
 	if (choose.exec())
-		model->save(choose.selectedFiles()[0].toStdString());
+		model->save(choose.selectedFiles()[0]);
 }
 
 void View::load()
@@ -127,5 +127,5 @@ void View::load()
 	choose.setNameFilter("XML file (*.xml)");
 
 	if (choose.exec())
-		model->load(choose.selectedFiles()[0].toStdString());
+		model->load(choose.selectedFiles()[0]);
 }

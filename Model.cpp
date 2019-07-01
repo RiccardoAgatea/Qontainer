@@ -3,12 +3,12 @@
 #include "StaticOrder.h"
 #include "PolyStatic.h"
 
-void Model::save(const std::string &path) const
+void Model::save(const QString &path) const
 {
 
 }
 
-void Model::load(const std::string &path)
+void Model::load(const QString &path)
 {
 
 }

@@ -4,6 +4,8 @@
 
 class Drink: public Order
 {
+private:
+	static Order::Empty empty;
 public:
 	using Order::Order;
 	Drink *clone() const override = 0;

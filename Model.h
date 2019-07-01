@@ -4,6 +4,7 @@
 #include "Order.h"
 #include "PolyStatic.h"
 #include <string>
+#include <QString>
 #include <vector>
 
 class Model
@@ -15,8 +16,8 @@ public:
 	using Index = Container<Order>::iterator;
 
 	Model() = default;
-	void save(const std::string &) const;
-	void load(const std::string &);
+	void save(const QString &) const;
+	void load(const QString &);
 	Index addOrder(const std::string &,
 				   unsigned int,
 				   const std::string &,

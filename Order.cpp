@@ -2,6 +2,12 @@
 #include <typeinfo>
 #include <QDebug>
 
+std::vector<std::string> &Order::abstracts()
+{
+	static std::vector<std::string> *aux = new std::vector<std::string>;
+	return *aux;
+}
+
 std::vector<std::string> &Order::types()
 {
 	static std::vector<std::string> *aux = new std::vector<std::string>;
@@ -80,6 +86,11 @@ bool Order::operator!=(const Order &o) const
 	return !(*this == o);
 }
 
+const std::vector<std::string> &Order::getAbstracts()
+{
+	return abstracts();
+}
+
 const std::vector<std::string> &Order::getTypes()
 {
 	return types();
@@ -95,6 +106,11 @@ std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::str
 &Order::getMake()
 {
 	return make();
+}
+
+Order::Empty::Empty(const std::string &abs)
+{
+	abstracts().push_back(abs);
 }
 
 Order::Empty::Empty(const std::string &type,

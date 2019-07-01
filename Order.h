@@ -15,6 +15,7 @@ private:
 	std::string item;
 	unsigned int quantity;
 
+	static std::vector<std::string> &abstracts();
 	static std::vector<std::string> &types();
 	static
 	std::multimap<std::string, std::pair<DetailType, std::string>> &
@@ -29,6 +30,7 @@ protected:
 	class Empty
 	{
 	public:
+		Empty(const std::string &);
 		Empty(const std::string &,
 			  const std::vector<std::pair<DetailType, std::string>> &,
 			  const std::function<DeepPtr<Order>(unsigned int,
@@ -59,6 +61,7 @@ public:
 	virtual bool operator==(const Order &) const;
 	bool operator!=(const Order &) const;
 
+	static const std::vector<std::string> &getAbstracts();
 	static const std::vector<std::string> &getTypes();
 	static const
 	std::multimap<std::string, std::pair<DetailType, std::string>> &

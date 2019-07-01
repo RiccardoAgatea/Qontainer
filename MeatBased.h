@@ -8,6 +8,8 @@ class MeatBased : public Food
 {
 private:
 	std::string temperature;
+
+	static Order::Empty empty;
 public:
 	MeatBased(unsigned int,
 	          const std::string &,
