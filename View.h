@@ -2,7 +2,7 @@
 #define VIEW_H
 #include <QMainWindow>
 #include <QVBoxLayout>
-#include <QSpacerItem>
+//#include <QSpacerItem>
 #include "Model.h"
 #include "OrderWidget.h"
 
@@ -19,6 +19,7 @@ public:
 signals:
 
 public slots:
+	void search();
 	void addOrder();
 	void removeOrder(OrderWidget *);
 	void completeOrder(OrderWidget *);

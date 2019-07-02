@@ -1,6 +1,7 @@
 #include "View.h"
 #include "Model.h"
 #include "AddOrderDialog.h"
+#include "SearchView.h"
 #include <QToolBar>
 #include <QAction>
 #include <QPushButton>
@@ -21,7 +22,7 @@ View::View(QWidget *parent):
 	QAction *load_action = new QAction("Load");
 	QAction *exit_action = new QAction("Exit");
 	QAction *add_order_action = new QAction("Add Order");
-	//QAction *completed_action = new QAction("Completed Orders");
+	QAction *search_action = new QAction("Search");
 
 	QMenu *file_menu = new QMenu("File");
 	file_menu->addAction(save_action);
@@ -33,7 +34,7 @@ View::View(QWidget *parent):
 	tool_bar->addAction(save_action);
 	tool_bar->addAction(load_action);
 	tool_bar->addAction(add_order_action);
-	//tool_bar->addAction(completed_action);
+	tool_bar->addAction(search_action);
 	addToolBar(tool_bar);
 
 	QScrollArea *scroll_area = new QScrollArea;
@@ -55,13 +56,22 @@ View::View(QWidget *parent):
 			this, &View::load);
 	connect(add_order_action, &QAction::triggered,
 			this, &View::addOrder);
-	//connect(completed_action, &QAction::triggered,
-	//		this, &View::addOrder);
+	connect(search_action, &QAction::triggered,
+			this, &View::search);
 }
 
 QSize View::sizeHint() const
 {
 	return QSize(500, 750);
+}
+
+void View::search()
+{
+	SearchView search;
+
+	search.exec();
+
+
 }
 
 void View::addOrder()

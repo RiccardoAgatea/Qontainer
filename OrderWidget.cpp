@@ -2,8 +2,11 @@
 #include "EditOrderDialog.h"
 #include <QLabel>
 #include <QTextEdit>
+#include <QLineEdit>
+#include <QCheckBox>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QFormLayout>
 
 void OrderWidget::edit()
 {
@@ -38,7 +41,7 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	QHBoxLayout *type_layout = new QHBoxLayout;
 	QHBoxLayout *item_layout = new QHBoxLayout;
 	QHBoxLayout *quantity_layout = new QHBoxLayout;
-	QVBoxLayout *details_layout = new QVBoxLayout;
+	QFormLayout *details_layout = new QFormLayout;
 
 	QLabel *table = new QLabel;
 	table->setText("Table " + QString::number(order->getTable()));
@@ -65,32 +68,63 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 
 	for (unsigned int i = 0; i < details.size(); ++i)
 	{
-		QHBoxLayout *detail_layout = new QHBoxLayout;
-
-		QLabel *detail_name = new QLabel(QString::fromStdString(
-											 det->second.second) + ": ");
-
-		QTextEdit *detail_text = new QTextEdit(QString::fromStdString(
-				details[i]));
-		detail_text->setReadOnly(true);
-		detail_text->viewport()->setAutoFillBackground(false);
-
-		detail_layout->addWidget(detail_name);
-		detail_layout->addWidget(detail_text);
-		detail_layout->addStretch(1);
-
-		details_layout->addLayout(detail_layout);
-
-		connect(this, &OrderWidget::update,
-				detail_text, [this, i, detail_text]()
+		if (det->second.first == Order::DetailType::LargeText)
 		{
-			detail_text->setText(QString::fromStdString(order->getDetails()[i]));
-		});
+			QTextEdit *detail_content = new QTextEdit(QString::fromStdString(
+						details[i]));
+			detail_content->setReadOnly(true);
+			detail_content->viewport()->setAutoFillBackground(false);
+			detail_content->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			detail_content->setMinimumHeight(65);
+			detail_content->setMaximumHeight(65);
+
+			details_layout->addRow(QString::fromStdString(det->second.second) +
+								   ": ", detail_content);
+
+			connect(this, &OrderWidget::update,
+					detail_content, [this, i, detail_content]()
+			{
+				detail_content->setText(
+					QString::fromStdString(order->getDetails()[i]));
+			});
+		}
+		else if (det->second.first == Order::DetailType::SmallText)
+		{
+			QLineEdit *detail_content = new QLineEdit(QString::fromStdString(
+						details[i]));
+			detail_content->setReadOnly(true);
+			detail_content->setAutoFillBackground(false);
+
+			details_layout->addRow(QString::fromStdString(det->second.second) +
+								   ": ", detail_content);
+
+			connect(this, &OrderWidget::update,
+					detail_content, [this, i, detail_content]()
+			{
+				detail_content->setText(
+					QString::fromStdString(order->getDetails()[i]));
+			});
+		}
+		else if (det->second.first == Order::DetailType::CheckBox)
+		{
+			QCheckBox *detail_content = new QCheckBox;
+			detail_content->setEnabled(false);
+			detail_content->setChecked(details[i] == "1");
+
+			details_layout->addRow(QString::fromStdString(det->second.second) +
+								   ": ", detail_content);
+
+			connect(this, &OrderWidget::update,
+					detail_content, [this, i, detail_content]()
+			{
+				detail_content->setChecked(order->getDetails()[i] == "1");
+			});
+		}
 
 		++det;
 	}
 
-	details_layout->addStretch(1);
+	details_layout->setLabelAlignment(Qt::AlignLeft);
 
 	specifics_layout->addLayout(table_layout);
 	specifics_layout->addLayout(type_layout);

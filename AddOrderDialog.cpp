@@ -68,6 +68,8 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 {
 	setMinimumWidth(250);
 	setMaximumWidth(250);
+	setWindowTitle("Add Order");
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
 	QHBoxLayout *table_quantity_layout = new QHBoxLayout;
