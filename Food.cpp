@@ -1,10 +1,11 @@
 #include "Food.h"
 
-Order::Empty Food::empty("Food");
+const std::string Food::class_name("Food");
+Order::Empty Food::empty(class_name);
 
 Food::Food(unsigned int t,
            const std::string &i,
-		   unsigned int q,
+           unsigned int q,
            const std::string &w):
 	Order(t, i, q),
 	without(w)
@@ -20,6 +21,16 @@ std::string Food::getRemovedParts() const
 void Food::setRemovedParts(const std::string &w)
 {
 	without = w;
+}
+
+std::string Food::getClassName() const
+{
+	return class_name;
+}
+
+bool Food::isA(const std::string &type) const
+{
+	return type == Food::getClassName() || Order::isA(type);
 }
 
 std::vector<std::string> Food::getDetails() const

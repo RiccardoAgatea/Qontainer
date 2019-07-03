@@ -67,11 +67,13 @@ QSize View::sizeHint() const
 
 void View::search()
 {
-	SearchView search;
+	SearchView search(model);
 
 	search.exec();
 
-
+	for (int i = 0; i < lineup_layout->count() - 2; ++i)
+		emit qobject_cast<OrderWidget *>
+		(lineup_layout->itemAt(i)->widget())->update();
 }
 
 void View::addOrder()

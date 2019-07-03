@@ -7,7 +7,7 @@ class Dessert: public Food
 private:
 	std::string with;
 
-	static const std::string type;
+	static const std::string class_name;
 	static Order::Empty empty;
 public:
 	Dessert(unsigned int,
@@ -15,7 +15,8 @@ public:
 	        unsigned int,
 	        const std::string &);
 	Dessert *clone() const override;
-	std::string getType() const override;
+	std::string getClassName() const override;
+	bool isA(const std::string &) const override;
 	std::string getAddedParts() const;
 	void setAddedParts(const std::string &);
 	std::vector<std::string> getDetails() const override;

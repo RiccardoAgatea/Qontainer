@@ -2,8 +2,8 @@
 #include <utility>
 #include <stdexcept>
 
-const std::string Liquor::type("Liquor");
-Order::Empty Liquor::empty(type,
+const std::string Liquor::class_name("Liquor");
+Order::Empty Liquor::empty(class_name,
 {{DetailType::CheckBox, "Ice"}}, []
 (unsigned int t,
  const std::string &i,
@@ -28,9 +28,14 @@ Liquor *Liquor::clone() const
 	return new Liquor(*this);
 }
 
-std::string Liquor::getType() const
+std::string Liquor::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Liquor::isA(const std::string &type) const
+{
+	return type == Liquor::getClassName() || Alcoholic::isA(type);
 }
 
 bool Liquor::isIced() const

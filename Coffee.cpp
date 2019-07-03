@@ -1,8 +1,8 @@
 #include "Coffee.h"
 #include <utility>
 
-const std::string Coffee::type("Coffee");
-Order::Empty Coffee::empty(type,
+const std::string Coffee::class_name("Coffee");
+Order::Empty Coffee::empty(class_name,
 {{DetailType::LargeText, "Notes"}}, []
 (unsigned int t,
  const std::string &i,
@@ -27,9 +27,14 @@ Coffee *Coffee::clone() const
 	return new Coffee(*this);
 }
 
-std::string Coffee::getType() const
+std::string Coffee::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Coffee::isA(const std::string &type) const
+{
+	return type == Coffee::getClassName() || Drink::isA(type);
 }
 
 std::string Coffee::getNotes() const

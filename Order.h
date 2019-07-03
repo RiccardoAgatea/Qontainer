@@ -15,6 +15,7 @@ private:
 	std::string item;
 	unsigned int quantity;
 
+	static const std::string class_name;
 	static std::vector<std::string> &abstracts();
 	static std::vector<std::string> &types();
 	static
@@ -55,7 +56,8 @@ public:
 	std::string getItem() const;
 	unsigned int getQuantity() const;
 	void setQuantity(unsigned int);
-	virtual std::string getType() const = 0;
+	virtual std::string getClassName() const;
+	virtual bool isA(const std::string &) const;
 	virtual std::vector<std::string> getDetails() const = 0;
 	virtual void setDetails(const std::vector<std::string> &) = 0;
 	virtual bool operator==(const Order &) const;

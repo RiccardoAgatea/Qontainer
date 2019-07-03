@@ -1,8 +1,8 @@
 #include "Sandwich.h"
 #include <utility>
 
-const std::string Sandwich::type("Sandwich");
-Order::Empty Sandwich::empty(type,
+const std::string Sandwich::class_name("Sandwich");
+Order::Empty Sandwich::empty(class_name,
 {{DetailType::LargeText, "Not Including"}}, []
 (unsigned int t,
  const std::string &i,
@@ -17,7 +17,12 @@ Sandwich *Sandwich::clone() const
 	return new Sandwich(*this);
 }
 
-std::string Sandwich::getType() const
+std::string Sandwich::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Sandwich::isA(const std::string &type) const
+{
+	return type == Sandwich::getClassName() || Food::isA(type);
 }

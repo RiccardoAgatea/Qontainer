@@ -7,7 +7,7 @@ class Wine: public Alcoholic
 private:
 	bool vintage;
 
-	static const std::string type;
+	static const std::string class_name;
 	static Order::Empty empty;
 public:
 	Wine(unsigned int,
@@ -15,7 +15,8 @@ public:
 	     unsigned int,
 	     bool);
 	Wine *clone() const override;
-	std::string getType() const override;
+	std::string getClassName() const override;
+	bool isA(const std::string &) const override;
 	bool isVintage() const;
 	void setVintage(bool);
 	std::vector<std::string> getDetails() const override;

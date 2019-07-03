@@ -1,8 +1,8 @@
 #include "Dessert.h"
 #include <utility>
 
-const std::string Dessert::type("Dessert");
-Order::Empty Dessert::empty(type,
+const std::string Dessert::class_name("Dessert");
+Order::Empty Dessert::empty(class_name,
 {{DetailType::LargeText, "Adding"}}, []
 (unsigned int t,
  const std::string &i,
@@ -27,9 +27,14 @@ Dessert *Dessert::clone() const
 	return new Dessert(*this);
 }
 
-std::string Dessert::getType() const
+std::string Dessert::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Dessert::isA(const std::string &type) const
+{
+	return type == Dessert::getClassName() || Food::isA(type);
 }
 
 std::string Dessert::getAddedParts() const

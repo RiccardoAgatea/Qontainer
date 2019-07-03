@@ -1,12 +1,10 @@
 #include "SearchDialog.h"
-#include "Order.h"
 #include <QGroupBox>
 #include <QIntValidator>
 #include <QRegExpValidator>
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
-#include <QCheckBox>
 #include <QTextEdit>
 #include <QLineEdit>
 
@@ -40,6 +38,8 @@ void SearchDialog::hideRecursively(QLayout *layout)
 
 SearchDialog::SearchDialog(QWidget *parent):
 	QDialog(parent),
+	incompleted_check(new QCheckBox("Include incompleted orders")),
+	completed_check(new QCheckBox("Include completed orders")),
 	table_line_edit(new QLineEdit),
 	item_line_edit(new QLineEdit),
 	quantity_line_edit(new QLineEdit),
@@ -53,10 +53,16 @@ SearchDialog::SearchDialog(QWidget *parent):
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
+	QGroupBox *completed_group = new QGroupBox;
 	QHBoxLayout *table_quantity_layout = new QHBoxLayout;
 	QHBoxLayout *item_layout = new QHBoxLayout;
 	QGroupBox *types_box = new QGroupBox("Type");
 	QHBoxLayout *buttons_layout = new QHBoxLayout;
+
+	QVBoxLayout *completed_layout = new QVBoxLayout;
+	completed_layout->addWidget(incompleted_check);
+	completed_layout->addWidget(completed_check);
+	completed_group->setLayout(completed_layout);
 
 	table_line_edit->setMaximumWidth(30);
 	quantity_line_edit->setMaximumWidth(30);
@@ -152,6 +158,7 @@ SearchDialog::SearchDialog(QWidget *parent):
 	buttons_layout->addWidget(ok_button);
 	buttons_layout->addWidget(cancel_button);
 
+	main_layout->addWidget(completed_group);
 	main_layout->addLayout(table_quantity_layout);
 	main_layout->addLayout(item_layout);
 	main_layout->addWidget(types_box);
@@ -176,4 +183,74 @@ SearchDialog::SearchDialog(QWidget *parent):
 	});
 
 	concretes_group->buttons()[0]->click();
+}
+
+bool SearchDialog::includeToDo() const
+{
+	return incompleted_check->isChecked();
+}
+
+bool SearchDialog::includeCompleted() const
+{
+	return completed_check->isChecked();
+}
+
+std::function<bool (const Order &)> SearchDialog::checker() const
+{
+	return [this](const Order & o)
+	{
+		bool ok = true;
+
+		if (table_line_edit->text() != "")
+			ok = table_line_edit->text() == o.getTable();
+
+		if (ok && item_line_edit->text() != "")
+			ok = item_line_edit->text().toStdString() == o.getItem();
+
+		if (ok && quantity_line_edit->text() != "")
+			ok = quantity_line_edit->text().toUInt() == o.getQuantity();
+
+		bool is_subtype = true;
+
+		for (auto x : abstracts_group->buttons())
+		{
+			if (x->isChecked())
+				is_subtype = is_subtype || o.isA(x->text().toStdString());
+		}
+
+		for (auto x : concretes_group->buttons())
+			if (ok && x->text().toStdString() == o.getClassName())
+			{
+				if (!x->isChecked())
+					ok = false;
+				else
+				{
+					auto details = o.getDetails();
+					auto fields = details_layout->
+								  itemAt(concretes_group->id(x))->
+								  layout();
+
+					for (unsigned int i = 0; ok && i < details.size(); ++i)
+					{
+						auto item = fields->itemAt(static_cast<int>(i))->widget();
+
+						if (qobject_cast<QCheckBox *>(item) != nullptr)
+							ok = qobject_cast<QCheckBox *>(item)->isChecked() ==
+								 (details[i] == "1");
+						else if (qobject_cast<QLineEdit *>(item) != nullptr)
+							ok = details[i].find(
+									 qobject_cast<QLineEdit *>
+									 (item)->text().toStdString()) !=
+								 std::string::npos;
+						else if (qobject_cast<QTextEdit *>(item) != nullptr)
+							ok = details[i].find(
+									 qobject_cast<QTextEdit *>
+									 (item)->toPlainText().toStdString()) !=
+								 std::string::npos;
+					}
+				}
+			}
+
+		return ok;
+	};
 }

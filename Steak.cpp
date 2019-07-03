@@ -1,8 +1,8 @@
 #include "Steak.h"
 #include <utility>
 
-const std::string Steak::type("Steak");
-Order::Empty Steak::empty(type,
+const std::string Steak::class_name("Steak");
+Order::Empty Steak::empty(class_name,
 {{Order::DetailType::SmallText, "Temperature"}}, []
 (unsigned int t,
  const std::string &i,
@@ -26,9 +26,14 @@ Steak *Steak::clone() const
 	return new Steak(*this);
 }
 
-std::string Steak::getType() const
+std::string Steak::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Steak::isA(const std::string &type) const
+{
+	return type == Steak::getClassName() || MeatBased::isA(type);
 }
 
 std::vector<std::string> Steak::getDetails() const

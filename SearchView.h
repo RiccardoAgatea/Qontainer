@@ -10,8 +10,9 @@ class SearchView: public QDialog
 	Q_OBJECT
 private:
 	QVBoxLayout *results_layout;
+	Model *model;
 public:
-	explicit SearchView(QWidget *parent = nullptr);
+	explicit SearchView(Model *, QWidget * = nullptr);
 	QSize sizeHint() const override;
 	bool filter();
 

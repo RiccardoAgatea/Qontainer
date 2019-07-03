@@ -1,8 +1,8 @@
 #include "Appetizer.h"
 #include <utility>
 
-const std::string Appetizer::type("Appetizer");
-Order::Empty Appetizer::empty(type,
+const std::string Appetizer::class_name("Appetizer");
+Order::Empty Appetizer::empty(class_name,
 {{DetailType::SmallText, "Sauces"}}, []
 (unsigned int t,
  const std::string &i,
@@ -27,9 +27,14 @@ Appetizer *Appetizer::clone() const
 	return new Appetizer(*this);
 }
 
-std::string Appetizer::getType() const
+std::string Appetizer::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Appetizer::isA(const std::string &type) const
+{
+	return type == Appetizer::getClassName() || Food::isA(type);
 }
 
 std::string Appetizer::getSauces() const

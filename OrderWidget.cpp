@@ -10,7 +10,7 @@
 
 void OrderWidget::edit()
 {
-	EditOrderDialog edit_dialog(order->getType(),
+	EditOrderDialog edit_dialog(order->getClassName(),
 								order->getQuantity(),
 								order->getDetails());
 
@@ -49,7 +49,7 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	table_layout->addStretch(1);
 
 	QLabel *type = new QLabel;
-	type->setText(QString::fromStdString(order->getType()));
+	type->setText(QString::fromStdString(order->getClassName()));
 	type_layout->addWidget(type);
 	type_layout->addStretch(1);
 
@@ -62,7 +62,7 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	quantity_layout->addWidget(quantity);
 	quantity_layout->addStretch(1);
 
-	auto det = Order::getInfo().equal_range(order->getType()).first;
+	auto det = Order::getInfo().equal_range(order->getClassName()).first;
 
 	auto details = order->getDetails();
 

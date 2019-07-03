@@ -1,8 +1,8 @@
 #include "Hamburger.h"
 #include <utility>
 
-const std::string Hamburger::type("Hamburger");
-Order::Empty Hamburger::empty(type,
+const std::string Hamburger::class_name("Hamburger");
+Order::Empty Hamburger::empty(class_name,
 {{DetailType::LargeText, "Not Including"}, {DetailType::SmallText, "Temperature"}}, []
 (unsigned int t,
  const std::string &i,
@@ -17,7 +17,12 @@ Hamburger *Hamburger::clone() const
 	return new Hamburger(*this);
 }
 
-std::string Hamburger::getType() const
+std::string Hamburger::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Hamburger::isA(const std::string &type) const
+{
+	return type == Hamburger::getClassName() || MeatBased::isA(type);
 }

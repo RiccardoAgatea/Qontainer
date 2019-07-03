@@ -1,7 +1,7 @@
 #include "Cocktail.h"
 
-const std::string Cocktail::type("Cocktail");
-Order::Empty Cocktail::empty(type,
+const std::string Cocktail::class_name("Cocktail");
+Order::Empty Cocktail::empty(class_name,
 {{DetailType::LargeText, "Garnish"}}, []
 (unsigned int t,
  const std::string &i,
@@ -26,9 +26,14 @@ Cocktail *Cocktail::clone() const
 	return new Cocktail(*this);
 }
 
-std::string Cocktail::getType() const
+std::string Cocktail::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Cocktail::isA(const std::string &type) const
+{
+	return type == Cocktail::getClassName() || Alcoholic::isA(type);
 }
 
 std::string Cocktail::getGarnish() const

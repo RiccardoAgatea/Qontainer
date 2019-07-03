@@ -34,6 +34,26 @@ void Model::completeOrder(const Model::Index &index)
 	to_do.give(index, completed, completed.cend());
 }
 
+std::vector<Model::Index>
+Model::search(const std::function<bool (const Order &)> &pred,
+			  bool non_comp,
+			  bool comp)
+{
+	std::vector<Index> aux;
+
+	if (non_comp)
+		for (auto it = to_do.begin(); it != to_do.end(); ++it)
+			if (pred(*it))
+				aux.push_back(it);
+
+	if (comp)
+		for (auto it = completed.begin(); it != completed.end(); ++it)
+			if (pred(*it))
+				aux.push_back(it);
+
+	return aux;
+}
+
 bool Model::empty() const
 {
 	return to_do.empty() && completed.empty();

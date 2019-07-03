@@ -1,8 +1,8 @@
 #include "Beer.h"
 #include <utility>
 
-const std::string Beer::type("Beer");
-Order::Empty Beer::empty(type,
+const std::string Beer::class_name("Beer");
+Order::Empty Beer::empty(class_name,
 {{DetailType::SmallText, "Size"}}, []
 (unsigned int t,
  const std::string &i,
@@ -27,9 +27,14 @@ Beer *Beer::clone() const
 	return new Beer(*this);
 }
 
-std::string Beer::getType() const
+std::string Beer::getClassName() const
 {
-	return type;
+	return class_name;
+}
+
+bool Beer::isA(const std::string &type) const
+{
+	return type == Beer::getClassName() || Alcoholic::isA(type);
 }
 
 std::string Beer::getSize() const

@@ -1,14 +1,16 @@
 #include "SearchView.h"
 #include "SearchDialog.h"
 #include "OrderWidget.h"
+#include "Model.h"
 #include <QAction>
 #include <QToolBar>
 #include <QScrollArea>
 #include <QLabel>
 
-SearchView::SearchView(QWidget *parent):
+SearchView::SearchView(Model *m, QWidget *parent):
 	QDialog(parent),
-	results_layout(new QVBoxLayout)
+	results_layout(new QVBoxLayout),
+	model(m)
 {
 	setMinimumWidth(500);
 	setMaximumWidth(500);
@@ -42,7 +44,15 @@ bool SearchView::filter()
 
 	if (opt.exec())
 	{
-		results_layout->addWidget(new QLabel("POTATOES"));
+		auto results = model->search(opt.checker(),
+									 opt.includeToDo(),
+									 opt.includeCompleted());
+
+		for (auto &x : results)
+			results_layout->addWidget(new OrderWidget(x));
+
+		show();
+
 		return true;
 	}
 	else

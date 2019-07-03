@@ -6,6 +6,7 @@
 #include <string>
 #include <QString>
 #include <vector>
+#include <functional>
 
 class Model
 {
@@ -25,6 +26,9 @@ public:
 				   const std::vector<std::string> &);
 	void removeOrder(const Index &);
 	void completeOrder(const Index &);
+	std::vector<Index> search(const std::function<bool(const Order &)> &,
+							  bool,
+							  bool);
 	bool empty() const;
 };
 

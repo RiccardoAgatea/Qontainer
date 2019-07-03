@@ -2,6 +2,7 @@
 #include <typeinfo>
 #include <QDebug>
 
+const std::string Order::class_name("Order");
 std::vector<std::string> &Order::abstracts()
 {
 	static std::vector<std::string> *aux = new std::vector<std::string>;
@@ -74,9 +75,19 @@ void Order::setQuantity(unsigned int q)
 	quantity = q;
 }
 
+std::string Order::getClassName() const
+{
+	return class_name;
+}
+
+bool Order::isA(const std::string &type) const
+{
+	return type == Order::getClassName();
+}
+
 bool Order::operator==(const Order &o) const
 {
-	return getType() == o.getType() &&
+	return getClassName() == o.getClassName() &&
 	       table == o.table &&
 	       item == o.item;
 }

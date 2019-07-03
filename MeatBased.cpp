@@ -1,12 +1,13 @@
 #include "MeatBased.h"
 
-Order::Empty MeatBased::empty("MeatBased");
+const std::string MeatBased::class_name("MeatBased");
+Order::Empty MeatBased::empty(class_name);
 
 MeatBased::MeatBased(unsigned int t,
-                     const std::string &i,
+					 const std::string &i,
 					 unsigned int q,
-                     const std::string &w,
-                     const std::string &temp):
+					 const std::string &w,
+					 const std::string &temp):
 	Food(t, i, q, w),
 	temperature(temp)
 {
@@ -21,6 +22,16 @@ std::string MeatBased::getTemperature() const
 void MeatBased::setTemperature(const std::string &temp)
 {
 	temperature = temp;
+}
+
+std::string MeatBased::getClassName() const
+{
+	return class_name;
+}
+
+bool MeatBased::isA(const std::string &type) const
+{
+	return type == MeatBased::getClassName() || Food::isA(type);
 }
 
 std::vector<std::string> MeatBased::getDetails() const
