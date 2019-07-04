@@ -13,7 +13,9 @@ private:
 private slots:
 	void edit();
 public:
-	explicit OrderWidget(const Model::Index &, QWidget * = nullptr);
+	explicit OrderWidget(const Model::Index &,
+						 bool = false,
+						 QWidget * = nullptr);
 	Model::Index getOrder() const;
 
 signals:

@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QDebug>
 
 View::View(QWidget *parent):
 	QMainWindow(parent),
@@ -71,8 +72,35 @@ void View::search()
 
 	search.exec();
 
-	for (int i = 0; i < lineup_layout->count() - 2; ++i)
-		emit qobject_cast<OrderWidget *>
+	for (auto o : search.getRemovedOrders())
+		for (int i = 0; i < lineup_layout->count() - 1; ++i)
+		{
+			auto order = static_cast<OrderWidget *>
+						 (lineup_layout->itemAt(i)->widget());
+			qDebug() << "boop" << endl;
+
+			if (order->getOrder() == o)
+			{
+				removeOrder(order);
+				break; //breaks most internal loop
+			}
+		}
+
+	for (auto o : search.getCOmpletedOrders())
+		for (int i = 0; i < lineup_layout->count() - 1; ++i)
+		{
+			auto order = static_cast<OrderWidget *>
+						 (lineup_layout->itemAt(i)->widget());
+
+			if (order->getOrder() == o)
+			{
+				completeOrder(order);
+				break; //breaks most internal loop
+			}
+		}
+
+	for (int i = 0; i < lineup_layout->count() - 1; ++i)
+		emit static_cast<OrderWidget *>
 		(lineup_layout->itemAt(i)->widget())->update();
 }
 

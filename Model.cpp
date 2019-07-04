@@ -35,21 +35,26 @@ void Model::completeOrder(const Model::Index &index)
 }
 
 std::vector<Model::Index>
-Model::search(const std::function<bool (const Order &)> &pred,
-			  bool non_comp,
-			  bool comp)
+Model::searchToDo(const std::function<bool (const Order &)> &pred)
 {
 	std::vector<Index> aux;
 
-	if (non_comp)
-		for (auto it = to_do.begin(); it != to_do.end(); ++it)
-			if (pred(*it))
-				aux.push_back(it);
+	for (auto it = to_do.begin(); it != to_do.end(); ++it)
+		if (pred(*it))
+			aux.push_back(it);
 
-	if (comp)
-		for (auto it = completed.begin(); it != completed.end(); ++it)
-			if (pred(*it))
-				aux.push_back(it);
+	return aux;
+}
+
+std::vector<Model::Index>
+Model::searchCompleted(const std::function<bool (const Order &)>
+					   &pred)
+{
+	std::vector<Index> aux;
+
+	for (auto it = completed.begin(); it != completed.end(); ++it)
+		if (pred(*it))
+			aux.push_back(it);
 
 	return aux;
 }

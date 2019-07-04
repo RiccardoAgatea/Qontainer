@@ -115,6 +115,10 @@ SearchDialog::SearchDialog(QWidget *parent):
 	for (int i = 0; i < pos; ++i)
 	{
 		QVBoxLayout *current_type_layout = new QVBoxLayout;
+		QCheckBox *enabler = new QCheckBox("Filter");
+		enabler->setChecked(true);
+
+		current_type_layout->addWidget(enabler);
 
 		auto fields =
 			Order::getInfo().equal_range(
@@ -124,6 +128,7 @@ SearchDialog::SearchDialog(QWidget *parent):
 		{
 			auto detail = it->second;
 
+
 			if (detail.first == Order::DetailType::SmallText)
 			{
 				QLineEdit *text = new QLineEdit();
@@ -131,6 +136,9 @@ SearchDialog::SearchDialog(QWidget *parent):
 											 detail.second));
 				text->setMinimumWidth(100);
 				current_type_layout->addWidget(text);
+
+				connect(enabler, &QCheckBox::toggled,
+						text, &QLineEdit::setEnabled);
 			}
 			else if (detail.first == Order::DetailType::LargeText)
 			{
@@ -140,12 +148,18 @@ SearchDialog::SearchDialog(QWidget *parent):
 				text->setMinimumSize(100, 75);
 				text->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 				current_type_layout->addWidget(text);
+
+				connect(enabler, &QCheckBox::toggled,
+						text, &QLineEdit::setEnabled);
 			}
 			else if (detail.first == Order::DetailType::CheckBox)
 			{
 				QCheckBox *check = new QCheckBox(QString::fromStdString(
 													 detail.second));
 				current_type_layout->addWidget(check);
+
+				connect(enabler, &QCheckBox::toggled,
+						check, &QCheckBox::setEnabled);
 			}
 		}
 
@@ -218,6 +232,8 @@ std::function<bool (const Order &)> SearchDialog::checker() const
 				is_subtype = is_subtype || o.isA(x->text().toStdString());
 		}
 
+		ok = ok && is_subtype;
+
 		for (auto x : concretes_group->buttons())
 			if (ok && x->text().toStdString() == o.getClassName())
 			{
@@ -230,24 +246,27 @@ std::function<bool (const Order &)> SearchDialog::checker() const
 								  itemAt(concretes_group->id(x))->
 								  layout();
 
-					for (unsigned int i = 0; ok && i < details.size(); ++i)
-					{
-						auto item = fields->itemAt(static_cast<int>(i))->widget();
+					if (static_cast<QCheckBox *>(
+								fields->itemAt(0)->widget())->isChecked())
+						for (unsigned int i = 0; ok && i < details.size(); ++i)
+						{
+							auto item = fields->itemAt(static_cast<int>(i + 1))->
+										widget();
 
-						if (qobject_cast<QCheckBox *>(item) != nullptr)
-							ok = qobject_cast<QCheckBox *>(item)->isChecked() ==
-								 (details[i] == "1");
-						else if (qobject_cast<QLineEdit *>(item) != nullptr)
-							ok = details[i].find(
-									 qobject_cast<QLineEdit *>
-									 (item)->text().toStdString()) !=
-								 std::string::npos;
-						else if (qobject_cast<QTextEdit *>(item) != nullptr)
-							ok = details[i].find(
-									 qobject_cast<QTextEdit *>
-									 (item)->toPlainText().toStdString()) !=
-								 std::string::npos;
-					}
+							if (qobject_cast<QCheckBox *>(item) != nullptr)
+								ok = static_cast<QCheckBox *>(item)->isChecked() ==
+									 (details[i] == "1");
+							else if (qobject_cast<QLineEdit *>(item) != nullptr)
+								ok = details[i].find(
+										 static_cast<QLineEdit *>
+										 (item)->text().toStdString()) !=
+									 std::string::npos;
+							else if (qobject_cast<QTextEdit *>(item) != nullptr)
+								ok = details[i].find(
+										 static_cast<QTextEdit *>
+										 (item)->toPlainText().toStdString()) !=
+									 std::string::npos;
+						}
 				}
 			}
 

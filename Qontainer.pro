@@ -39,7 +39,7 @@ SOURCES += \
     View.cpp \
     EditOrderDialog.cpp \
     SearchDialog.cpp \
-    SearchView.cpp
+	SearchView.cpp
 
 HEADERS += \
 	Container.h \
@@ -73,6 +73,6 @@ HEADERS += \
     View.h \
     EditOrderDialog.h \
     SearchDialog.h \
-    SearchView.h
+	SearchView.h
 
 RESOURCES +=

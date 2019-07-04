@@ -23,7 +23,9 @@ void OrderWidget::edit()
 	}
 }
 
-OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
+OrderWidget::OrderWidget(const Model::Index &in,
+						 bool comp,
+						 QWidget *parent):
 	QFrame(parent),
 	order(in)
 {
@@ -93,7 +95,7 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 			QLineEdit *detail_content = new QLineEdit(QString::fromStdString(
 						details[i]));
 			detail_content->setReadOnly(true);
-			detail_content->setAutoFillBackground(false);
+			detail_content->setStyleSheet("* { background-color: rgba(0, 0, 0, 0); }");
 
 			details_layout->addRow(QString::fromStdString(det->second.second) +
 								   ": ", detail_content);
@@ -135,6 +137,14 @@ OrderWidget::OrderWidget(const Model::Index &in, QWidget *parent):
 	QPushButton *edit_button = new QPushButton("Edit");
 	QPushButton *complete_button = new QPushButton("Complete");
 	QPushButton *remove_button = new QPushButton("Remove");
+
+	if (comp)
+	{
+		edit_button->setEnabled(false);
+		complete_button->setEnabled(false);
+		remove_button->setEnabled(false);
+	}
+
 	buttons_layout->addStretch(1);
 	buttons_layout->addWidget(edit_button);
 	buttons_layout->addWidget(complete_button);

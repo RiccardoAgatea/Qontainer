@@ -26,9 +26,10 @@ public:
 				   const std::vector<std::string> &);
 	void removeOrder(const Index &);
 	void completeOrder(const Index &);
-	std::vector<Index> search(const std::function<bool(const Order &)> &,
-							  bool,
-							  bool);
+	std::vector<Index> searchToDo(
+		const std::function<bool(const Order &)> &);
+	std::vector<Index> searchCompleted(
+		const std::function<bool(const Order &)> &);
 	bool empty() const;
 };
 

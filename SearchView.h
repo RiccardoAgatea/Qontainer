@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVBoxLayout>
+#include <vector>
 #include "OrderWidget.h"
 
 class SearchView: public QDialog
@@ -11,10 +12,14 @@ class SearchView: public QDialog
 private:
 	QVBoxLayout *results_layout;
 	Model *model;
+	std::vector<Model::Index> removed;
+	std::vector<Model::Index> completed;
 public:
 	explicit SearchView(Model *, QWidget * = nullptr);
 	QSize sizeHint() const override;
 	bool filter();
+	std::vector<Model::Index> getRemovedOrders() const;
+	std::vector<Model::Index> getCOmpletedOrders() const;
 
 signals:
 

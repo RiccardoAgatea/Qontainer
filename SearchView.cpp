@@ -6,6 +6,7 @@
 #include <QToolBar>
 #include <QScrollArea>
 #include <QLabel>
+#include <QDebug>
 
 SearchView::SearchView(Model *m, QWidget *parent):
 	QDialog(parent),
@@ -44,12 +45,47 @@ bool SearchView::filter()
 
 	if (opt.exec())
 	{
-		auto results = model->search(opt.checker(),
-									 opt.includeToDo(),
-									 opt.includeCompleted());
+		if (opt.includeToDo())
+		{
+			auto results = model->searchToDo(opt.checker());
 
-		for (auto &x : results)
-			results_layout->addWidget(new OrderWidget(x));
+			for (auto &x : results)
+			{
+				OrderWidget *order = new OrderWidget(x);
+				results_layout->addWidget(order);
+
+				connect(order, &OrderWidget::remove,
+						this, [this](OrderWidget * o)
+				{
+					o->hide();
+					results_layout->removeWidget(o);
+
+					removed.push_back(o->getOrder());
+					delete o;
+				});
+
+				connect(order, &OrderWidget::complete,
+						this, [this](OrderWidget * o)
+				{
+					o->hide();
+					results_layout->removeWidget(o);
+
+					completed.push_back(o->getOrder());
+					delete o;
+				});
+			}
+		}
+
+		if (opt.includeCompleted())
+		{
+			auto results = model->searchCompleted(opt.checker());
+
+			for (auto &x : results)
+			{
+				OrderWidget *order = new OrderWidget(x, true);
+				results_layout->addWidget(order);
+			}
+		}
 
 		show();
 
@@ -57,6 +93,16 @@ bool SearchView::filter()
 	}
 	else
 		return false;
+}
+
+std::vector<Model::Index> SearchView::getRemovedOrders() const
+{
+	return removed;
+}
+
+std::vector<Model::Index> SearchView::getCOmpletedOrders() const
+{
+	return completed;
 }
 
 int SearchView::exec()
