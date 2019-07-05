@@ -573,6 +573,8 @@ Container<T>::insert(const_iterator position,
 	else
 		first = aux;
 
+	++size_;
+
 	return iterator(aux);
 }
 
@@ -588,6 +590,8 @@ Container<T>::insert(const_iterator position,
 		aux->prev->next = aux;
 	else
 		first = aux;
+
+	++size_;
 
 	return iterator(aux);
 }
@@ -605,6 +609,8 @@ Container<T>::insert(const_iterator position,
 	else
 		first = aux;
 
+	++size_;
+
 	return iterator(aux);
 }
 
@@ -620,6 +626,8 @@ Container<T>::insert(const_iterator position,
 		aux->prev->next = aux;
 	else
 		first = aux;
+
+	++size_;
 
 	return iterator(aux);
 }

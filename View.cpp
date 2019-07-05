@@ -2,6 +2,8 @@
 #include "Model.h"
 #include "AddOrderDialog.h"
 #include "SearchView.h"
+#include "UnavailableFile.h"
+#include "InvalidFile.h"
 #include <QToolBar>
 #include <QAction>
 #include <QPushButton>
@@ -9,7 +11,35 @@
 #include <QFileDialog>
 #include <QScrollArea>
 #include <QScrollBar>
-#include <QDebug>
+#include <QMessageBox>
+#include <QtDebug>
+
+void View::update()
+{
+	while (!lineup_layout->isEmpty())
+	{
+		auto item = lineup_layout->takeAt(0);
+		delete item->widget();
+		delete item;
+	}
+
+	for (auto &i : model->getUnfinishedOrders())
+	{
+		OrderWidget *order = new OrderWidget(i);
+
+		lineup_layout->addWidget(order);
+
+		connect(order, &OrderWidget::remove,
+				this, &View::removeOrder);
+
+		connect(order, &OrderWidget::complete,
+				this, &View::completeOrder);
+	}
+
+	lineup_layout->addStretch(1);
+
+	show();
+}
 
 View::View(QWidget *parent):
 	QMainWindow(parent),
@@ -77,7 +107,6 @@ void View::search()
 		{
 			auto order = static_cast<OrderWidget *>
 						 (lineup_layout->itemAt(i)->widget());
-			qDebug() << "boop" << endl;
 
 			if (order->getOrder() == o)
 			{
@@ -155,7 +184,18 @@ void View::save()
 	choose.setNameFilter("XML file (*.xml)");
 
 	if (choose.exec())
-		model->save(choose.selectedFiles()[0]);
+	{
+		try
+		{
+			model->save(choose.selectedFiles()[0]);
+		}
+		catch (UnavailableFile &)
+		{
+			QMessageBox msg;
+			msg.setText("Couldn't open the requested file");
+			msg.exec();
+		}
+	}
 }
 
 void View::load()
@@ -163,9 +203,28 @@ void View::load()
 	QFileDialog choose;
 
 	choose.setFileMode(QFileDialog::ExistingFile);
+	choose.setOption(QFileDialog::DontConfirmOverwrite);
+	choose.setOption(QFileDialog::ReadOnly);
 	choose.setWindowTitle("Load Lineup");
 	choose.setNameFilter("XML file (*.xml)");
 
 	if (choose.exec())
-		model->load(choose.selectedFiles()[0]);
+	{
+		try
+		{
+			model->load(choose.selectedFiles()[0]);
+		}
+		catch (UnavailableFile &)
+		{
+			QMessageBox msg;
+			msg.setText("Couldn't open the requested file");
+			msg.exec();
+		}
+		catch (InvalidFile &)
+		{
+			QMessageBox msg;
+			msg.setText("The requested file isn't a suitable save file for this application");
+			msg.exec();
+		}
+	}
 }

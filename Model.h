@@ -2,7 +2,6 @@
 #define MODEL_H
 #include "Container.h"
 #include "Order.h"
-#include "PolyStatic.h"
 #include <string>
 #include <QString>
 #include <vector>
@@ -30,6 +29,7 @@ public:
 		const std::function<bool(const Order &)> &);
 	std::vector<Index> searchCompleted(
 		const std::function<bool(const Order &)> &);
+	std::vector<Index> getUnfinishedOrders();
 	bool empty() const;
 };
 

@@ -12,6 +12,7 @@ class View : public QMainWindow
 private:
 	Model *model;
 	QVBoxLayout *lineup_layout;
+	void update();
 public:
 	explicit View(QWidget *parent = nullptr);
 	QSize sizeHint() const override;
