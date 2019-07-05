@@ -250,22 +250,25 @@ std::function<bool (const Order &)> SearchDialog::checker() const
 								fields->itemAt(0)->widget())->isChecked())
 						for (unsigned int i = 0; ok && i < details.size(); ++i)
 						{
-							auto item = fields->itemAt(static_cast<int>(i + 1))->
+							auto item = fields->
+										itemAt(static_cast<int>(i + 1))->
 										widget();
 
 							if (qobject_cast<QCheckBox *>(item) != nullptr)
-								ok = static_cast<QCheckBox *>(item)->isChecked() ==
-									 (details[i] == "1");
+								ok = static_cast<QCheckBox *>(item)->
+									 isChecked() == (details[i] == "1");
 							else if (qobject_cast<QLineEdit *>(item) != nullptr)
-								ok = details[i].find(
+								ok = QString::fromStdString(details[i]).
+									 indexOf(
 										 static_cast<QLineEdit *>
-										 (item)->text().toStdString()) !=
-									 std::string::npos;
+										 (item)->text(),
+										 Qt::CaseInsensitive) != -1;
 							else if (qobject_cast<QTextEdit *>(item) != nullptr)
-								ok = details[i].find(
+								ok = QString::fromStdString(details[i]).
+									 indexOf(
 										 static_cast<QTextEdit *>
-										 (item)->toPlainText().toStdString()) !=
-									 std::string::npos;
+										 (item)->toPlainText(),
+										 Qt::CaseInsensitive) != -1;
 						}
 				}
 			}
