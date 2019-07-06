@@ -48,7 +48,7 @@ void AddOrderDialog::setup()
 			details_layout->addWidget(text);
 			text->show();
 		}
-		else if (detail.first == Order::DetailType::CheckBox)
+		else if (detail.first == Order::DetailType::Choice)
 		{
 			QCheckBox *check = new QCheckBox(QString::fromStdString(
 			                                     detail.second));
@@ -70,6 +70,7 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 	setMaximumWidth(250);
 	setWindowTitle("Add Order");
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setWindowIcon(QIcon(":/icon/AddOrder"));
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
 	QHBoxLayout *table_quantity_layout = new QHBoxLayout;

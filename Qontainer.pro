@@ -77,4 +77,5 @@ HEADERS += \
 	SearchView.h \
     InvalidFile.h
 
-RESOURCES +=
+RESOURCES += \
+    Media.qrc

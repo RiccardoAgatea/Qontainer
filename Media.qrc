@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="AddOrder">Media/AddOrder.png</file>
+        <file alias="Load">Media/Load.png</file>
+        <file alias="Main">Media/Main.png</file>
+        <file alias="Remove">Media/Remove.png</file>
+        <file alias="Save">Media/Save.png</file>
+        <file alias="Search">Media/Search.png</file>
+        <file alias="Warning">Media/Warning.png</file>
+        <file alias="Edit">Media/Edit.png</file>
+        <file alias="Complete">Media/Complete.png</file>
+    </qresource>
+    <qresource prefix="/type">
+        <file alias="Analcoholic">Media/Analcoholic.png</file>
+        <file alias="Appetizer">Media/Appetizer.png</file>
+        <file alias="Beer">Media/Beer.png</file>
+        <file alias="Cocktail">Media/Cocktail.png</file>
+        <file alias="Coffee">Media/Coffee.png</file>
+        <file alias="Dessert">Media/Dessert.png</file>
+        <file alias="Hamburger">Media/Hamburger.png</file>
+        <file alias="Liquor">Media/Liquor.png</file>
+        <file alias="Sandwich">Media/sandwich.png</file>
+        <file alias="Steak">Media/Steak.png</file>
+        <file alias="Wine">Media/Wine.png</file>
+    </qresource>
+</RCC>

@@ -17,6 +17,7 @@ EditOrderDialog::EditOrderDialog(const std::string &type,
 {
 	setMinimumWidth(250);
 	setMaximumWidth(250);
+	setWindowIcon(QIcon(":/icon/Edit"));
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
 	QHBoxLayout *quantity_layout = new QHBoxLayout;
@@ -53,7 +54,7 @@ EditOrderDialog::EditOrderDialog(const std::string &type,
 			text->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 			details_layout->addWidget(text);
 		}
-		else if (detail.first == Order::DetailType::CheckBox)
+		else if (detail.first == Order::DetailType::Choice)
 		{
 			QCheckBox *check = new QCheckBox(QString::fromStdString(
 												 detail.second));

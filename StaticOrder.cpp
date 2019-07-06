@@ -1,7 +1,7 @@
 #include "StaticOrder.h"
 
 StaticOrder::Empty::Empty(const std::string &type,
-						  const std::vector<std::pair<DetailType, std::string>> &details)
+                          const std::vector<std::pair<DetailType, std::string>> &details)
 {
 	types.push_back(type);
 
@@ -12,7 +12,7 @@ StaticOrder::Empty::Empty(const std::string &type,
 std::vector<std::string> StaticOrder::types;
 
 std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>>
-		StaticOrder::info
+        StaticOrder::info
 {
 	{"Steak", {DetailType::SmallText, "Temperature"}},
 	{"Hamburger", {DetailType::LargeText, "Not Including"}},
@@ -20,11 +20,11 @@ std::multimap<std::string, std::pair<StaticOrder::DetailType, std::string>>
 	{"Sandwich", {DetailType::LargeText, "Not Including"}},
 	{"Appetizer", {DetailType::SmallText, "Sauces"}},
 	{"Dessert", {DetailType::LargeText, "Adding"}},
-	{"Liquor", {DetailType::CheckBox, "Ice"}},
+	{"Liquor", {DetailType::Choice, "Ice"}},
 	{"Beer", {DetailType::SmallText, "Size"}},
-	{"Wine", {DetailType::CheckBox, "Vintage"}},
+	{"Wine", {DetailType::Choice, "Vintage"}},
 	{"Cocktail", {DetailType::LargeText, "Garnish"}},
-	{"Analcoholic", {DetailType::CheckBox, "Ice"}},
+	{"Analcoholic", {DetailType::Choice, "Ice"}},
 	{"Coffee", {DetailType::LargeText, "Notes"}}
 };
 

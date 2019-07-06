@@ -84,7 +84,7 @@ void Model::save(const QString &path) const
 
 void Model::load(const QString &path)
 {
-	QFile file(path + (path.endsWith(".xml") ? "" : ".xml"));
+	QFile file(path);
 	Container<Order> temp_to_do, temp_completed;
 
 	if (!file.open(QIODevice::ReadOnly))
@@ -95,7 +95,7 @@ void Model::load(const QString &path)
 	QXmlStreamReader str(&file);
 
 	str.readNext(); //start document
-	str.readNext(); //start root
+	str.readNextStartElement(); //start root
 	str.readNextStartElement();
 
 	if (!(str.isStartElement() &&
@@ -117,7 +117,7 @@ void Model::load(const QString &path)
 		                   toStdString();
 
 		unsigned int table = str.attributes().
-							 value("type").
+							 value("table").
 							 toUInt();
 
 		std::string item = str.attributes().
@@ -145,11 +145,7 @@ void Model::load(const QString &path)
 		                     item,
 		                     quantity,
 		                     details));
-
-		str.skipCurrentElement();
 	}
-
-	str.skipCurrentElement();
 
 	str.readNextStartElement(); //start completed
 
@@ -161,7 +157,7 @@ void Model::load(const QString &path)
 						   toStdString();
 
 		unsigned int table = str.attributes().
-							 value("type").
+							 value("table").
 							 toUInt();
 
 		std::string item = str.attributes().
@@ -185,12 +181,10 @@ void Model::load(const QString &path)
 			str.skipCurrentElement();
 		}
 
-		temp_to_do.push_back(Order::getMake()[type](table,
-							 item,
-							 quantity,
-							 details));
-
-		str.skipCurrentElement();
+		temp_completed.push_back(Order::getMake()[type](table,
+								 item,
+								 quantity,
+								 details));
 	}
 
 	file.close();

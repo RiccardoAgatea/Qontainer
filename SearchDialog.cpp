@@ -51,6 +51,7 @@ SearchDialog::SearchDialog(QWidget *parent):
 	setMaximumWidth(250);
 	setWindowTitle("Search Options");
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setWindowIcon(QIcon(":/icon/Search"));
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
 	QGroupBox *completed_group = new QGroupBox;
@@ -152,7 +153,7 @@ SearchDialog::SearchDialog(QWidget *parent):
 				connect(enabler, &QCheckBox::toggled,
 						text, &QLineEdit::setEnabled);
 			}
-			else if (detail.first == Order::DetailType::CheckBox)
+			else if (detail.first == Order::DetailType::Choice)
 			{
 				QCheckBox *check = new QCheckBox(QString::fromStdString(
 													 detail.second));

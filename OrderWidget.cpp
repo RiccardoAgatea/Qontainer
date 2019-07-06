@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QFormLayout>
+#include <QPixmap>
+#include <QFont>
 
 void OrderWidget::edit()
 {
@@ -31,6 +33,9 @@ OrderWidget::OrderWidget(const Model::Index &in,
 {
 	setFixedWidth(400);
 	setFrameStyle(QFrame::Panel | QFrame::Raised);
+	QFont f = font();
+	f.setPointSize(12);
+	setFont(f);
 
 	QHBoxLayout *main_layout = new QHBoxLayout;
 	QVBoxLayout *specifics_layout = new QVBoxLayout;
@@ -45,15 +50,19 @@ OrderWidget::OrderWidget(const Model::Index &in,
 	QHBoxLayout *quantity_layout = new QHBoxLayout;
 	QFormLayout *details_layout = new QFormLayout;
 
+	QLabel *type_icon = new QLabel;
+	QLabel *type_label = new QLabel;
+	type_label->setText(QString::fromStdString(order->getClassName()));
+	type_icon->setPixmap(QPixmap(":/type/" + type_label->text()).
+						 scaled(QSize(25, 25), Qt::KeepAspectRatio));
+	type_layout->addWidget(type_icon);
+	type_layout->addWidget(type_label);
+	type_layout->addStretch(1);
+
 	QLabel *table = new QLabel;
 	table->setText("Table " + QString::number(order->getTable()));
 	table_layout->addWidget(table);
 	table_layout->addStretch(1);
-
-	QLabel *type = new QLabel;
-	type->setText(QString::fromStdString(order->getClassName()));
-	type_layout->addWidget(type);
-	type_layout->addStretch(1);
 
 	QLabel *item = new QLabel(QString::fromStdString(order->getItem()));
 	item_layout->addWidget(item);
@@ -107,7 +116,7 @@ OrderWidget::OrderWidget(const Model::Index &in,
 					QString::fromStdString(order->getDetails()[i]));
 			});
 		}
-		else if (det->second.first == Order::DetailType::CheckBox)
+		else if (det->second.first == Order::DetailType::Choice)
 		{
 			QCheckBox *detail_content = new QCheckBox;
 			detail_content->setEnabled(false);
@@ -128,15 +137,21 @@ OrderWidget::OrderWidget(const Model::Index &in,
 
 	details_layout->setLabelAlignment(Qt::AlignLeft);
 
-	specifics_layout->addLayout(table_layout);
 	specifics_layout->addLayout(type_layout);
+	specifics_layout->addLayout(table_layout);
 	specifics_layout->addLayout(item_layout);
 	specifics_layout->addLayout(quantity_layout);
 	specifics_layout->addLayout(details_layout);
 
-	QPushButton *edit_button = new QPushButton("Edit");
-	QPushButton *complete_button = new QPushButton("Complete");
-	QPushButton *remove_button = new QPushButton("Remove");
+	QPushButton *edit_button = new QPushButton(
+		QIcon(":/icon/Edit"),
+		"Edit");
+	QPushButton *complete_button = new QPushButton(
+		QIcon(":/icon/Complete"),
+		"Complete");
+	QPushButton *remove_button = new QPushButton(
+		QIcon(":/icon/Remove"),
+		"Remove");
 
 	if (comp)
 	{

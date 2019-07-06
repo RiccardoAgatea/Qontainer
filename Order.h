@@ -42,7 +42,7 @@ protected:
 public:
 	enum class DetailType
 	{
-		CheckBox,
+		Choice,
 		SmallText,
 		LargeText
 	};

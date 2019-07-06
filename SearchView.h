@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVBoxLayout>
+#include <QPushButton>
 #include <vector>
 #include "OrderWidget.h"
 
@@ -22,6 +23,8 @@ public:
 	std::vector<Model::Index> getCOmpletedOrders() const;
 
 signals:
+	void removeAll();
+	void completeAll();
 
 public slots:
 	int exec() override;

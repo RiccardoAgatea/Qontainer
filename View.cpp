@@ -16,7 +16,7 @@
 
 void View::update()
 {
-	while (!lineup_layout->isEmpty())
+	while (lineup_layout->count() != 0)
 	{
 		auto item = lineup_layout->takeAt(0);
 		delete item->widget();
@@ -48,12 +48,15 @@ View::View(QWidget *parent):
 {
 	setMinimumWidth(500);
 	setMaximumWidth(500);
+	setWindowIcon(QIcon(":/icon/Main"));
 
-	QAction *save_action = new QAction("Save");
-	QAction *load_action = new QAction("Load");
+	QAction *save_action = new QAction(QIcon(":/icon/Save"), "Save");
+	QAction *load_action = new QAction(QIcon(":/icon/Load"), "Load");
 	QAction *exit_action = new QAction("Exit");
-	QAction *add_order_action = new QAction("Add Order");
-	QAction *search_action = new QAction("Search");
+	QAction *add_order_action = new QAction(QIcon(":/icon/AddOrder"),
+											"Add Order");
+	QAction *search_action = new QAction(QIcon(":/icon/Search"),
+										 "Search");
 
 	QMenu *file_menu = new QMenu("File");
 	file_menu->addAction(save_action);
@@ -187,7 +190,8 @@ void View::save()
 	{
 		try
 		{
-			model->save(choose.selectedFiles()[0]);
+			QString path = choose.selectedFiles()[0];
+			model->save(path + (path.endsWith(".xml") ? "" : ".xml"));
 		}
 		catch (UnavailableFile &)
 		{
@@ -213,6 +217,7 @@ void View::load()
 		try
 		{
 			model->load(choose.selectedFiles()[0]);
+			update();
 		}
 		catch (UnavailableFile &)
 		{

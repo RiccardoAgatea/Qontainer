@@ -2,7 +2,8 @@
 #include "SearchDialog.h"
 #include "OrderWidget.h"
 #include "Model.h"
-#include <QAction>
+#include <QMessageBox>
+#include <QHBoxLayout>
 #include <QToolBar>
 #include <QScrollArea>
 #include <QLabel>
@@ -17,21 +18,62 @@ SearchView::SearchView(Model *m, QWidget *parent):
 	setMaximumWidth(500);
 	setWindowTitle("Search Results");
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setWindowIcon(QIcon(":/icon/search"));
 
 	QVBoxLayout *main_layout = new QVBoxLayout;
+
+	QHBoxLayout *edit_all_layout = new QHBoxLayout;
+	QPushButton *remove_all = new QPushButton(QIcon(":/icon/Remove"),
+			"Remove All");
+	QPushButton *complete_all = new QPushButton(QIcon(":/icon/Complete"),
+			"Complete All");
+	edit_all_layout->addWidget(complete_all);
+	edit_all_layout->addWidget(remove_all);
+	edit_all_layout->addStretch(1);
+
 	QScrollArea *scroll_area = new QScrollArea;
 	QWidget *widget = new QWidget;
 	results_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-	results_layout->addStretch(1);
 	widget->setLayout(results_layout);
 	scroll_area->setWidget(widget);
 	widget->setFixedWidth(475);
 	scroll_area->setWidgetResizable(false);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
+	main_layout->addLayout(edit_all_layout);
 	main_layout->addWidget(scroll_area);
 
 	setLayout(main_layout);
+
+	connect(remove_all, &QPushButton::clicked,
+			this, [this]()
+	{
+		QMessageBox msg;
+
+		msg.setWindowIcon(QIcon(":/icon/Warning"));
+		msg.setText("Are you sure you want to remove all the selected orders?");
+		msg.setIcon(QMessageBox::Warning);
+		msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+		msg.setDefaultButton(QMessageBox::Cancel);
+
+		if (msg.exec() == QMessageBox::Ok)
+			emit removeAll();
+	});
+
+	connect(complete_all, &QPushButton::clicked,
+			this, [this]()
+	{
+		QMessageBox msg;
+
+		msg.setWindowIcon(QIcon(":/icon/Warning"));
+		msg.setText("Are you sure you want to complete all the selected orders?");
+		msg.setIcon(QMessageBox::Warning);
+		msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+		msg.setDefaultButton(QMessageBox::Cancel);
+
+		if (msg.exec() == QMessageBox::Ok)
+			emit completeAll();
+	});
 }
 
 QSize SearchView::sizeHint() const
@@ -54,6 +96,12 @@ bool SearchView::filter()
 				OrderWidget *order = new OrderWidget(x);
 				results_layout->addWidget(order);
 
+				connect(this, &SearchView::removeAll,
+						order, [order]()
+				{
+					emit order->remove(order);
+				});
+
 				connect(order, &OrderWidget::remove,
 						this, [this](OrderWidget * o)
 				{
@@ -62,6 +110,12 @@ bool SearchView::filter()
 
 					removed.push_back(o->getOrder());
 					delete o;
+				});
+
+				connect(this, &SearchView::completeAll,
+						order, [order]()
+				{
+					emit order->complete(order);
 				});
 
 				connect(order, &OrderWidget::complete,
@@ -86,6 +140,8 @@ bool SearchView::filter()
 				results_layout->addWidget(order);
 			}
 		}
+
+		results_layout->addStretch(1);
 
 		show();
 

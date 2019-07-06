@@ -4,7 +4,7 @@
 
 const std::string Liquor::class_name("Liquor");
 Order::Empty Liquor::empty(class_name,
-{{DetailType::CheckBox, "Ice"}}, []
+{{DetailType::Choice, "Ice"}}, []
 (unsigned int t,
  const std::string &i,
  unsigned int q,
