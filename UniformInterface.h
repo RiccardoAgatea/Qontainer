@@ -12,7 +12,7 @@ T *clone(const T &t)
 template<typename T>
 T *clone(T &&t)
 {
-	return t.move();
+	return t.clone();
 }
 
 template<typename T>

@@ -37,24 +37,24 @@ bool Dessert::isA(const std::string &type) const
 	return type == Dessert::getClassName() || Food::isA(type);
 }
 
-std::string Dessert::getAddedParts() const
+std::string Dessert::getWith() const
 {
 	return with;
 }
 
-void Dessert::setAddedParts(const std::string &w)
+void Dessert::setWith(const std::string &w)
 {
 	with = w;
 }
 
 std::vector<std::string> Dessert::getDetails() const
 {
-	return {getAddedParts()};
+	return {getWith()};
 }
 
 void Dessert::setDetails(const std::vector<std::string> &det)
 {
-	setAddedParts(det[0]);
+	setWith(det[0]);
 }
 
 bool Dessert::operator==(const Order &o) const

@@ -46,8 +46,8 @@ View::View(QWidget *parent):
 	model(new Model),
 	lineup_layout(new QVBoxLayout)
 {
-	setMinimumWidth(500);
-	setMaximumWidth(500);
+	setMinimumWidth(550);
+	setMaximumWidth(550);
 	setWindowIcon(QIcon(":/icon/Main"));
 
 	QAction *save_action = new QAction(QIcon(":/icon/Save"), "Save");
@@ -77,7 +77,7 @@ View::View(QWidget *parent):
 	lineup_layout->addStretch(1);
 	widget->setLayout(lineup_layout);
 	scroll_area->setWidget(widget);
-	widget->setFixedWidth(475);
+	widget->setFixedWidth(525);
 	scroll_area->setWidgetResizable(false);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	setCentralWidget(scroll_area);
@@ -96,7 +96,7 @@ View::View(QWidget *parent):
 
 QSize View::sizeHint() const
 {
-	return QSize(500, 750);
+	return QSize(650, 750);
 }
 
 void View::search()

@@ -3,6 +3,10 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Qontainer
+
+MOC_DIR = mocfiles
+OBJECTS_DIR = objectfiles
+
 TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -31,8 +35,7 @@ SOURCES += \
     Beer.cpp \
     Wine.cpp \
     Cocktail.cpp \
-    UnavailableFile.cpp \
-    UnknownType.cpp \
+	UnavailableFile.cpp \
 	OrderWidget.cpp \
 	NullPtrExcept.cpp \
 	AddOrderDialog.cpp \
@@ -65,8 +68,7 @@ HEADERS += \
     Wine.h \
     Cocktail.h \
     ContainerExceptions.h \
-    UnavailableFile.h \
-    UnknownType.h \
+	UnavailableFile.h \
 	OrderWidget.h \
 	NullPtrExcept.h \
     UniformInterface.h \

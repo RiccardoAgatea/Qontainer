@@ -14,8 +14,8 @@ SearchView::SearchView(Model *m, QWidget *parent):
 	results_layout(new QVBoxLayout),
 	model(m)
 {
-	setMinimumWidth(500);
-	setMaximumWidth(500);
+	setMinimumWidth(650);
+	setMaximumWidth(650);
 	setWindowTitle("Search Results");
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowIcon(QIcon(":/icon/search"));
@@ -36,7 +36,7 @@ SearchView::SearchView(Model *m, QWidget *parent):
 	results_layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 	widget->setLayout(results_layout);
 	scroll_area->setWidget(widget);
-	widget->setFixedWidth(475);
+	widget->setFixedWidth(525);
 	scroll_area->setWidgetResizable(false);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
@@ -78,7 +78,7 @@ SearchView::SearchView(Model *m, QWidget *parent):
 
 QSize SearchView::sizeHint() const
 {
-	return QSize(500, 650);
+	return QSize(650, 650);
 }
 
 bool SearchView::filter()

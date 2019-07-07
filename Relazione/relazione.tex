@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[10pt]{article}
 
 \usepackage[italian]{babel}
 \usepackage{fontspec}
@@ -8,25 +8,30 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{minted}
+\usepackage{amsthm}
+
+\theoremstyle{remark}
+\newtheorem*{nota}{Nota}
 
 \newcommand{\code}[1]{\mintinline{cpp}{#1}}
+\newcommand{\xmlcode}[1]{\mintinline{xml}{#1}}
 
-\title{Progetto di Programmazione a Oggetti}
-\author{Agatea Riccardo}
+\title{Progetto di Programmazione a Oggetti\\Qontainer}
+\author{Agatea Riccardo, matricola 1170718}
 \date{a.a. 2018/2019}
 
 \begin{document}
-\pagenumbering{gobble}
-\maketitle
-\newpage
 \pagenumbering{arabic}
+\maketitle
 \section{Introduzione} % (fold)
 \label{sec:introduzione}
-L'applicazione consiste in un sistema di gestione delle ordinazioni di un ristorante. L'applicazione permette l'immissione di nuove ordinazioni, la loro modifica e rimozione, il loro salvataggio su file e caricamento da file in formato XML, e la loro ricerca secondo diversi parametri. Inoltre, gestisce la separazione fra ordinazioni in attesa e completate.
+L'applicazione consiste in un sistema di gestione delle ordinazioni di un ristorante; permette l'immissione di nuove ordinazioni, la loro modifica e rimozione, il loro salvataggio su file e caricamento da file, e la loro ricerca secondo diversi parametri. Inoltre, gestisce la separazione fra ordinazioni in attesa e completate.
 % section introduzione (end)
 \section{Descrizione aspetti progettuali} % (fold)
 \label{sec:descrizione_aspetti_progettuali}
 \input{Parti/Gerarchia_di_tipi}
+\input{Parti/Template_Container}
+\input{Parti/Altre_Classi}
 \input{Parti/Chiamate_polimorfe}
 \input{Parti/Formato_dei_file_di_salvataggio_e_caricamento}
 % section descrizione_aspetti_progettuali (end)

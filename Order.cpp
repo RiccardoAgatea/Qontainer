@@ -113,7 +113,7 @@ const std::multimap<std::string, std::pair<Order::DetailType, std::string> >
 	return info();
 }
 
-std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::string &, unsigned int, const std::vector<std::string> &)> >
+const std::map<std::string, std::function<DeepPtr<Order> (unsigned int, const std::string &, unsigned int, const std::vector<std::string> &)> >
 &Order::getMake()
 {
 	return make();

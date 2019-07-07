@@ -17,8 +17,8 @@ public:
 	Dessert *clone() const override;
 	std::string getClassName() const override;
 	bool isA(const std::string &) const override;
-	std::string getAddedParts() const;
-	void setAddedParts(const std::string &);
+	std::string getWith() const;
+	void setWith(const std::string &);
 	std::vector<std::string> getDetails() const override;
 	void setDetails(const std::vector<std::string> &) override;
 	bool operator==(const Order &) const override;

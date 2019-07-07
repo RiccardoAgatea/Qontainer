@@ -141,7 +141,7 @@ void Model::load(const QString &path)
 			str.skipCurrentElement();
 		}
 
-		temp_to_do.push_back(Order::getMake()[type](table,
+		temp_to_do.push_back(Order::getMake().at(type)(table,
 		                     item,
 		                     quantity,
 		                     details));
@@ -181,7 +181,7 @@ void Model::load(const QString &path)
 			str.skipCurrentElement();
 		}
 
-		temp_completed.push_back(Order::getMake()[type](table,
+		temp_completed.push_back(Order::getMake().at(type)(table,
 								 item,
 								 quantity,
 								 details));
@@ -199,8 +199,8 @@ Model::Index Model::addOrder(const std::string &type,
                              unsigned int quantity,
                              const std::vector<std::string> &details)
 {
-	to_do.push_back(Order::getMake()[type](table, item, quantity,
-	                                       details));
+	to_do.push_back(Order::getMake().at(type)(table, item, quantity,
+					details));
 	return Index(--to_do.end());
 }
 

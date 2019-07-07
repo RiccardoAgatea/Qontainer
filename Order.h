@@ -68,7 +68,7 @@ public:
 	static const
 	std::multimap<std::string, std::pair<DetailType, std::string>> &
 			getInfo();
-	static
+	static const
 	std::map<std::string, std::function<DeepPtr<Order>(unsigned int,
 			const std::string &,
 			unsigned int,

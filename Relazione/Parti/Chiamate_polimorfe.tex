@@ -1,4 +1,19 @@
 \subsection{Chiamate polimorfe} % (fold)
 \label{sub:chiamate_polimorfe}
-
+La gerarchia radicata in \code{Order} fornisce tre funzionalità diverse in modo polimorfico:
+\begin{itemize}
+	\item Clonazione
+	\item RTTI su stringhe
+	\item Gestione dei dettagli di un ordine
+\end{itemize}
+Queste funzionalità vengono sfruttate in parti diverse del progetto:
+\begin{itemize}
+	\item La clonazione viene utilizzata dai puntatori smart \code{DeepPtr}, che si appoggiano sulle funzioni racchiuse nel namespace \code{UniformInterface}. Le due funzioni clone invocano il metodo \code{clone()} nella loro implementazione di default.
+	\item Il meccanismo di RTTI su stringhe viene utilizzato dalla classe \code{SearchDialog} per confrontare un ordine con i parametri della ricerca selezionati dall'utente, in particolare per verificare che l'ordine sia di un tipo selezionato, e che sia di un tipo che è derivato da almeno una delle classi astratte selezionate. Inoltre, la possibilità di ricavare il tipo di un oggetto in forma di stringa è utilizzata dalla classe \code{Model} per il salvataggio dei dati su file e dalla classe \code{OrderWidget} per mostrare il tipo delle ordinazioni nella GUI.
+	\item La gestione dei dettagli viene utilizzata:
+	\begin{itemize}
+		\item "In lettura" (invocando \code{getDetails()}) da \code{Model} per il salvataggio dei dati, da \code{OrderWidget} per mostrare le informazioni nella GUI, e da \code{SearchDialog} per verificare che ciascun dettaglio di un ordine contenga i parametri di ricerca richiesti dall'utente.
+		\item "In scrittura" (invocando \code{setDetails()}) da \code{OrderWidget} per sovrascrivere i dettagli in seguito ad una richiesta di modifica da parte dell'utente.
+	\end{itemize}
+\end{itemize}
 % subsection chiamate_polimorfe (end)

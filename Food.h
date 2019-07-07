@@ -15,8 +15,8 @@ public:
 	     unsigned int,
 	     const std::string &);
 	Food *clone() const override = 0;
-	std::string getRemovedParts() const;
-	void setRemovedParts(const std::string &);
+	std::string getWithout() const;
+	void setWithout(const std::string &);
 	std::string getClassName() const override;
 	bool isA(const std::string &) const override;
 	std::vector<std::string> getDetails() const override;

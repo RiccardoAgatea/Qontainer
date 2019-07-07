@@ -1,4 +1,17 @@
 \subsection{Formato dei file di salvataggio e caricamento} % (fold)
 \label{sub:formato_dei_file_di_salvataggio_e_caricamento}
-
+\paragraph{Formato} % (fold)
+\label{par:formato}
+I file di salvataggio sono in formato XML $1.0$. All'interno dell'elemento \xmlcode{root} sono presenti tre figli:
+\begin{itemize}
+	\item \xmlcode{valid_save}, elemento vuoto con un attributo \xmlcode{application}, il cui valore è \xmlcode{Qontainer}, che specifica la validità del file come file di salvataggio per l'applicazione.
+	\item \xmlcode{to_do}, elemento che contiene come figli tutti gli ordini non ancora completati.
+	\item \xmlcode{completed}, elemento che contiene come figli tutti gli ordini completati.
+\end{itemize}
+I figli di \xmlcode{to_do} e \xmlcode{completed} sono elementi \xmlcode{order}, ciascuno con attributi \xmlcode{type}, corrispondente al tipo dell'oggetto che rappresenta l'ordine all'interno dell'applicazione, e \xmlcode{table}, \xmlcode{item} e \xmlcode{quantity}, corrispondenti ciascuno all'omonimo campo dati della classe \code{Order}. Ogni elemento \xmlcode{order} ha inoltre un elenco di figli, i quali sono elementi vuoti \xmlcode{detail} e rappresentano un dettaglio aggiunto da una sottoclasse di \code{Order}, il cui valore è contenuto nell'attributo \xmlcode{value}.
+% paragraph formato (end)
+\paragraph{Implementazione} % (fold)
+\label{par:implementazione}
+Per implementare il salvataggio e il caricamento dei dati su e da file si sono utilizzate le classi fornite dalla libreria Qt: \code{QSaveFile} e \code{QFile} per la gestione dei file e \code{QXmlStreamWriter} e \code{QXmlStreamReader} per la scrittura e lettura del codice XML.
+% paragraph implementazione (end)
 % subsection formato_dei_file_di_salvataggio_e_caricamento (end)

@@ -13,12 +13,12 @@ Food::Food(unsigned int t,
 
 }
 
-std::string Food::getRemovedParts() const
+std::string Food::getWithout() const
 {
 	return without;
 }
 
-void Food::setRemovedParts(const std::string &w)
+void Food::setWithout(const std::string &w)
 {
 	without = w;
 }
@@ -35,12 +35,12 @@ bool Food::isA(const std::string &type) const
 
 std::vector<std::string> Food::getDetails() const
 {
-	return {getRemovedParts()};
+	return {getWithout()};
 }
 
 void Food::setDetails(const std::vector<std::string> &det)
 {
-	setRemovedParts(det[0]);
+	setWithout(det[0]);
 }
 
 bool Food::operator==(const Order &o) const

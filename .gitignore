@@ -1,5 +1,10 @@
 *.pro.*
 *.exe
+.qmake.stash
+Makefile
+Makefile.*
+object_script.*
 Specifiche.pdf
-/Documentation
 /build
+/debug
+/release
