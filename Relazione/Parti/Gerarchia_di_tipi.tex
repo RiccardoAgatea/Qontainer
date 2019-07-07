@@ -5,6 +5,29 @@
 \label{par:informazioni_generali}
 La gerarchia modella le ordinazioni inviate alla cucina del ristorante. Radicata nella classe polimorfa astratta \code{Order}, si dirama in due direzioni, \code{Food} e \code{Drink}, associate rispettivamente a ordinazioni di piatti e bevande. Il polimorfismo è dato da alcuni metodi virtuali, descritti in seguito, che forniscono funzionalità di copia e confronto polimorfi, e permettono di ricavare informazioni esplicite sul tipo degli oggetti. La gerarchia è fortemente estensibile sia "in orizzontale", aggiungendo nuovi sottotipi alle classi base presenti, sia "in verticale", fornendo sottotipi alle classi più derivate.
 % paragraph informazioni_generali (end)
+\subsubsection{Order} % (fold)
+\label{ssub:order}
+\paragraph{Campi Dati} % (fold)
+\label{par:campi_dati}
+La classe \code{Order} incapsula informazioni di base relative ad un ordine attraverso tre campi dati privati di istanza:
+\begin{itemize}
+	\item \code{table}, il numero del tavolo,
+	\item \code{item}, il nome della pietanza,
+	\item \code{quantity}, il numero di porzioni
+\end{itemize}
+È presente un campo dati privato statico, \code{class_name}, che incapsula il nome della classe sottoforma di stringa. Sono inoltre presenti 4 metodi statici privati che permettono l'accesso a degli oggetti che, concettualmente, dovrebbero essere campi statici, ma per motivi progettuali (spiegati in seguito) sono allocati sullo heap e vengono acceduti attraverso puntatori di classe statica:
+\begin{itemize}
+	\item \code{static std::vector<std::string> &abstracts()}\newline
+	Metodo che ritorna un \code{std::vector} contenente i nomi sottoforma di stringa delle classi astratte derivate da \code{Order}.
+	\item \code{static std::vector<std::string> &types()}\newline
+	Metodo che ritorna un \code{std::vector} contenente i nomi sottoforma di stringa delle classi istanziabili derivate da \code{Order}.
+	\item \code{static std::multimap<std::string, std::pair<DetailType, std::string>> &info()}\newline
+	Metodo che ritorna una \code{std::multimap} che associa a ciascun tipo derivato da \code{Order} la forma ed il nome dei dettagli specifici per quel tipo.
+	\item \code{static std::map<std::string, std::function<DeepPtr<Order>(unsigned int,}\newline
+	\code{const std::string &, unsigned int, const std::vector<std::string> &)>> &make()}\newline
+	Metodo che ritorna una \code{std::map} che associa a ciascun tipo derivato da \code{Order} una funzione che agisce da costruttore, ritornando un puntatore smart ad un nuovo oggetto.
+\end{itemize}
+% paragraph campi_dati (end)
 \paragraph{Membri Statici} % (fold)
 \label{par:membri_statici}
 La classe \code{Order} comprende anche dei membri statici, che forniscono due tipi di funzionalità:
@@ -14,29 +37,6 @@ La classe \code{Order} comprende anche dei membri statici, che forniscono due ti
 \end{itemize}
 In questo modo è possibile sfruttare una sorta di polimorfismo che non richiede un oggetto di invocazione.
 % paragraph membri_statici (end)
-\subsubsection{Order} % (fold)
-\label{ssub:order}
-\paragraph{Campi Dati} % (fold)
-\label{par:campi_dati}
-La classe \code{Order} incapsula informazioni di base relative ad un ordine attraverso tre campi dati privati di istanza:
-\begin{itemize}
-	\item \code{table}: \code{unsigned int}, il numero del tavolo,
-	\item \code{item}: \code{std::string}, il nome della pietanza,
-	\item \code{quantity}: \code{unsigned int}, il numero di porzioni
-\end{itemize}
-È presente un campo dati privato statico, \code{class_name}, che incapsula il nome della classe sottoforma di stringa. Sono inoltre presenti 4 metodi statici privati che permettono l'accesso a degli oggetti che, concettualmente, dovrebbero essere campi statici, ma per motivi progettuali (spiegati in seguito) sono allocati sullo heap e vengono acceduti attraverso puntatori di classe statica:
-\begin{itemize}
-	\item \code{static std::vector<std::string> &abstracts()}\newline
-	Metodo che ritorna un \code{std::vector} contenente i nomi delle classi astratte derivate da \code{Order} sottoforma di stringa.
-	\item \code{static std::vector<std::string> &types()}\newline
-	Metodo che ritorna un \code{std::vector} contenente i nomi delle classi istanziabili derivate da \code{Order} sottoforma di stringa.
-	\item \code{static std::multimap<std::string, std::pair<DetailType, std::string>> &info()}\newline
-	Metodo che ritorna una \code{std::multimap} che associa a ciascun tipo derivato da \code{Order} la forma ed il nome dei dettagli specifici per quel tipo.
-	\item \code{static std::map<std::string, std::function<DeepPtr<Order>(unsigned int,}\newline
-	\code{const std::string &, unsigned int, const std::vector<std::string> &)>> &make()}\newline
-	Metodo che ritorna una \code{std::map} che associa a ciascun tipo derivato da \code{Order} una funzione che agisce da costruttore, ritornando un puntatore smart ad un nuovo oggetto.
-\end{itemize}
-% paragraph campi_dati (end)
 \paragraph{Metodi} % (fold)
 \label{par:metodi}
 Per l'interazione con gli oggetti sono disponibili $13$ metodi pubblici di istanza (virtuali e non) che comprendono un costruttore ed il distruttore, a cui vanno aggiunti il costruttore di copia e l'operatore di assegnazione di copia standard forniti dal compilatore. I metodi di istanza sono:
@@ -64,7 +64,7 @@ Per l'interazione con gli oggetti sono disponibili $13$ metodi pubblici di istan
 	\item \code{virtual void setDetails(const std::vector<std::string> &) = 0}\newline
 	Metodo virtuale puro speculare a \code{getDetails()}, permette di modificare le informazioni aggiuntive.
 	\item \code{virtual bool operator==(const Order &) const}\newline
-	Operatore di uguaglianza, dichiarato virtuale per tenere in considerazione dei ettagli relativi alle sottoclassi. L'implementazione "parziale" fornita da \code{Order} confronta i rispettivi tipi e i campi dati.
+	Operatore di uguaglianza, dichiarato virtuale per tenere in considerazione dei dettagli relativi alle sottoclassi. L'implementazione "parziale" fornita da \code{Order} confronta i rispettivi tipi e i campi dati.
 	\item \code{bool operator!=(const Order &) const}\newline
 	Operatore di disuguaglianza, dichiarato non virtuale in quanto si basa sull'operatore di uguaglianza. Ritorna \code{true} se e solo se l'operatore di uguaglianza ritorna \code{false}.
 \end{itemize}
@@ -118,23 +118,23 @@ La classe astratta \code{MeatBased}, derivata da \code{Food}, rappresenta ordini
 % subsubsection meatbased (end)
 \subsubsection{Steak, Hamburger} % (fold)
 \label{ssub:steak_hamburger}
-Le classi \code{Steak} e \code{Hamburger}, derivate da \code{MeatBased}, rappresentano ordini di piatti il cui ingrediente principale è rispettivamente una bistecca o un hamburger. Non presentano campi dati aggiuntivi, ma \code{Steak} non fa uso del campo dati \code{without} di \code{Food}; di conseguenza, \code{Hamburger} utilizza il costruttore di \code{MeatBased}, mentre \code{Steak} ne fornisce uno ad hoc. Per lo stesso motivo, solo \code{Steak} reimplementa \code{getDetails()} e \code{setDetails()}. Gli altri metodi virtuali sono reimplementati come da aspettative.
+Le classi \code{Steak} e \code{Hamburger}, derivate da \code{MeatBased}, rappresentano ordini di piatti il cui ingrediente principale è rispettivamente una bistecca o un hamburger. Non presentano campi dati aggiuntivi, ma \code{Steak} non fa uso del campo dati \code{without} di \code{Food}; di conseguenza, \code{Hamburger} utilizza il costruttore di \code{MeatBased}, mentre \code{Steak} ne fornisce uno ad hoc. Per lo stesso motivo, solo \code{Steak} reimplementa \code{getDetails()}, \code{setDetails()} e l'operatore di uguaglianza. Gli altri metodi virtuali sono reimplementati come da aspettative.
 % subsubsection steak_hamburger (end)
 \subsubsection{Sandwich} % (fold)
 \label{ssub:sandwich}
-La classe \code{Sandwich}, derivata da \code{Food}, rappresenta ordini di piatti basati su sandwich. Non presenta campi dati aggiuntivi, e di conseguenza utilizza il costruttore di \code{Food}. Per lo stesso motivo, non reimplementa \code{getDetails()} e \code{setDetails()}. Gli altri metodi virtuali sono reimplementati come da aspettative.
+La classe \code{Sandwich}, derivata da \code{Food}, rappresenta ordini di piatti basati su sandwich. Non presenta campi dati aggiuntivi, e di conseguenza utilizza il costruttore di \code{Food}. Per lo stesso motivo, non reimplementa \code{getDetails()}, \code{setDetails()} e l'operatore di uguaglianza. Gli altri metodi virtuali sono reimplementati come da aspettative.
 % subsubsection sandwich (end)
 \subsubsection{Appetizer, Dessert} % (fold)
 \label{ssub:appetizer_e_dessert}
-Le classi \code{Appetizer} e \code{Dessert}, derivate da \code{Food}, rappresentano ordini di antipasti e dolci, rispettivamente. Ciascuna ha un campo dati aggiuntivo, \code{sauces} e \code{with} nell'ordine, con getter e setter, ed entrambe non fanno uso del campo dati \code{without} di \code{Food}. Per questo forniscono entrambe costruttori, ed entrambe reimplementano \code{getDetails()} e \code{setDetails()}. Gli altri metodi virtuali sono reimplementati come da aspettative.
+Le classi \code{Appetizer} e \code{Dessert}, derivate da \code{Food}, rappresentano ordini di antipasti e dolci, rispettivamente. Ciascuna ha un campo dati aggiuntivo, \code{sauces} e \code{with} nell'ordine, con getter e setter, ed entrambe non fanno uso del campo dati \code{without} di \code{Food}. Per questo forniscono entrambe costruttori, ed entrambe reimplementano \code{getDetails()}, \code{setDetails()} e l'operatore di uguaglianza. Gli altri metodi virtuali sono reimplementati come da aspettative.
 % subsubsection appetizer_e_dessert (end)
 \subsubsection{Drink} % (fold)
 \label{ssub:drink}
-La classe astratta \code{Drink}, derivata da \code{Order}, rappresenta ordini di bevande; non presenta nessun campo dati aggiuntivo, e quindi utilizza il costruttore ereditato da \code{Order}. Il metodo \code{clone()}, subisce overriding per modificare il tipo di ritorno ma non viene implementato, come non vengono implementati \code{getDetails()} e \code{setDetails()}. Gli altri metodi virtuali sono reimplementati come da aspettative.
+La classe astratta \code{Drink}, derivata da \code{Order}, rappresenta ordini di bevande; non presenta nessun campo dati aggiuntivo, e quindi utilizza il costruttore di \code{Order}. Il metodo \code{clone()}, subisce overriding per modificare il tipo di ritorno ma non viene implementato, come non vengono implementati \code{getDetails()}, \code{setDetails()} e l'operatore di uguaglianza. Gli altri metodi virtuali sono reimplementati come da aspettative.
 % subsubsection drink (end)
 \subsubsection{Alcoholic} % (fold)
 \label{ssub:alcoholic}
-La classe astratta \code{Alcoholic}, derivata da \code{Drink}, rappresenta ordini di bevande alcoliche; non presenta nessun campo dati aggiuntivo, e quindi utilizza il costruttore ereditato da \code{Drink}. Il metodo \code{clone()}, subisce overriding per modificare il tipo di ritorno ma non viene implementato, come non vengono implementati \code{getDetails()} e \code{setDetails()}. Gli altri metodi virtuali sono reimplementati come da aspettative.
+La classe astratta \code{Alcoholic}, derivata da \code{Drink}, rappresenta ordini di bevande alcoliche; non presenta nessun campo dati aggiuntivo, e quindi utilizza il costruttore di \code{Drink}. Il metodo \code{clone()}, subisce overriding per modificare il tipo di ritorno ma non viene implementato, come non vengono implementati \code{getDetails()}, \code{setDetails()} e l'operatore di uguaglianza. Gli altri metodi virtuali sono reimplementati come da aspettative.
 % subsubsection alcoholic (end)
 \subsubsection{Beer, Cocktail, Wine, Liquor} % (fold)
 \label{ssub:beer_cocktail_wine_liquor}
@@ -142,6 +142,6 @@ Le classi \code{Beer}, \code{Cocktail}, \code{Wine}, e \code{Liquor}, derivate d
 % subsubsection beer_cocktail_wine_liquor (end)
 \subsubsection{Coffee, Analcoholic} % (fold)
 \label{ssub:coffe_analcoholic}
-Le classi \code{Coffee} e \code{Analcoholic}, derivate da \code{Drink}, rappresentano ordini di caffè e bibite analcoliche, rispettivamente. Ciascuna ha un campo dati aggiuntivo, \code{notes} e \code{ice} nell'ordine, con getter e setter, e per questo forniscono tutte costruttori. I metodi virtuali sono reimplementati come da aspettative.
+Le classi \code{Coffee} e \code{Analcoholic}, derivate da \code{Drink}, rappresentano ordini di caffè e bibite analcoliche, rispettivamente. Ciascuna ha un campo dati aggiuntivo, \code{notes} e \code{ice} nell'ordine, con getter e setter, e per questo forniscono entrambe costruttori. I metodi virtuali sono reimplementati come da aspettative.
 % subsubsection coffe_analcoholic (end)
 % subsection gerarchia_di_tipi (end)
