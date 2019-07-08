@@ -5,6 +5,15 @@
 \label{par:informazioni_generali}
 La gerarchia modella le ordinazioni inviate alla cucina del ristorante. Radicata nella classe polimorfa astratta \code{Order}, si dirama in due direzioni, \code{Food} e \code{Drink}, associate rispettivamente a ordinazioni di piatti e bevande. Il polimorfismo è dato da alcuni metodi virtuali, descritti in seguito, che forniscono funzionalità di copia e confronto polimorfi, e permettono di ricavare informazioni esplicite sul tipo degli oggetti. La gerarchia è fortemente estensibile sia "in orizzontale", aggiungendo nuovi sottotipi alle classi base presenti, sia "in verticale", fornendo sottotipi alle classi più derivate.
 % paragraph informazioni_generali (end)
+\paragraph{Membri Statici} % (fold)
+\label{par:membri_statici}
+La classe \code{Order} comprende anche dei membri statici, che forniscono due tipi di funzionalità:
+\begin{itemize}
+	\item Forniscono informazioni complessive sulla gerarchia.
+	\item Forniscono informazioni e funzionalità relative ad un tipo a partire da una stringa.
+\end{itemize}
+In questo modo è possibile sfruttare una sorta di polimorfismo che non richiede un oggetto di invocazione.
+% paragraph membri_statici (end)
 \subsubsection{Order} % (fold)
 \label{ssub:order}
 \paragraph{Campi Dati} % (fold)
@@ -28,15 +37,6 @@ La classe \code{Order} incapsula informazioni di base relative ad un ordine attr
 	Metodo che ritorna una \code{std::map} che associa a ciascun tipo derivato da \code{Order} una funzione che agisce da costruttore, ritornando un puntatore smart ad un nuovo oggetto.
 \end{itemize}
 % paragraph campi_dati (end)
-\paragraph{Membri Statici} % (fold)
-\label{par:membri_statici}
-La classe \code{Order} comprende anche dei membri statici, che forniscono due tipi di funzionalità:
-\begin{itemize}
-	\item Forniscono informazioni complessive sulla gerarchia.
-	\item Forniscono informazioni e funzionalità relative ad un tipo a partire da una stringa.
-\end{itemize}
-In questo modo è possibile sfruttare una sorta di polimorfismo che non richiede un oggetto di invocazione.
-% paragraph membri_statici (end)
 \paragraph{Metodi} % (fold)
 \label{par:metodi}
 Per l'interazione con gli oggetti sono disponibili $13$ metodi pubblici di istanza (virtuali e non) che comprendono un costruttore ed il distruttore, a cui vanno aggiunti il costruttore di copia e l'operatore di assegnazione di copia standard forniti dal compilatore. I metodi di istanza sono:
