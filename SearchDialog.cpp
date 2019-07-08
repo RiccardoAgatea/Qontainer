@@ -217,7 +217,7 @@ std::function<bool (const Order &)> SearchDialog::checker() const
 		bool ok = true;
 
 		if (table_line_edit->text() != "")
-			ok = table_line_edit->text() == o.getTable();
+			ok = table_line_edit->text().toUInt() == o.getTable();
 
 		if (ok && item_line_edit->text() != "")
 			ok = item_line_edit->text().toStdString() == o.getItem();
