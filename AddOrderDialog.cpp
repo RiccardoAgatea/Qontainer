@@ -22,7 +22,7 @@ void AddOrderDialog::setup()
 	}
 
 	auto fields =
-		Order::getInfo().equal_range(
+	    Order::getInfo().equal_range(
 	        types_group->checkedButton()->text().toStdString());
 
 	for (auto it = fields.first; it != fields.second; ++it)
@@ -122,7 +122,7 @@ AddOrderDialog::AddOrderDialog(QWidget *parent):
 
 	setLayout(main_layout);
 
-	connect(types_group, QOverload<int>::of(&QButtonGroup::buttonClicked),
+	connect(types_group, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 	        this, &AddOrderDialog::setup);
 
 	connect(ok_button, &QPushButton::clicked,
@@ -168,25 +168,25 @@ std::vector<std::string> AddOrderDialog::getDetails() const
 		QString text;
 
 		if (qobject_cast<QCheckBox *>(details_layout->
-									  itemAt(i)->
-									  widget()) != nullptr)
+		                              itemAt(i)->
+		                              widget()) != nullptr)
 			text = static_cast<QCheckBox *>(details_layout->
-											itemAt(i)->
-											widget())->isChecked() ?
-				   "1" :
-				   "0";
+			                                itemAt(i)->
+			                                widget())->isChecked() ?
+			       "1" :
+			       "0";
 		else if (qobject_cast<QLineEdit *>(details_layout->
-										   itemAt(i)->
-										   widget()) != nullptr)
+		                                   itemAt(i)->
+		                                   widget()) != nullptr)
 			text = static_cast<QLineEdit *>(details_layout->
-											itemAt(i)->
-											widget())->text();
+			                                itemAt(i)->
+			                                widget())->text();
 		else if (qobject_cast<QTextEdit *>(details_layout->
-										   itemAt(i)->
-										   widget()) != nullptr)
+		                                   itemAt(i)->
+		                                   widget()) != nullptr)
 			text = static_cast<QTextEdit *>(details_layout->
-											itemAt(i)->
-											widget())->toPlainText();
+			                                itemAt(i)->
+			                                widget())->toPlainText();
 
 		aux.push_back(text.toStdString());
 	}
