@@ -30,10 +30,10 @@ void View::update()
 		lineup_layout->addWidget(order);
 
 		connect(order, &OrderWidget::remove,
-				this, &View::removeOrder);
+		        this, &View::removeOrder);
 
 		connect(order, &OrderWidget::complete,
-				this, &View::completeOrder);
+		        this, &View::completeOrder);
 	}
 
 	lineup_layout->addStretch(1);
@@ -50,13 +50,13 @@ View::View(QWidget *parent):
 	setMaximumWidth(550);
 	setWindowIcon(QIcon(":/icon/Main"));
 
-	QAction *save_action = new QAction(QIcon(":/icon/Save"), "Save");
-	QAction *load_action = new QAction(QIcon(":/icon/Load"), "Load");
-	QAction *exit_action = new QAction("Exit");
+	QAction *save_action = new QAction(QIcon(":/icon/Save"), "Save", nullptr);
+	QAction *load_action = new QAction(QIcon(":/icon/Load"), "Load", nullptr);
+	QAction *exit_action = new QAction("Exit", nullptr);
 	QAction *add_order_action = new QAction(QIcon(":/icon/AddOrder"),
-											"Add Order");
+	                                        "Add Order", nullptr);
 	QAction *search_action = new QAction(QIcon(":/icon/Search"),
-										 "Search");
+	                                     "Search", nullptr);
 
 	QMenu *file_menu = new QMenu("File");
 	file_menu->addAction(save_action);
@@ -83,15 +83,15 @@ View::View(QWidget *parent):
 	setCentralWidget(scroll_area);
 
 	connect(exit_action, &QAction::triggered,
-			this, &View::close);
+	        this, &View::close);
 	connect(save_action, &QAction::triggered,
-			this, &View::save);
+	        this, &View::save);
 	connect(load_action, &QAction::triggered,
-			this, &View::load);
+	        this, &View::load);
 	connect(add_order_action, &QAction::triggered,
-			this, &View::addOrder);
+	        this, &View::addOrder);
 	connect(search_action, &QAction::triggered,
-			this, &View::search);
+	        this, &View::search);
 }
 
 QSize View::sizeHint() const
@@ -109,7 +109,7 @@ void View::search()
 		for (int i = 0; i < lineup_layout->count() - 1; ++i)
 		{
 			auto order = static_cast<OrderWidget *>
-						 (lineup_layout->itemAt(i)->widget());
+			             (lineup_layout->itemAt(i)->widget());
 
 			if (order->getOrder() == o)
 			{
@@ -122,7 +122,7 @@ void View::search()
 		for (int i = 0; i < lineup_layout->count() - 1; ++i)
 		{
 			auto order = static_cast<OrderWidget *>
-						 (lineup_layout->itemAt(i)->widget());
+			             (lineup_layout->itemAt(i)->widget());
 
 			if (order->getOrder() == o)
 			{
@@ -143,13 +143,13 @@ void View::addOrder()
 	if (add.exec())
 	{
 		OrderWidget *order = new OrderWidget(
-			model->addOrder(
-				add.getType().toStdString(),
-				add.getTable(),
-				add.getItem().toStdString(),
-				add.getQuantity(),
-				add.getDetails()
-			)
+		    model->addOrder(
+		        add.getType().toStdString(),
+		        add.getTable(),
+		        add.getItem().toStdString(),
+		        add.getQuantity(),
+		        add.getDetails()
+		    )
 		);
 
 		delete lineup_layout->takeAt(lineup_layout->count() - 1);
@@ -157,10 +157,10 @@ void View::addOrder()
 		lineup_layout->addStretch(1);
 
 		connect(order, &OrderWidget::remove,
-				this, &View::removeOrder);
+		        this, &View::removeOrder);
 
 		connect(order, &OrderWidget::complete,
-				this, &View::completeOrder);
+		        this, &View::completeOrder);
 	}
 }
 
